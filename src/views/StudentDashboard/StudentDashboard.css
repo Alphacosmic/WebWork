@@ -1,0 +1,21 @@
+@media (min-width: 426px) {
+	#projects-table-container {
+		margin-top: 2rem;
+		margin-left: 4rem;
+		margin-right: 4rem;
+		width: 75%;
+	}
+}
+@media (max-width: 426px) {
+	#projects-table-container {
+		margin-top: 2rem;
+		margin-left: 1.3rem;
+	}
+}
+.ant-table-thead th {
+	font-weight: bolder !important;
+}
+.ant-card-head-title {
+	white-space: pre-wrap;
+	text-overflow: unset;
+}

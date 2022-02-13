@@ -1,0 +1,21 @@
+@import "antd/dist/antd.css";
+
+.App {
+	min-height: 100vh;
+}
+* {
+	font-size: 1.025em;
+}
+.header {
+	height: 100% !important;
+	max-height: 100% !important;
+}
+.header .ant-col {
+	height: 100% !important;
+}
+@media screen and (max-width: 426px) {
+    header {
+        padding-left: 1.3rem !important;
+        padding-right: 1.3rem !important;
+    }
+}
