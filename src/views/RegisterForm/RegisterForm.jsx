@@ -7,7 +7,7 @@ import "./RegisterForm.css";
 import AuthHeader from "../../common/AuthHeader";
 import { Link, useLocation } from "wouter";
 import logo from "../../assets/teamup-logo.png";
-import axios from "axios";
+import axios from "../../utils/_axios";
 const { Content } = Layout;
 
 const studentType = "iitm";
@@ -31,7 +31,7 @@ const RegisterForm = () => {
 			setLoading(true);
 			const values = await form.validateFields();
 			delete values.confirm;
-			const res = await axios.post("/student/register/" + studentType, values);
+			const res = await axios.post("/register", values);
 			localStorage.setItem("studentData", JSON.stringify(res.data));
 
 			handleSuccess();
@@ -167,7 +167,7 @@ const RegisterForm = () => {
 									]}
 									label={
 										<span>
-											<KeyOutlined />{" "}
+											<KeyOutlined />
 											{studentType === "online"
 												? "Create Password"
 												: "LDAP Password"}

@@ -48,7 +48,7 @@ const StudentDashboard = () => {
 
 			<Divider type="vertical" />
 
-			{screen.md && (
+			{/* {screen.md && (
 				<>
 					<Radio.Group
 						buttonStyle="solid"
@@ -62,7 +62,7 @@ const StudentDashboard = () => {
 					</Radio.Group>
 					<Divider type="vertical" />
 				</>
-			)}
+			)} */}
 			<Popover
 				trigger="click"
 				placement="bottom"
@@ -105,26 +105,28 @@ const StudentDashboard = () => {
 						defaultActiveKey={localStorage.type || 1}
 						tabBarExtraContent={screen.md && Settings}>
 						<Tabs.TabPane
-							tab={<Typography.Title level={3}>Projects</Typography.Title>}
+							tab={<Typography.Title level={3}>All</Typography.Title>}
 							key={1}>
-							{displayType === "grid" ? (
+							{/* {displayType === "grid" ? (
 								<Projects filter={statusFilter} />
 							) : (
 								<React.Suspense fallback="Loading Table">
 									<ProjectTable filter={statusFilter} />
 								</React.Suspense>
-							)}
+							)} */}
+							<Projects filter={statusFilter} />
 						</Tabs.TabPane>
 						<Tabs.TabPane
-							tab={<Typography.Title level={3}>Startups</Typography.Title>}
+							tab={<Typography.Title level={3}>Applied</Typography.Title>}
 							key={2}>
-							{displayType === "grid" ? (
+							{/* {displayType === "grid" ? (
 								<ProfileCards filter={statusFilter} />
 							) : (
 								<React.Suspense fallback="Loading Table">
 									<ProfileTable filter={statusFilter} />
 								</React.Suspense>
-							)}
+							)} */}
+							<ProfileCards filter={statusFilter} />
 						</Tabs.TabPane>
 					</Tabs>
 					<Drawer

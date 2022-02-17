@@ -3,8 +3,10 @@ import { Grid, List, Card, Button, Typography, Row, Col, Tag, Modal, Tooltip } f
 import {
 	ThunderboltOutlined,
 	CheckOutlined,
+	CompassOutlined,
 	TeamOutlined,
 	UserOutlined,
+	DollarOutlined,
 	SolutionOutlined,
 	SmileOutlined,
 } from "@ant-design/icons";
@@ -27,8 +29,8 @@ const Projects = ({ filter = "none" }) => {
 	const [questionModal, setQuestionModal] = useState({ visible: false, data: {} });
 
 	useEffect(() => {
-		axios.get("/student/projects").then((res) => {
-			setProjects(res.data.data);
+		axios.get("/profiles").then((res) => {
+			setProjects(res.data);
 			setIsFetching(false);
 		});
 	}, []);
@@ -122,14 +124,10 @@ const Projects = ({ filter = "none" }) => {
 									key={1}
 									block
 									type="link"
-									onClick={(e) =>
-										showPostDescriptionModal(
-											e.target,
-											project.title,
-											project.description
-										)
+									onClick={() =>
+										window.open(project?.jobDescriptionURL, "_blank").focus()
 									}>
-									View Details
+									Open Job Description
 								</Button>,
 								project.status === SELECTED ? (
 									<Text type="success" strong>
@@ -153,13 +151,9 @@ const Projects = ({ filter = "none" }) => {
 											type="link"
 											block
 											onClick={() => {
-												setQuestionModal({
-													visible: true,
-													data: {
-														questions: project.questions,
-														projectID: project._id,
-													},
-												});
+												axios
+													.post("/applyToProfile", project._id)
+													.then((res) => console.log(res));
 											}}>
 											Apply
 										</Button>
@@ -167,40 +161,68 @@ const Projects = ({ filter = "none" }) => {
 								),
 							]}>
 							<Row justify="space-between">
-								<Col
-									xs={{ span: 24 }}
-									md={{ span: 12 }}
-									style={{ marginBottom: "1rem" }}>
-									<UserOutlined />{" "}
+								<Col span={24} style={{ marginBottom: "1rem" }}>
+									<UserOutlined />
 									<Text strong type="secondary">
-										Guided by
+										Company :{" "}
 									</Text>
-									<br />
+
 									<Typography.Link
-										href={`mailto:${project?.professorID?.email}`}
+										href={`mailto:${project?.company?.email}`}
 										key={1}>
-										Prof. {project.professorName}
+										{project.company.name}
 									</Typography.Link>
 								</Col>
-								<Col flex="auto" md={12} style={{ marginBottom: "1rem" }}>
-									<TeamOutlined />{" "}
-									<Text strong type="secondary">
-										Department
-									</Text>
-									<br />
-									<Text>{project.professorID.department}</Text>
-								</Col>
-								<Col span={24} style={!screen.md && { marginBottom: "1rem" }}>
-									<SolutionOutlined />{" "}
-									<Typography.Text strong type="secondary">
-										Areas
-									</Typography.Text>
-									<br />
-									{project.area.map((area) => (
-										<Tag style={{ margin: "0.2rem 0.2rem 0 0" }} key={area}>
-											{area}
-										</Tag>
-									))}
+								<Col span={24}>
+									<Row>
+										<Col flex="auto" md={12} style={{ marginBottom: "1rem" }}>
+											<TeamOutlined />
+											<Text strong type="secondary">
+												Sector
+											</Text>
+											<br />
+											<Text>{project.company.sector}</Text>
+										</Col>
+										<Col
+											flex="auto"
+											md={12}
+											style={!screen.md && { marginBottom: "1rem" }}>
+											<SolutionOutlined />
+											<Typography.Text strong type="secondary">
+												{" "}
+												Field
+											</Typography.Text>
+											<br />
+
+											{project.type}
+										</Col>
+									</Row>
+									<Row>
+										<Col flex="auto" md={12} style={{ marginBottom: "1rem" }}>
+											<DollarOutlined />
+											<Text strong type="secondary">
+												{" "}
+												Stipend
+											</Text>
+											<br />
+											<Text>
+												{project.stipend.amount > 0
+													? project.stipend.currency +
+													  " " +
+													  project.stipend.amount
+													: "Unpaid"}
+											</Text>
+										</Col>
+										<Col flex="auto" md={12} style={{ marginBottom: "1rem" }}>
+											<CompassOutlined />
+											<Text strong type="secondary">
+												{" "}
+												Work Location
+											</Text>
+											<br />
+											<Text>{project.location}</Text>
+										</Col>
+									</Row>
 								</Col>
 							</Row>
 						</Card>

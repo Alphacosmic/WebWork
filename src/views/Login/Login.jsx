@@ -23,7 +23,7 @@ const Login = () => {
 	const onFinish = async (values) => {
 		setIsSubmitting(true);
 		try {
-			const res = await axios.post("/student/login/" + studentType, values);
+			const res = await axios.post("/login", values);
 			if (getCookieToken()) {
 				localStorage.setItem("studentData", JSON.stringify(res.data.data));
 				setIsSubmitting(false);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, List, Card, Button, Typography, Row, Col, Tag, Modal, Tooltip } from "antd";
+import { Grid, List, Card, Button, Typography, Row, Col, Tag, Modal, Tooltip, Table } from "antd";
 import {
 	ThunderboltOutlined,
 	CheckOutlined,
@@ -23,6 +23,7 @@ const ALL = "ALL";
 const APPLIED = "APPLIED";
 const SELECTED = "SELECTED";
 // const REJECTED = "REJECTED";
+const ROUNDS = ["RESUME", "TEST", "GROUP_DISCUSSION", "INTERVIEW", "OFFER"];
 
 const ProfileCards = ({ filter }) => {
 	const screen = useBreakpoint();
@@ -32,8 +33,15 @@ const ProfileCards = ({ filter }) => {
 	const { cvUploaded } = JSON.parse(localStorage.studentData || "{}");
 
 	useEffect(() => {
-		axios.get("/student/profiles").then((res) => {
-			setProfiles(res.data.profiles);
+		axios.get("/profiles").then((res) => {
+			console.log(res.data);
+			const formattedData = res.data.appliedProfiles.map((item) => ({
+				...item._id,
+				[item.round]: "yes",
+				...ROUNDS.reduce((p, c) => (c == item.round ? { ...p } : { ...p, [c]: "no" }), {}),
+			}));
+			console.log(formattedData);
+			setProfiles(formattedData);
 			setIsFetching(false);
 		});
 	}, []);
@@ -202,117 +210,147 @@ const ProfileCards = ({ filter }) => {
 		</div>
 	);
 
-	return (
-		<List
-			size="large"
-			itemLayout="horizontal"
-			locale={{ emptyText: <EmptyList filter={filter} /> }}
-			loading={isFetching}
-			grid={{ gutter: 4, column: screen.xs ? 1 : 2 }}
-			dataSource={profiles.filter(({ status }) =>
-				filter === ALL ? true : filter === status
-			)}
-			renderItem={(profile) => (
-				<List.Item style={{ paddingTop: "8px", paddingBottom: "8px", paddingLeft: "0px" }}>
-					<Card
-						title={profile.title}
-						actions={[
-							<Button
-								key={1}
-								block
-								type="link"
-								onClick={(e) =>
-									showPostDescriptionModal(
-										e.target,
-										profile.title,
-										profile.description,
-										profile.startupID
-									)
-								}>
-								View Details
-							</Button>,
-							profile.status === SELECTED ? (
-								<Text type="success" strong>
-									<CheckOutlined /> Selected
-								</Text>
-							) : profile.status === APPLIED ? (
-								<Text strong style={{ color: "#1890ff" }}>
-									<CheckOutlined /> Applied
-								</Text>
-							) : (
-								<Tooltip
-									title={
-										hasAppliedMoreThan2
-											? "You cannot apply in more than two projects at once"
-											: isSelectedInAny
-											? "You are already selected in a project"
-											: undefined
-									}>
-									<Button
-										disabled={isSelectedInAny || hasAppliedMoreThan2}
-										type="link"
-										block
-										onClick={() =>
-											handleApply(
-												profile._id,
-												profile.title,
-												profile.startupName
-											)
-										}>
-										Apply
-									</Button>
-								</Tooltip>
-							),
-						]}>
-						<Row justify="center">
-							<Col xs={12} md={8} style={{ marginBottom: "1rem" }}>
-								<UserOutlined /> <Text strong>Startup</Text>
-								<br />
-								<Text>{profile.startupName}</Text>
-							</Col>
-							<Col xs={12} md={8} style={{ marginBottom: "1rem" }}>
-								<TeamOutlined /> <Text strong>Sector</Text>
-								<br />
-								<Text>{profile.startupID.startupSector}</Text>
-							</Col>
-							<Col flex="auto" style={{ marginBottom: "1rem" }}>
-								<TeamOutlined /> <Text strong>Vacancy</Text>
-								<br />
-								<Text> {profile.vacancy} </Text>
-							</Col>
-							<Col
-								xs={profile?.duration?.length > 30 ? 24 : 12}
-								md={profile?.duration?.length > 30 ? 24 : 8}
-								style={{ marginBottom: "1rem" }}>
-								<ClockCircleOutlined /> <Text strong>Duration</Text>
-								<br />
-								<Text> {profile.duration} </Text>
-							</Col>
+	const columns = [
+		{
+			title: "Company Name",
+			dataIndex: ["company", "name"],
+			// specify the condition of filtering result
+			// here is that finding the name started with `value`
+			onFilter: (value, record) => record.name.indexOf(value) === 0,
+			sorter: (a, b) => a.name.length - b.name.length,
+			sortDirections: ["descend"],
+		},
+		{
+			title: "Stipend",
+			dataIndex: "stipend",
+			defaultSortOrder: "descend",
+			sorter: (a, b) => a.stipend.amount - b.stipend.amount,
+		},
+		{
+			title: "Profile Name",
+			dataIndex: "title",
 
-							<Col
-								xs={24}
-								md={profile?.duration?.length > 30 ? 24 : 16}
-								style={!screen.md && { marginBottom: "1rem" }}>
-								<ThunderboltOutlined />{" "}
-								<Typography.Text strong>Required Skills</Typography.Text>
-								<br />
-								{profile.skillsRequired.map((skill) => (
-									<Tag
-										style={{
-											margin: "0.2rem 0 0 0.2rem",
-											whiteSpace: "pre-wrap",
-										}}
-										key={skill}>
-										{skill}
-									</Tag>
-								))}
-							</Col>
-						</Row>
-					</Card>
-				</List.Item>
-			)}
-		/>
-	);
+			filters: [
+				{
+					text: "IT",
+					value: "IT",
+				},
+				{
+					text: "Core",
+					value: "Core",
+				},
+			],
+			onFilter: (value, record) => record.name.indexOf(value) === 0,
+		},
+		{
+			title: "RESUME",
+			dataIndex: "RESUME",
+			filters: [
+				{
+					text: "Yes",
+					value: "yes",
+				},
+				{
+					text: "No",
+					value: "no",
+				},
+			],
+			onFilter: (value, record) => record.RESUME.indexOf(value) === 0,
+		},
+		{
+			title: "TEST",
+			dataIndex: "TEST",
+			filters: [
+				{
+					text: "Yes",
+					value: "yes",
+				},
+				{
+					text: "No",
+					value: "no",
+				},
+			],
+			onFilter: (value, record) => record.TEST.indexOf(value) === 0,
+		},
+		{
+			title: "GROUP_DISCUSSION",
+			dataIndex: "GROUP_DISCUSSION",
+			filters: [
+				{
+					text: "Yes",
+					value: "yes",
+				},
+				{
+					text: "No",
+					value: "no",
+				},
+			],
+			onFilter: (value, record) => record.GROUP_DISCUSSION.indexOf(value) === 0,
+		},
+		{
+			title: "INTERVIEW",
+			dataIndex: "INTERVIEW",
+			filters: [
+				{
+					text: "Yes",
+					value: "yes",
+				},
+				{
+					text: "No",
+					value: "no",
+				},
+			],
+			onFilter: (value, record) => record.INTERVIEW.indexOf(value) === 0,
+		},
+		{
+			title: "OFFER",
+			dataIndex: "OFFER",
+			filters: [
+				{
+					text: "Yes",
+					value: "yes",
+				},
+				{
+					text: "No",
+					value: "no",
+				},
+			],
+			onFilter: (value, record) => record.OFFER.indexOf(value) === 0,
+		},
+	];
+
+	const data = [
+		{
+			key: "1",
+			name: "John Brown",
+			age: 32,
+			address: "New York No. 1 Lake Park",
+		},
+		{
+			key: "2",
+			name: "Jim Green",
+			age: 42,
+			address: "London No. 1 Lake Park",
+		},
+		{
+			key: "3",
+			name: "Joe Black",
+			age: 32,
+			address: "Sidney No. 1 Lake Park",
+		},
+		{
+			key: "4",
+			name: "Jim Red",
+			age: 32,
+			address: "London No. 2 Lake Park",
+		},
+	];
+
+	function onChange(pagination, filters, sorter, extra) {
+		console.log("params", pagination, filters, sorter, extra);
+	}
+
+	return <Table columns={columns} dataSource={data} onChange={onChange} />;
 };
 
 export default ProfileCards;
