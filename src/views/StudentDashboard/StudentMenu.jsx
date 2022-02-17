@@ -59,7 +59,7 @@ const StudentMenu = () => {
 
 	const handleLogout = async () => {
 		try {
-			await axios.get(`/logout/student`);
+			await axios.get(`/logout`);
 			localStorage.removeItem("studentData");
 			setLocation("/login");
 		} catch (err) {
@@ -77,7 +77,7 @@ const StudentMenu = () => {
 		try {
 			const cvURL = await upload(file);
 
-			await axios.put(`/student/cv`, { studentID: studentData._id, cvURL });
+			await axios.put(`/cv`, { studentID: studentData._id, cvURL });
 			openNotification("success", "Successfully Updated CV");
 			updateFileList([]);
 		} catch (err) {

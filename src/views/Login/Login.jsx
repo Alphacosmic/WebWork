@@ -25,7 +25,7 @@ const Login = () => {
 		try {
 			const res = await axios.post("/login", values);
 			if (getCookieToken()) {
-				localStorage.setItem("studentData", JSON.stringify(res.data.data));
+				localStorage.setItem("studentData", JSON.stringify(res.data));
 				setIsSubmitting(false);
 				setLocation("/dashboard");
 			} else throw new Error("Could not authorize.");

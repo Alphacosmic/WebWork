@@ -33,14 +33,15 @@ const ProfileCards = ({ filter }) => {
 	const { cvUploaded } = JSON.parse(localStorage.studentData || "{}");
 
 	useEffect(() => {
-		axios.get("/profiles").then((res) => {
-			console.log(res.data);
+		axios.get("/getAppliedProfiles").then((res) => {
+			console.log("res.data", res.data);
 			const formattedData = res.data.appliedProfiles.map((item) => ({
+				stipendWithCurrency: item._id.stipend.currency + " " + item._id.stipend.amount,
 				...item._id,
 				[item.round]: "yes",
 				...ROUNDS.reduce((p, c) => (c == item.round ? { ...p } : { ...p, [c]: "no" }), {}),
 			}));
-			console.log(formattedData);
+			console.log("formattedData", formattedData);
 			setProfiles(formattedData);
 			setIsFetching(false);
 		});
@@ -127,10 +128,10 @@ const ProfileCards = ({ filter }) => {
 						overflowY: "auto",
 					}}>
 					<Typography.Title level={5} type="secondary" style={{ margin: 0 }}>
-						The Startup{" "}
+						The Startup
 					</Typography.Title>
 					<Typography.Title level={3} style={{ marginTop: 0 }}>
-						{name}{" "}
+						{name}
 					</Typography.Title>
 					<Typography.Text>{briefDescription} </Typography.Text>
 					<Row style={{ margin: "1em 0 2em 0" }}>
@@ -222,9 +223,9 @@ const ProfileCards = ({ filter }) => {
 		},
 		{
 			title: "Stipend",
-			dataIndex: "stipend",
-			defaultSortOrder: "descend",
-			sorter: (a, b) => a.stipend.amount - b.stipend.amount,
+			dataIndex: "stipendWithCurrency",
+			// defaultSortOrder: "descend",
+			// sorter: (a, b) => a.stipend.amount - b.stipend.amount,
 		},
 		{
 			title: "Profile Name",
@@ -319,38 +320,11 @@ const ProfileCards = ({ filter }) => {
 		},
 	];
 
-	const data = [
-		{
-			key: "1",
-			name: "John Brown",
-			age: 32,
-			address: "New York No. 1 Lake Park",
-		},
-		{
-			key: "2",
-			name: "Jim Green",
-			age: 42,
-			address: "London No. 1 Lake Park",
-		},
-		{
-			key: "3",
-			name: "Joe Black",
-			age: 32,
-			address: "Sidney No. 1 Lake Park",
-		},
-		{
-			key: "4",
-			name: "Jim Red",
-			age: 32,
-			address: "London No. 2 Lake Park",
-		},
-	];
-
 	function onChange(pagination, filters, sorter, extra) {
 		console.log("params", pagination, filters, sorter, extra);
 	}
 
-	return <Table columns={columns} dataSource={data} onChange={onChange} />;
+	return <Table columns={columns} dataSource={profiles} onChange={onChange} />;
 };
 
 export default ProfileCards;
