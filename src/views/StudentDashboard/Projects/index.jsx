@@ -23,6 +23,7 @@ import {
 	SolutionOutlined,
 	SmileOutlined,
 	UploadOutlined,
+	LinkOutlined,
 } from "@ant-design/icons";
 import openNotification from "../../../utils/openAntdNotification";
 
@@ -113,9 +114,17 @@ const Projects = ({ filter = "none" }) => {
 		setIsModalVisible(false);
 	};
 	const handleApply = async () => {
-		await axios
-			.post("/applyToProfile", { projectId: selectedProfile._id, resumeURL: selectedResume })
-			.then((res) => console.log(res));
+		try {
+			await axios.post("/applyToProfile", {
+				profileId: selectedProfile._id,
+				resumeURL: selectedResume,
+			});
+			openNotification("success", "Successfully Applied");
+			handleCancel();
+		} catch (error) {
+			const errorMsg = error.response ? error.response.data.msg : error.message;
+			openNotification("error", "Already registered for this profile", errorMsg);
+		}
 	};
 
 	const handleUpload = async () => {
@@ -126,6 +135,7 @@ const Projects = ({ filter = "none" }) => {
 			const resumeURL = await upload(file);
 
 			await axios.put(`/resume`, { resumeURL });
+			setStudent((old) => ({ ...old, resumeURL: [...old.resumeURL, resumeURL] }));
 			setselectedResume(resumeURL);
 			handleApply();
 			openNotification("success", "Successfully Uploaded Resume");
@@ -233,31 +243,42 @@ const Projects = ({ filter = "none" }) => {
 					{student?.resumeURL?.length > 0 ? (
 						<Radio.Group onChange={onChange} value={selectedResume}>
 							{student?.resumeURL?.map((url, i) => (
-								<Radio key={i} value={url}>
-									Resume {i + 1}
-								</Radio>
+								<>
+									<Radio key={i} value={url}>
+										Resume {i + 1}{" "}
+										<LinkOutlined
+											onClick={() => window.open(url, "_blank").focus()}
+										/>
+									</Radio>
+								</>
 							))}
 						</Radio.Group>
 					) : (
 						""
 					)}
 				</Col>
-				<Col span={24} style={{ paddingBottom: "1em", paddingTop: "1em" }}>
-					<Upload {...uploadProps}>
-						<Button type="primary">Upload Resume</Button>
-					</Upload>
-					{fileList && fileList.length > 0 && (
-						<Button onClick={handleUpload} loading={isCVUploading}>
-							<span>
-								<UploadOutlined /> Upload the selected file
-							</span>
-						</Button>
-					)}
-				</Col>
+				{student?.resumeURL?.length < 3 || !student?.resumeURL?.length ? (
+					<Col span={24}>
+						<Upload {...uploadProps}>
+							<Button type="primary">Upload Resume</Button>
+						</Upload>
+						{fileList && fileList.length > 0 && (
+							<Button onClick={handleUpload} loading={isCVUploading}>
+								<span>
+									<UploadOutlined /> Upload the Selected File and Apply
+								</span>
+							</Button>
+						)}
+					</Col>
+				) : (
+					""
+				)}
+
 				<Button
 					disabled={!selectedResume}
 					key={1}
 					block
+					style={{ marginTop: "1em" }}
 					type="primary"
 					onClick={() => handleApply()}>
 					Apply

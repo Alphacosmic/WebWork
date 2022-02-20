@@ -63,7 +63,7 @@ const StudentDashboard = () => {
 					<Divider type="vertical" />
 				</>
 			)} */}
-			<Popover
+			{/* <Popover
 				trigger="click"
 				placement="bottom"
 				content={
@@ -84,7 +84,7 @@ const StudentDashboard = () => {
 					</>
 				}>
 				<Button>Filters</Button>
-			</Popover>
+			</Popover> */}
 		</Space>
 	);
 

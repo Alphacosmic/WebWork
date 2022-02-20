@@ -12,41 +12,29 @@ import getCookieToken from "./utils/getCookieToken";
 function App() {
 	return (
 		<Layout className="App">
-			<Router base="/teamup/student">
+			<Router base="/internfair/student">
 				<Layout>
 					<Switch>
 						<Route
 							exact
 							path="/login"
-							component={() => {
-								if (getCookieToken() == "student") {
-									return <Redirect to="/dashboard" />;
-								} else {
-									return <Login />;
-								}
-							}}
+							component={() =>
+								getCookieToken() ? <Redirect to="/dashboard" /> : <Login />
+							}
 						/>
 						<Route
 							exact
 							path="/register"
-							component={() => {
-								if (getCookieToken()) {
-									return <Redirect to="/dashboard" />;
-								} else {
-									return <RegisterForm />;
-								}
-							}}
+							component={() =>
+								getCookieToken() ? <Redirect to="/dashboard" /> : <RegisterForm />
+							}
 						/>
 						<Route
 							exact
 							path="/dashboard"
-							component={() => {
-								if (getCookieToken()) {
-									return <StudentDashboard />;
-								} else {
-									return <Redirect to="/login" />;
-								}
-							}}
+							component={() =>
+								getCookieToken() ? <StudentDashboard /> : <Redirect to="/login" />
+							}
 							redirectTo="/login"
 						/>
 					</Switch>

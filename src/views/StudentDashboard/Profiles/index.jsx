@@ -36,10 +36,24 @@ const ProfileCards = ({ filter }) => {
 		axios.get("/getAppliedProfiles").then((res) => {
 			console.log("res.data", res.data);
 			const formattedData = res.data.appliedProfiles.map((item) => ({
-				stipendWithCurrency: item._id.stipend.currency + " " + item._id.stipend.amount,
-				...item._id,
-				[item.round]: "yes",
-				...ROUNDS.reduce((p, c) => (c == item.round ? { ...p } : { ...p, [c]: "no" }), {}),
+				stipendWithCurrency:
+					item.profile.stipend.currency + " " + item.profile.stipend.amount,
+				...item.profile,
+				[item.round]: "Yes",
+				...ROUNDS.reduce(
+					(p, c) =>
+						c == item.round
+							? { ...p }
+							: {
+									...p,
+									[c]: item.profile.rounds.includes(c)
+										? ROUNDS.indexOf(item.round) < ROUNDS.indexOf(c)
+											? "-"
+											: "No"
+										: "N/A",
+							  },
+					{}
+				),
 			}));
 			console.log("formattedData", formattedData);
 			setProfiles(formattedData);
@@ -215,108 +229,34 @@ const ProfileCards = ({ filter }) => {
 		{
 			title: "Company Name",
 			dataIndex: ["company", "name"],
-			// specify the condition of filtering result
-			// here is that finding the name started with `value`
-			onFilter: (value, record) => record.name.indexOf(value) === 0,
-			sorter: (a, b) => a.name.length - b.name.length,
-			sortDirections: ["descend"],
 		},
 		{
 			title: "Stipend",
 			dataIndex: "stipendWithCurrency",
-			// defaultSortOrder: "descend",
-			// sorter: (a, b) => a.stipend.amount - b.stipend.amount,
 		},
 		{
 			title: "Profile Name",
 			dataIndex: "title",
-
-			filters: [
-				{
-					text: "IT",
-					value: "IT",
-				},
-				{
-					text: "Core",
-					value: "Core",
-				},
-			],
-			onFilter: (value, record) => record.name.indexOf(value) === 0,
 		},
 		{
-			title: "RESUME",
+			title: "Resume",
 			dataIndex: "RESUME",
-			filters: [
-				{
-					text: "Yes",
-					value: "yes",
-				},
-				{
-					text: "No",
-					value: "no",
-				},
-			],
-			onFilter: (value, record) => record.RESUME.indexOf(value) === 0,
 		},
 		{
-			title: "TEST",
+			title: "Test",
 			dataIndex: "TEST",
-			filters: [
-				{
-					text: "Yes",
-					value: "yes",
-				},
-				{
-					text: "No",
-					value: "no",
-				},
-			],
-			onFilter: (value, record) => record.TEST.indexOf(value) === 0,
 		},
 		{
-			title: "GROUP_DISCUSSION",
+			title: "Group Discussion",
 			dataIndex: "GROUP_DISCUSSION",
-			filters: [
-				{
-					text: "Yes",
-					value: "yes",
-				},
-				{
-					text: "No",
-					value: "no",
-				},
-			],
-			onFilter: (value, record) => record.GROUP_DISCUSSION.indexOf(value) === 0,
 		},
 		{
-			title: "INTERVIEW",
+			title: "Interview",
 			dataIndex: "INTERVIEW",
-			filters: [
-				{
-					text: "Yes",
-					value: "yes",
-				},
-				{
-					text: "No",
-					value: "no",
-				},
-			],
-			onFilter: (value, record) => record.INTERVIEW.indexOf(value) === 0,
 		},
 		{
-			title: "OFFER",
+			title: "Offer",
 			dataIndex: "OFFER",
-			filters: [
-				{
-					text: "Yes",
-					value: "yes",
-				},
-				{
-					text: "No",
-					value: "no",
-				},
-			],
-			onFilter: (value, record) => record.OFFER.indexOf(value) === 0,
 		},
 	];
 

@@ -164,59 +164,6 @@ const StudentMenu = () => {
 				</Col>
 			</Row>
 			<Divider />
-			<>
-				{studentData.cvUploaded ? (
-					<Row style={{ textAlign: "center" }}>
-						<Col span={24}>
-							<Text type="success" strong>
-								CV is uploaded.
-							</Text>
-							<CheckCircleTwoTone twoToneColor="#52c41a" />
-							<Link
-								href={studentData.cvURL}
-								target="_blank"
-								style={{ marginLeft: "1em" }}>
-								View your CV
-							</Link>
-						</Col>
-						<Col span={24} style={{ paddingTop: "1em" }}>
-							<Upload {...uploadProps}>
-								<Button type="primary">Update CV</Button>
-							</Upload>
-							{fileList && fileList.length > 0 && (
-								<Button onClick={handleUpload} loading={isCVUploading}>
-									<span>
-										<UploadOutlined /> Upload the selected file
-									</span>
-								</Button>
-							)}
-						</Col>
-					</Row>
-				) : (
-					<div style={{ textAlign: "center" }}>
-						<Upload {...uploadProps}>
-							<Button>
-								<span>
-									<FilePdfOutlined /> Select CV to upload
-								</span>
-							</Button>
-							<div style={{ textAlign: "center" }}>
-								<Typography.Text type="secondary">
-									PDF file less than 8MB.
-								</Typography.Text>
-							</div>
-						</Upload>
-						{fileList && fileList.length > 0 && (
-							<Button onClick={handleUpload} loading={isCVUploading}>
-								<span>
-									<UploadOutlined /> Upload the selected file
-								</span>
-							</Button>
-						)}
-					</div>
-				)}
-			</>
-			<Divider />
 			<Button danger icon={<LogoutOutlined />} onClick={handleLogout}>
 				LOG OUT
 			</Button>
