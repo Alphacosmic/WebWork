@@ -19,21 +19,33 @@ function App() {
 							exact
 							path="/login"
 							component={() =>
-								getCookieToken() ? <Redirect to="/dashboard" /> : <Login />
+								getCookieToken() === "student" ? (
+									<Redirect to="/dashboard" />
+								) : (
+									<Login />
+								)
 							}
 						/>
 						<Route
 							exact
 							path="/register"
 							component={() =>
-								getCookieToken() ? <Redirect to="/dashboard" /> : <RegisterForm />
+								getCookieToken() === "student" ? (
+									<Redirect to="/dashboard" />
+								) : (
+									<RegisterForm />
+								)
 							}
 						/>
 						<Route
 							exact
 							path="/dashboard"
 							component={() =>
-								getCookieToken() ? <StudentDashboard /> : <Redirect to="/login" />
+								getCookieToken() === "student" ? (
+									<StudentDashboard />
+								) : (
+									<Redirect to="/login" />
+								)
 							}
 							redirectTo="/login"
 						/>
