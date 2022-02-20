@@ -19,7 +19,7 @@ function App() {
 							exact
 							path="/login"
 							component={() => {
-								if (getCookieToken()) {
+								if (getCookieToken() == "student") {
 									return <Redirect to="/dashboard" />;
 								} else {
 									return <Login />;
