@@ -239,7 +239,23 @@ const Projects = ({ filter = "none" }) => {
 				visible={isModalVisible}
 				onCancel={handleCancel}>
 				<p>Please Select/Upload the resume you want to send to the company</p>
-				<Col>
+				{student?.resumeURL?.length < 3 || !student?.resumeURL?.length ? (
+					<Col span={24}>
+						<Upload {...uploadProps}>
+							<Button type="primary">Upload Resume</Button>
+						</Upload>
+						{fileList && fileList.length > 0 && (
+							<Button onClick={handleUpload} loading={isCVUploading}>
+								<span>
+									<UploadOutlined /> Upload the Selected File and Apply
+								</span>
+							</Button>
+						)}
+					</Col>
+				) : (
+					""
+				)}
+				<Col style={{ marginTop: "1em" }}>
 					{student?.resumeURL?.length > 0 ? (
 						<Radio.Group onChange={onChange} value={selectedResume}>
 							{student?.resumeURL?.map((url, i) => (
@@ -257,22 +273,6 @@ const Projects = ({ filter = "none" }) => {
 						""
 					)}
 				</Col>
-				{student?.resumeURL?.length < 3 || !student?.resumeURL?.length ? (
-					<Col span={24}>
-						<Upload {...uploadProps}>
-							<Button type="primary">Upload Resume</Button>
-						</Upload>
-						{fileList && fileList.length > 0 && (
-							<Button onClick={handleUpload} loading={isCVUploading}>
-								<span>
-									<UploadOutlined /> Upload the Selected File and Apply
-								</span>
-							</Button>
-						)}
-					</Col>
-				) : (
-					""
-				)}
 
 				<Button
 					disabled={!selectedResume}
