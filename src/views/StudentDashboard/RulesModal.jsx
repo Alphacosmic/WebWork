@@ -15,64 +15,58 @@ const RulesModal = ({ isVisible, closeModal }) => {
 				overflowY: "scroll",
 			}}
 			visible={isVisible}
-			onCancel={ closeModal }
-			cancelText={ null }
+			onCancel={closeModal}
+			cancelText={null}
 			footer={<Button onClick={closeModal}>Close</Button>}
 			width={900}>
 			<div>
-				<Typography.Title level={4}>StartUp profiles</Typography.Title>
-
-				<p>
-					You can apply to <b>any number of profiles</b> that you want.
-				</p>
-				<p>
-					Once selected for a profile. You will have to accept that and all other
-					applications (submitted to other profiles) will be removed automatically.
-					Moreover, you won’t be able to apply for any other StartUp profiles till the
-					next semester. (You would still be able to apply to Professor projects)
-				</p>
-
-				<Typography.Title level={4}>Professor projects</Typography.Title>
-
-				<p>
-					You can apply to <b>at most 2 projects</b>.
-				</p>
-				<p>
-					Once selected for a project. You will have to accept that and the application
-					submitted for the other project will be removed automatically. Moreover, you
-					won’t be able to apply for any other professor projects till the next semester.
-					(You would still be able to apply to StartUp profiles)
-				</p>
-
-				<Typography.Title level={4}>General Instructions</Typography.Title>
-
+				<Typography.Title level={4}>Student Policies</Typography.Title>
 				<ul>
 					<li>
-						Once a student has been selected for the team, they cannot reject the offer,
-						or else it will lead to the blacklisting of the student.
+						Students can apply to a maximum of <b>seven</b> profiles. If you apply for
+						more profiles, your account will be permanently blocked. The registration
+						fee will not be refunded in such a case.
 					</li>
 					<li>
 						Students must provide accurate information at the time of application or
-						while creating the account on the TeamUp portal. Any misrepresentation of
-						information or hiding information will result in blacklisting.
+						while creating the account on the InternFair portal. Any misrepresentation
+						of information or hiding information will result in blacklisting.
+					</li>
+
+					<li>
+						Students should<b>not</b> mention contact details in their resume. If found,
+						your account will be permanently blocked. The registration fee will not be
+						refunded in such a case.
 					</li>
 					<li>
-						There is no restriction on the resume format. You can use any format for
-						your resume.
+						The fee is non-refundable and E-Cell IIT Madras will not be responsible for
+						any unexpected error during the payment process, the concerned payment
+						services should be contacted for that.
 					</li>
-					<li>Students must not mention contact details in their resumes.</li>
 					<li>
 						The student has to show up for all the interviews/tests he/she is
 						shortlisted for. If it is not possible to show up, it should be informed at
 						least 36 hours in advance. Failure to do so will lead to blacklisting.
 					</li>
 					<li>
-						It is your responsibility to carry all documents which will be
-						needed/demanded during the interview.
+						If a student gets multiple offers, he/she can accept only one offer. In case
+						only a single offer is received, the student is bound to accept the offer.
 					</li>
 					<li>
-						Any breach of the above rules will result in the permanent blacklisting of
-						the student.
+						Once a student has accepted an internship from a company, they cannot reject
+						the offer.
+					</li>
+					<li>
+						It is your responsibility to carry all documents which will be needed during
+						the interview.
+					</li>
+					<li>
+						A student applying through InternFair would not be allowed to approach the
+						registered companies outside the portal.
+					</li>
+					<li>
+						Any breach of the above rules will result in permanent blacklisting of the
+						student.
 					</li>
 				</ul>
 			</div>
