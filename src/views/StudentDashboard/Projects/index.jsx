@@ -1,5 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Grid, List, Card, Button, Typography, Row, Col, Modal, Upload, Radio } from "antd";
+import {
+	Grid,
+	List,
+	Card,
+	Button,
+	Typography,
+	Row,
+	Col,
+	Modal,
+	Upload,
+	Radio,
+	Divider,
+} from "antd";
 import {
 	CheckOutlined,
 	CompassOutlined,
@@ -105,11 +117,11 @@ const Projects = ({ filter = "none" }) => {
 	const handleCancel = () => {
 		setIsModalVisible(false);
 	};
-	const handleApply = async () => {
+	const handleApply = async (resumeURL = selectedResume) => {
 		try {
 			await axios.post("/applyToProfile", {
 				profileId: selectedProfile._id,
-				resumeURL: selectedResume,
+				resumeURL,
 			});
 			openNotification("success", "Successfully Applied");
 			handleCancel();
@@ -129,9 +141,9 @@ const Projects = ({ filter = "none" }) => {
 			await axios.put(`/resume`, { resumeURL });
 			setStudent((old) => ({ ...old, resumeURL: [...old.resumeURL, resumeURL] }));
 			setSelectedResume(resumeURL);
-			handleApply();
 			openNotification("success", "Successfully Uploaded Resume");
 			updateFileList([]);
+			return resumeURL;
 		} catch (err) {
 			console.log(err);
 			const error = err.response ? err.response.data : err;
@@ -174,6 +186,7 @@ const Projects = ({ filter = "none" }) => {
 						file.size / 1024 / 1024 < 8
 				)
 			);
+			setSelectedResume("");
 		},
 		multiple: false,
 	};
@@ -208,28 +221,22 @@ const Projects = ({ filter = "none" }) => {
 				title={selectedProfile.title}
 				visible={isModalVisible}
 				onCancel={handleCancel}>
-				<p>Please Select/Upload the resume you want to send to the company</p>
-				{student?.resumeURL?.length < 3 || !student?.resumeURL?.length ? (
-					<Col span={24}>
-						<Upload {...uploadProps}>
-							<Button type="primary">Upload Resume</Button>
-						</Upload>
-						{fileList && fileList.length > 0 && (
-							<Button onClick={handleUpload} loading={isCVUploading}>
-								<span>
-									<UploadOutlined /> Upload the Selected File and Apply
-								</span>
-							</Button>
-						)}
-					</Col>
+				{student?.resumeURL?.length > 0 ? (
+					<p>
+						<strong>Select</strong> the previously uploaded resume that you want to send
+						to the company
+					</p>
 				) : (
-					""
+					<p>
+						<strong>Upload</strong> a resume that you want to send to the company
+					</p>
 				)}
-				<Col style={{ marginTop: "1em" }}>
+				<Col style={{ marginBottom: "1em" }}>
 					{student?.resumeURL?.length > 0 ? (
 						<Radio.Group
 							onChange={(e) => {
 								setSelectedResume(e.target.value);
+								updateFileList([]);
 							}}
 							value={selectedResume}>
 							{student?.resumeURL?.map((url, i) => (
@@ -247,14 +254,37 @@ const Projects = ({ filter = "none" }) => {
 						""
 					)}
 				</Col>
+				{student?.resumeURL?.length > 0 && student?.resumeURL?.length < 3 && (
+					<Divider orientation="center">
+						<strong>OR</strong>
+					</Divider>
+				)}
+				{student?.resumeURL?.length < 3 || !student?.resumeURL?.length ? (
+					<Col style={{ textAlign: "center" }}>
+						<Upload {...uploadProps}>
+							<Button type="primary">Upload Resume</Button>
+						</Upload>
+					</Col>
+				) : (
+					""
+				)}
+
+				<Divider></Divider>
 
 				<Button
-					disabled={!selectedResume}
+					disabled={!selectedResume && !fileList && fileList.length === 0}
 					key={1}
 					block
 					style={{ marginTop: "1em" }}
 					type="primary"
-					onClick={() => handleApply()}>
+					onClick={async () => {
+						if (fileList && fileList.length > 0) {
+							const resumeURL = await handleUpload();
+							await handleApply(resumeURL);
+						} else {
+							await handleApply();
+						}
+					}}>
 					Apply
 				</Button>
 			</Modal>

@@ -18,7 +18,7 @@ function AppliedProfileCard({ profile }) {
 				<Col span={12} style={{ marginBottom: "1rem" }}>
 					<BankOutlined />{" "}
 					<Text strong type="secondary">
-						Company:{" "}
+						Company{" "}
 					</Text>{" "}
 					<br />
 					<Text>{profile.company.name}</Text>
@@ -26,7 +26,7 @@ function AppliedProfileCard({ profile }) {
 				<Col span={12}>
 					<EditOutlined />{" "}
 					<Text strong type="secondary">
-						Job Description:{" "}
+						Job Description{" "}
 					</Text>{" "}
 					<br />
 					<Typography.Link href={profile.jobDescriptionURL}>
@@ -36,7 +36,7 @@ function AppliedProfileCard({ profile }) {
 				<Col span={24} style={{ marginBottom: "1rem" }}>
 					<FieldTimeOutlined />{" "}
 					<Text strong type="secondary">
-						Your Current Round:{" "}
+						Your Current Round{" "}
 					</Text>
 					<br />
 					<Text>
