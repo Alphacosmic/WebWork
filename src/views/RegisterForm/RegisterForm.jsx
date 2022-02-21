@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Form, Row, Col, Input, Button, Typography, Layout, Card, Select } from "antd";
 import {
-	UserOutlined,
 	NumberOutlined,
 	PhoneOutlined,
 	KeyOutlined,
@@ -40,7 +39,6 @@ const RegisterForm = () => {
 	const [form] = Form.useForm();
 	const [loading, setLoading] = useState(false);
 
-	const [isRollFocused, setIsRollFocused] = useState(false);
 	const [, setLocation] = useLocation();
 
 	const handleError = (errorMsg) => {
@@ -91,24 +89,10 @@ const RegisterForm = () => {
 						layout="vertical"
 						validateTrigger="onSubmit"
 						onFinish={onFinish}>
-						<Row gutter={24}>
-							<Col span={24}>
+						<Row gutter={12}>
+							<Col xs={12} md={8}>
 								<Form.Item
-									name="name"
-									label={
-										<span>
-											<UserOutlined /> Name
-										</span>
-									}
-									rules={[
-										{ required: true, message: "Please enter your name!" },
-									]}>
-									<Input />
-								</Form.Item>
-							</Col>
-
-							<Col xs={24} md={12}>
-								<Form.Item
+									style={{ marginBottom: 0 }}
 									name="roll"
 									label={
 										<span>
@@ -126,15 +110,13 @@ const RegisterForm = () => {
 											transform: (val) => (!val ? "" : val.trim()),
 										},
 									]}>
-									<Input
-										onFocus={() => setIsRollFocused(true)}
-										onBlur={() => setIsRollFocused(false)}
-									/>
+									<Input />
 								</Form.Item>
 							</Col>
 
-							<Col xs={24} md={12}>
+							<Col xs={12} md={8}>
 								<Form.Item
+									style={{ marginBottom: 0 }}
 									name="password"
 									rules={[
 										{
@@ -148,15 +130,37 @@ const RegisterForm = () => {
 									]}
 									label={
 										<span>
-											<KeyOutlined />
-											LDAP Password
+											<KeyOutlined /> LDAP Password
 										</span>
-									}
-									extra="We do not store your LDAP password. We only check if you're an IITM student by authenticating you against institute records.">
+									}>
 									<Input.Password />
 								</Form.Item>
 							</Col>
-
+							<Col xs={24} md={8}>
+								<Form.Item
+									style={{ marginBottom: 0 }}
+									name="cgpa"
+									validateFirst={true}
+									label={
+										<span>
+											<BookOutlined /> CGPA
+										</span>
+									}
+									rules={[
+										{
+											required: true,
+											message: "Please input your CGPA!",
+										},
+									]}>
+									<Input />
+								</Form.Item>
+							</Col>
+							<Col style={{ marginBottom: "0.5em" }}>
+								<Typography.Text type="secondary">
+									We do not store your LDAP password. We only check if you&apos;re
+									an IITM student by authenticating you against institute records.
+								</Typography.Text>
+							</Col>
 							<Col xs={24} md={8}>
 								<Form.Item
 									name="phone"
@@ -198,25 +202,7 @@ const RegisterForm = () => {
 									<Input />
 								</Form.Item>
 							</Col>
-							<Col xs={24} md={6}>
-								<Form.Item
-									name="cgpa"
-									validateFirst={true}
-									label={
-										<span>
-											<BookOutlined /> CGPA
-										</span>
-									}
-									rules={[
-										{
-											required: true,
-											message: "Please input your CGPA!",
-										},
-									]}>
-									<Input />
-								</Form.Item>
-							</Col>
-							<Col xs={24} md={18}>
+							<Col xs={24} md={12}>
 								<Form.Item
 									name="IDDD"
 									label={
@@ -228,8 +214,7 @@ const RegisterForm = () => {
 										{
 											required: false,
 										},
-									]}
-									extra="Are You an IDDD Student? If not leave blank">
+									]}>
 									<Select placeholder="None" onChange={onIDDDSelect} allowClear>
 										{OptionsOfIDDD.map((value, i) => (
 											<Option key={i} value={value}>
@@ -239,7 +224,7 @@ const RegisterForm = () => {
 									</Select>
 								</Form.Item>
 							</Col>
-							<Col span={24}>
+							<Col xs={24} md={12}>
 								<Form.Item
 									name="minor"
 									label={
@@ -251,20 +236,18 @@ const RegisterForm = () => {
 										{
 											required: false,
 										},
-									]}
-									extra="Do you have Minor? If not leave blank">
-									<Input />
+									]}>
+									<Input placeholder="None" />
 								</Form.Item>
 							</Col>
 
-							<Col xs={24} md={6}>
+							<Col xs={24} md={8}>
 								<Form.Item
 									name="pincode"
 									validateFirst={true}
 									label={
 										<span>
-											<CompassOutlined />
-											Residential Pincode
+											<CompassOutlined /> Residential Pincode
 										</span>
 									}
 									rules={[
@@ -276,7 +259,7 @@ const RegisterForm = () => {
 									<Input />
 								</Form.Item>
 							</Col>
-							<Col xs={24} md={18}>
+							<Col xs={24} md={16}>
 								<Form.Item
 									name="address"
 									validateFirst={true}
