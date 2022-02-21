@@ -1,61 +1,47 @@
-import React, { useState } from "react";
-import { Upload, Button, Typography, Row, Col, Divider } from "antd";
-import {
-	UploadOutlined,
-	FilePdfOutlined,
-	LogoutOutlined,
-	CheckCircleTwoTone,
-} from "@ant-design/icons";
+import React from "react";
+import { Button, Typography, Row, Col, Divider } from "antd";
+import { LogoutOutlined } from "@ant-design/icons";
 import openNotification from "../../utils/openAntdNotification";
 import { useLocation } from "wouter";
 import axios from "../../utils/_axios";
 
-const { Title, Text, Link } = Typography;
+const { Title, Text } = Typography;
 
-const makeFormdata = async (policy, file) => {
-	const fd = new FormData();
-
-	fd.append("x-amz-algorithm", "AWS4-HMAC-SHA256");
-	fd.append("acl", policy.bucketAcl);
-	fd.append("policy", policy.encodedPolicy);
-	fd.append("x-amz-credential", policy.amzCred);
-	fd.append("x-amz-date", policy.expirationStrClean);
-	fd.append("X-Amz-Signature", policy.sign);
-
-	fd.append("key", file.name);
-	fd.append("Content-Type", file.type);
-
-	fd.append("file", file.file);
-
-	return fd;
+const branches = {
+	ae: "Aerospace Engineering",
+	am: "Engineering Mechanics",
+	be: "Biological Engineering",
+	bs: "Biological Sciences",
+	ca: "Chemical Engineering",
+	ce: "Civil Engineering",
+	ch: "Chemical Engineering",
+	cs: "Computer Science and Engineering",
+	cy: "Chemistry",
+	ed: "Engineering Design",
+	ee: "Electrical Engineering",
+	ep: "Engineering Physics",
+	hs: "Humanities and Social Sciences",
+	ma: "Mathematics",
+	me: "Mechanical Engineering",
+	mm: "Metallurgical and Materials Engineering",
+	ms: "Management Studies",
+	na: "Naval Architecture",
+	oe: "Ocean Engineering",
+	ph: "Physics",
 };
-export const upload = async (file) => {
-	const res = await axios.get("/s3-signed-policy/teamup-student-cvs");
 
-	const S3SignedPolicyObject = { ...res.data.data };
-	const bucketWriteUrl = `https://${S3SignedPolicyObject.bucket}.s3.ap-south-1.amazonaws.com/`;
-
-	const { name, roll } = JSON.parse(localStorage.studentData || "{}");
-	const filename = `${name.replace(/ /g, "")}-${roll}-CV.${file.name.split(".").pop()}`;
-
-	const fd = await makeFormdata(S3SignedPolicyObject, {
-		name: filename,
-		type: file.type,
-		file,
-	});
-
-	await axios.post(bucketWriteUrl, fd, { withCredentials: false });
-	const URL = `${bucketWriteUrl}${filename}`;
-	return URL;
+const programs = {
+	btech: "B. Tech",
+	phd: "Ph. D",
+	msc: "M. Sc",
+	mtech: "M. Tech",
+	bsc: "B. Sc",
 };
 
 const StudentMenu = () => {
-	const [fileList, updateFileList] = useState([]);
 	const studentData = JSON.parse(localStorage.studentData || "{}");
 
 	const [, setLocation] = useLocation();
-
-	const [isCVUploading, setCVUploading] = useState(false);
 
 	const handleLogout = async () => {
 		try {
@@ -70,61 +56,6 @@ const StudentMenu = () => {
 		}
 	};
 
-	const handleUpload = async () => {
-		setCVUploading(true);
-		const file = fileList[0].originFileObj;
-
-		try {
-			const cvURL = await upload(file);
-
-			await axios.put(`/cv`, { studentID: studentData._id, cvURL });
-			openNotification("success", "Successfully Updated CV");
-			updateFileList([]);
-		} catch (err) {
-			console.log(err);
-			const error = err.response ? err.response.data : err;
-			const errorMsg = error.response ? error.response.data.msg : error.message;
-			openNotification("error", "Error in uploading CV", errorMsg);
-		} finally {
-			setCVUploading(false);
-		}
-	};
-	const uploadProps = {
-		fileList,
-		accept: "application/pdf",
-		beforeUpload: (file) => {
-			if (file.type !== "application/pdf") {
-				openNotification(
-					"error",
-					"Please select a PDF file of size less than 8MB.",
-					`${file.name} is not a PDF file`
-				);
-				return false;
-			} else if (fileList.length === 1) {
-				openNotification(
-					"info",
-					"You file was replaced with the newer one.",
-					"File replaced."
-				);
-			}
-			const isLt8M = file.size / 1024 / 1024 > 8;
-			if (isLt8M) {
-				openNotification("error", "The PDF file must be within 8MB.", "Size error");
-			}
-			return isLt8M;
-		},
-		onChange: (info) => {
-			updateFileList(
-				info.fileList.filter(
-					(file, index) =>
-						index === info.fileList.length - 1 &&
-						file.type === "application/pdf" &&
-						file.size / 1024 / 1024 < 8
-				)
-			);
-		},
-		multiple: false,
-	};
 	return (
 		<Row justify="center">
 			<Col span={24} style={{ paddingTop: "2em", textAlign: "center" }}>
@@ -154,7 +85,7 @@ const StudentMenu = () => {
 					<Col span={12}>
 						<Text strong>Branch</Text>
 						<br />
-						<Text>{studentData.branch}</Text>
+						<Text>{branches[studentData.branch]}</Text>
 					</Col>
 				)}
 				<Col span={12} style={{ textAlign: "right" }}>
@@ -162,6 +93,42 @@ const StudentMenu = () => {
 					<br />
 					<Text>{studentData.phone}</Text>
 				</Col>
+				<Col span={12} style={{ textAlign: "left" }}>
+					<Text strong>Personal Email</Text>
+					<br />
+					<Text>{studentData.personalEmail}</Text>
+				</Col>
+				<Col span={12} style={{ textAlign: "right" }}>
+					<Text strong>CGPA</Text>
+					<br />
+					<Text>{studentData.cgpa}</Text>
+				</Col>
+
+				<Col span={12}>
+					<Text strong>Hostel Address</Text>
+					<br />
+					<Text>{studentData.address}</Text>
+				</Col>
+
+				<Col span={12} style={{ textAlign: "right" }}>
+					<Text strong>Residential Pincode</Text>
+					<br />
+					<Text>{studentData.pincode}</Text>
+				</Col>
+				{studentData.minor && (
+					<Col span={12}>
+						<Text strong>Minor</Text>
+						<br />
+						<Text>{studentData.minor}</Text>
+					</Col>
+				)}
+				{studentData.iddd && (
+					<Col span={12} style={{ textAlign: "right" }}>
+						<Text strong>IDDD</Text>
+						<br />
+						<Text>{studentData.iddd ? studentData.iddd : "None"}</Text>
+					</Col>
+				)}
 			</Row>
 			<Divider />
 			<Button danger icon={<LogoutOutlined />} onClick={handleLogout}>
