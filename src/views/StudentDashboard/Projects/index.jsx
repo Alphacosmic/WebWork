@@ -1,20 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Grid, List, Card, Button, Typography, Row, Col, Modal, Upload, Radio } from "antd";
 import {
-	Grid,
-	List,
-	Card,
-	Button,
-	Typography,
-	Row,
-	Col,
-	Tag,
-	Modal,
-	Tooltip,
-	Upload,
-	Radio,
-} from "antd";
-import {
-	ThunderboltOutlined,
 	CheckOutlined,
 	CompassOutlined,
 	TeamOutlined,
@@ -29,6 +15,7 @@ import openNotification from "../../../utils/openAntdNotification";
 
 import Questions from "./QuestionsModal";
 import axios from "../../../utils/_axios";
+import PaymentPrompt from "../PaymentPrompt";
 
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
@@ -80,25 +67,32 @@ export const upload = async (file) => {
 
 const Projects = ({ filter = "none" }) => {
 	const screen = useBreakpoint();
+	const [paymentDone, setPaymentDone] = useState(true);
+
 	const [projects, setProjects] = useState([]);
 	const [isFetching, setIsFetching] = useState(true);
 	const [questionModal, setQuestionModal] = useState({ visible: false, data: {} });
 	const [isModalVisible, setIsModalVisible] = useState(false);
-	const [selectedProfile, setselectedProfile] = useState(0);
+	const [selectedProfile, setSelectedProfile] = useState(0);
 	const [isCVUploading, setCVUploading] = useState(false);
 	const [fileList, updateFileList] = useState([]);
 	const [student, setStudent] = useState({});
-	const [selectedResume, setselectedResume] = React.useState("");
-
-	const onChange = (e) => {
-		setselectedResume(e.target.value);
-	};
+	const [selectedResume, setSelectedResume] = React.useState("");
 
 	useEffect(() => {
-		axios.get("/profiles").then((res) => {
-			setProjects(res.data);
-			setIsFetching(false);
-		});
+		axios
+			.get("/profiles")
+			.then((res) => {
+				setProjects(res.data);
+				setIsFetching(false);
+			})
+			.catch((err) => {
+				if (err?.response?.data === "PAYMENT_NOT_DONE") {
+					setPaymentDone(false);
+					setIsFetching(false);
+				}
+				console.debug(err);
+			});
 		axios.get("/getStudent").then((res) => {
 			console.log(res.data);
 			setStudent(res.data);
@@ -134,7 +128,7 @@ const Projects = ({ filter = "none" }) => {
 
 			await axios.put(`/resume`, { resumeURL });
 			setStudent((old) => ({ ...old, resumeURL: [...old.resumeURL, resumeURL] }));
-			setselectedResume(resumeURL);
+			setSelectedResume(resumeURL);
 			handleApply();
 			openNotification("success", "Successfully Uploaded Resume");
 			updateFileList([]);
@@ -184,42 +178,20 @@ const Projects = ({ filter = "none" }) => {
 		multiple: false,
 	};
 
-	const EmptyList = ({ filter }) => (
+	const EmptyList = () => (
 		<div style={{ textAlign: "center", marginTop: "3rem" }}>
-			{filter === APPLIED ? (
+			{paymentDone ? (
 				<>
 					<SmileOutlined style={{ fontSize: "3rem" }} />
 					<br />
 					<Text type="secondary" strong>
-						You have not applied for any projects.
+						There are no new profiles currently.
 					</Text>
 					<br />
-					<Text type="secondary">
-						Apply now from the <strong>All</strong> tab.
-					</Text>
-				</>
-			) : filter === SELECTED ? (
-				<>
-					<TeamOutlined style={{ fontSize: "3rem" }} />
-					<br />
-					<Text type="secondary" strong>
-						No selections yet.
-					</Text>
-					<br />
-					<Text type="secondary"> Please check back later!</Text>
+					<Text type="secondary">Please wait.</Text>
 				</>
 			) : (
-				<>
-					<ThunderboltOutlined style={{ fontSize: "3rem" }} />
-					<br />
-					<Text type="secondary" strong>
-						No Projects found with the selected filters
-					</Text>
-					<br />
-					<Text type="secondary">
-						Keep an eye on the <strong>Selected</strong> tab
-					</Text>
-				</>
+				<PaymentPrompt />
 			)}
 		</div>
 	);
@@ -255,7 +227,11 @@ const Projects = ({ filter = "none" }) => {
 				)}
 				<Col style={{ marginTop: "1em" }}>
 					{student?.resumeURL?.length > 0 ? (
-						<Radio.Group onChange={onChange} value={selectedResume}>
+						<Radio.Group
+							onChange={(e) => {
+								setSelectedResume(e.target.value);
+							}}
+							value={selectedResume}>
 							{student?.resumeURL?.map((url, i) => (
 								<>
 									<Radio key={i} value={url}>
@@ -319,7 +295,7 @@ const Projects = ({ filter = "none" }) => {
 										type="link"
 										block
 										onClick={() => {
-											setselectedProfile(profile);
+											setSelectedProfile(profile);
 											showModal();
 										}}>
 										Apply
