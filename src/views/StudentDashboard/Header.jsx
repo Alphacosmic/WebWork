@@ -5,9 +5,27 @@ import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
 
 import ecellLogo from "../../assets/e-cell_logo_hor.png";
 import internfairLogo from "../../assets/startup-internfair_logo_hor.png";
+import { LogoutOutlined } from "@ant-design/icons";
+import openNotification from "../../utils/openAntdNotification";
+import { useLocation } from "wouter";
+import axios from "../../utils/_axios";
 
 const Header = ({ menuVisible, setMenuVisibility }) => {
 	const { xs, md } = Grid.useBreakpoint();
+	const [, setLocation] = useLocation();
+	const handleLogout = async () => {
+		try {
+			await axios.get(`/logout`);
+			localStorage.removeItem("studentData");
+			setLocation("/login");
+		} catch (err) {
+			console.log(err);
+			const error = err.response ? err.response.data : err;
+			const errorMsg = error.response ? error.response.data.msg : error.message;
+			openNotification("error", "Error in logging out", errorMsg);
+		}
+	};
+
 	return (
 		<Layout.Header
 			style={{
@@ -41,7 +59,22 @@ const Header = ({ menuVisible, setMenuVisibility }) => {
 						/>
 					</Col>
 				)}
-				<Col span={8} style={{ textAlign: "right" }}>
+				<Col
+					xs={12}
+					lg={8}
+					style={{
+						textAlign: "right",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "flex-end",
+					}}>
+					<Button
+						danger
+						icon={<LogoutOutlined style={{ fontSize: "1rem" }} />}
+						onClick={handleLogout}
+						style={{ marginRight: "1rem" }}>
+						{xs ? "" : "LOG OUT"}
+					</Button>
 					<Button
 						type="dashed"
 						icon={

@@ -38,21 +38,6 @@ const degrees = {
 const StudentMenu = () => {
 	const studentData = JSON.parse(localStorage.studentData || "{}");
 
-	const [, setLocation] = useLocation();
-
-	const handleLogout = async () => {
-		try {
-			await axios.get(`/logout`);
-			localStorage.removeItem("studentData");
-			setLocation("/login");
-		} catch (err) {
-			console.log(err);
-			const error = err.response ? err.response.data : err;
-			const errorMsg = error.response ? error.response.data.msg : error.message;
-			openNotification("error", "Error in logging out", errorMsg);
-		}
-	};
-
 	return (
 		<Row justify="center">
 			<Col span={24} style={{ paddingTop: "2em", textAlign: "center" }}>
@@ -100,36 +85,18 @@ const StudentMenu = () => {
 					<Text>{studentData.phone}</Text>
 				</Col>
 
-				<Col span={12}>
+				<Col span={24}>
 					<Text strong>Minor</Text>
 					<br />
 					<Text>{studentData.minor || "None"}</Text>
 				</Col>
-				<Col span={12} style={{ textAlign: "right" }}>
+				<Col span={24}>
 					<Text strong>IDDD</Text>
 					<br />
 					<Text>{studentData.iddd ? studentData.iddd : "None"}</Text>
 				</Col>
-				<Col span={24} style={{ textAlign: "left" }}>
-					<Text strong>Personal Email</Text>
-					<br />
-					<Text>{studentData.personalEmail}</Text>
-				</Col>
-				<Col span={24}>
-					<Text strong>Hostel Address</Text>
-					<br />
-					<Text>{studentData.address}</Text>
-				</Col>
-				<Col span={24}>
-					<Text strong>Residential PIN code</Text>
-					<br />
-					<Text>{studentData.pinCode}</Text>
-				</Col>
 			</Row>
 			<Divider />
-			<Button danger icon={<LogoutOutlined />} onClick={handleLogout}>
-				LOG OUT
-			</Button>
 		</Row>
 	);
 };

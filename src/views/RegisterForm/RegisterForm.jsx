@@ -42,10 +42,6 @@ const RegisterForm = () => {
 
 	const [, setLocation] = useLocation();
 
-	const handleError = (errorMsg) => {
-		openNotification("error", "Error occured in posting form data.", errorMsg);
-		setLoading(false);
-	};
 	const handleSuccess = () => {
 		setLocation("/dashboard");
 	};
@@ -57,10 +53,9 @@ const RegisterForm = () => {
 			localStorage.setItem("studentData", JSON.stringify(res.data));
 
 			handleSuccess();
-		} catch (err) {
-			const error = err.response ? err.response.data : err;
-			const errorMsg = error.msg ?? error.message;
-			handleError(errorMsg);
+		} catch (error) {
+			openNotification("error", "Error occured in posting form data.", error.response.data);
+			setLoading(false);
 		}
 	};
 

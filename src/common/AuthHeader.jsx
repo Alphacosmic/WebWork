@@ -18,7 +18,7 @@ const AuthHeader = ({ title }) => {
 			<Row justify="space-between">
 				<Col>
 					<Button
-						href="http://ecell.iitm.ac.in/event/teamup"
+						href="http://ecell.iitm.ac.in/internfair"
 						icon={<HomeOutlined />}
 						size="large">
 						{!isMobile && "Home"}
