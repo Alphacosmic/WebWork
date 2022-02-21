@@ -104,8 +104,6 @@ const Projects = ({ filter = "none" }) => {
 			setStudent(res.data);
 		});
 	}, []);
-	const isSelectedInAny = projects.some(({ status }) => status === "SELECTED");
-	const hasAppliedMoreThan2 = projects.filter(({ status }) => status === "APPLIED").length >= 2;
 
 	const showModal = () => {
 		setIsModalVisible(true);
@@ -293,49 +291,39 @@ const Projects = ({ filter = "none" }) => {
 				dataSource={projects.filter(({ status }) =>
 					filter === ALL ? true : filter === status
 				)}
-				renderItem={(project) => (
+				renderItem={(profile) => (
 					<List.Item
 						style={{ paddingTop: "8px", paddingBottom: "8px", paddingLeft: "0px" }}>
 						<Card
-							title={<b style={{ color: "#444" }}>{project.title}</b>}
+							title={<b style={{ color: "#444" }}>{profile.title}</b>}
 							actions={[
 								<Button
 									key={1}
 									block
 									type="link"
 									onClick={() =>
-										window.open(project?.jobDescriptionURL, "_blank").focus()
+										window.open(profile?.jobDescriptionURL, "_blank").focus()
 									}>
 									Open Job Description
 								</Button>,
-								project.status === SELECTED ? (
+								profile.status === SELECTED ? (
 									<Text type="success" strong>
 										<CheckOutlined /> Selected
 									</Text>
-								) : project.status === APPLIED ? (
+								) : profile.status === APPLIED ? (
 									<Text strong style={{ color: "#1890ff" }}>
 										<CheckOutlined /> Applied
 									</Text>
 								) : (
-									<Tooltip
-										title={
-											hasAppliedMoreThan2
-												? "You cannot apply in more than two projects at once"
-												: isSelectedInAny
-												? "You are already selected in a project"
-												: undefined
-										}>
-										<Button
-											disabled={isSelectedInAny || hasAppliedMoreThan2}
-											type="link"
-											block
-											onClick={() => {
-												setselectedProfile(project);
-												showModal();
-											}}>
-											Apply
-										</Button>
-									</Tooltip>
+									<Button
+										type="link"
+										block
+										onClick={() => {
+											setselectedProfile(profile);
+											showModal();
+										}}>
+										Apply
+									</Button>
 								),
 							]}>
 							<Row justify="space-between">
@@ -346,9 +334,9 @@ const Projects = ({ filter = "none" }) => {
 									</Text>
 
 									<Typography.Link
-										href={`mailto:${project?.company?.email}`}
+										href={`mailto:${profile?.company?.email}`}
 										key={1}>
-										{project.company.name}
+										{profile.company.name}
 									</Typography.Link>
 								</Col>
 								<Col span={24}>
@@ -359,7 +347,7 @@ const Projects = ({ filter = "none" }) => {
 												Sector
 											</Text>
 											<br />
-											<Text>{project.company.sector}</Text>
+											<Text>{profile.company.sector}</Text>
 										</Col>
 										<Col
 											flex="auto"
@@ -372,7 +360,7 @@ const Projects = ({ filter = "none" }) => {
 											</Typography.Text>
 											<br />
 
-											{project.type}
+											{profile.type}
 										</Col>
 									</Row>
 									<Row>
@@ -384,10 +372,10 @@ const Projects = ({ filter = "none" }) => {
 											</Text>
 											<br />
 											<Text>
-												{project.stipend.amount > 0
-													? project.stipend.currency +
+												{profile.stipend.amount > 0
+													? profile.stipend.currency +
 													  " " +
-													  project.stipend.amount
+													  profile.stipend.amount
 													: "Unpaid"}
 											</Text>
 										</Col>
@@ -398,7 +386,7 @@ const Projects = ({ filter = "none" }) => {
 												Work Location
 											</Text>
 											<br />
-											<Text>{project.location}</Text>
+											<Text>{profile.location}</Text>
 										</Col>
 									</Row>
 								</Col>

@@ -6,16 +6,16 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import Header from "./Header";
 import Projects from "./Projects";
-const ProjectTable = React.lazy(() => import("./Projects/ProjectTable"));
+// const ProjectTable = React.lazy(() => import("./Projects/ProjectTable"));
 import ProfileCards from "./Profiles";
-import ProfileTable from "./Profiles/ProfileTable";
+// import ProfileTable from "./Profiles/ProfileTable";
 import RulesModal from "./RulesModal";
 
 const { Content } = Layout;
 const ALL = "ALL";
-const APPLIED = "APPLIED";
-const SELECTED = "SELECTED";
-const REJECTED = "REJECTED";
+// const APPLIED = "APPLIED";
+// const SELECTED = "SELECTED";
+// const REJECTED = "REJECTED";
 
 const StudentDashboard = () => {
 	const [headerHeight, setHeaderHeight] = useState(0);
