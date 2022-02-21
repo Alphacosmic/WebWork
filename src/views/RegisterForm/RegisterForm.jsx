@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { Form, Row, Col, Input, Button, Typography, Layout, Card } from "antd";
-import { UserOutlined, NumberOutlined, PhoneOutlined, KeyOutlined } from "@ant-design/icons";
+import {
+	UserOutlined,
+	NumberOutlined,
+	PhoneOutlined,
+	KeyOutlined,
+	BookOutlined,
+} from "@ant-design/icons";
 import openNotification from "../../utils/openAntdNotification";
 import "./RegisterForm.css";
 
@@ -177,6 +183,7 @@ const RegisterForm = () => {
 									<Input.Password />
 								</Form.Item>
 							</Col>
+
 							{studentType === "online" && (
 								<Col xs={24} md={12}>
 									<Form.Item
@@ -210,6 +217,24 @@ const RegisterForm = () => {
 									</Form.Item>
 								</Col>
 							)}
+							<Col span={studentType === "online" ? 8 : 24}>
+								<Form.Item
+									name="cgpa"
+									validateFirst={true}
+									label={
+										<span>
+											<BookOutlined /> CGPA
+										</span>
+									}
+									rules={[
+										{
+											required: true,
+											message: "Please input your CGPA!",
+										},
+									]}>
+									<Input prefix="+91" />
+								</Form.Item>
+							</Col>
 						</Row>
 						<Row align="bottom">
 							<Col span={16}>
