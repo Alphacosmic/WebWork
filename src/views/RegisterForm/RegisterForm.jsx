@@ -240,7 +240,7 @@ const RegisterForm = () => {
 
 							<Col xs={24} md={8}>
 								<Form.Item
-									name="pinCode"
+									name="pincode"
 									validateFirst={true}
 									label={
 										<span>
