@@ -6,7 +6,7 @@ import "./RegisterForm.css";
 
 import AuthHeader from "../../common/AuthHeader";
 import { Link, useLocation } from "wouter";
-import logo from "../../assets/teamup-logo.png";
+import logo from "../../assets/startup-internfair_logo.png";
 import axios from "../../utils/_axios";
 const { Content } = Layout;
 
@@ -45,12 +45,17 @@ const RegisterForm = () => {
 	return (
 		<>
 			<AuthHeader />
-			<img
-				src={logo}
-				alt="TeamUp Logo"
-				style={{ maxWidth: 200, alignSelf: "center", marginTop: "2em" }}
-			/>
 			<Content className="register-form-container">
+				<img
+					src={logo}
+					alt="TeamUp Logo"
+					style={{
+						maxWidth: 150,
+						alignSelf: "center",
+						margin: "0 0 0.5em 0",
+						padding: "0.5rem",
+					}}
+				/>
 				<Card
 					className="loginCard"
 					// title={

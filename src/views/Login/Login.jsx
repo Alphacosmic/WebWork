@@ -4,7 +4,7 @@ import { Form, Layout, Input, Button, Row, Col, Card, Typography } from "antd";
 import openNotification from "../../utils/openAntdNotification";
 import "./Login.css";
 import { Link, useLocation } from "wouter";
-import logo from "../../assets/teamup-logo.png";
+import logo from "../../assets/startup-internfair_logo.png";
 
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 const { Content } = Layout;
@@ -44,7 +44,12 @@ const Login = () => {
 				<img
 					src={logo}
 					alt="TeamUp Logo"
-					style={{ maxWidth: 200, alignSelf: "center", margin: "2em 0" }}
+					style={{
+						maxWidth: 150,
+						alignSelf: "center",
+						margin: "0 0 0.5em 0",
+						padding: "0.5rem",
+					}}
 				/>
 
 				<Card
