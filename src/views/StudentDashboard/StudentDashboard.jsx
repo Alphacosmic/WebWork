@@ -20,7 +20,7 @@ const ALL = "ALL";
 const StudentDashboard = () => {
 	const [headerHeight, setHeaderHeight] = useState(0);
 	const screen = useBreakpoint();
-	const [menuVisibile, setMenuVisibility] = useState(false);
+	const [menuVisible, setMenuVisibility] = useState(false);
 	const [rulesModalVisible, setRulesModalVisible] = useState(false);
 	const [statusFilter, setStatusFilter] = useState(ALL);
 	const [displayType, setDisplayType] = useState(() => localStorage.displayType || "grid");
@@ -90,7 +90,7 @@ const StudentDashboard = () => {
 
 	return (
 		<>
-			<Header menuVisibile={menuVisibile} setMenuVisibility={setMenuVisibility} />
+			<Header menuVisible={menuVisible} setMenuVisibility={setMenuVisibility} />
 			<RulesModal
 				isVisible={rulesModalVisible}
 				closeModal={() => setRulesModalVisible(false)}
@@ -133,7 +133,7 @@ const StudentDashboard = () => {
 						closable={false}
 						maskClosable={true}
 						width={300}
-						visible={menuVisibile}
+						visible={menuVisible}
 						mask={!screen.md}
 						style={{ marginTop: headerHeight - 24 }}>
 						<StudentMenu />

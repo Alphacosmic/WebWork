@@ -3,11 +3,10 @@ import React from "react";
 import { Button, Col, Grid, Layout, Row } from "antd";
 import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
 
-import largeLogo from "../../assets/e-cell_logo_hor.png";
-import teamupLogo from "../../assets/teamup-header.png";
-import smallTeamupLogo from "../../assets/teamup-header-small.png";
+import ecellLogo from "../../assets/e-cell_logo_hor.png";
+import internfairLogo from "../../assets/startup-internfair_logo_hor.png";
 
-const Header = ({ menuVisibile, setMenuVisibility }) => {
+const Header = ({ menuVisible, setMenuVisibility }) => {
 	const { xs, md } = Grid.useBreakpoint();
 	return (
 		<Layout.Header
@@ -25,7 +24,7 @@ const Header = ({ menuVisibile, setMenuVisibility }) => {
 				<Col span={8}>
 					<a href="https://ecell.iitm.ac.in" target="_blank" rel="noopener noreferrer">
 						<img
-							src={xs ? smallTeamupLogo : largeLogo}
+							src={xs ? internfairLogo : ecellLogo}
 							alt="E-Cell Logo"
 							height="100%"
 							style={{ padding: "0.85em 0" }}
@@ -35,7 +34,7 @@ const Header = ({ menuVisibile, setMenuVisibility }) => {
 				{md && (
 					<Col span={8} style={{ textAlign: "center" }}>
 						<img
-							src={teamupLogo}
+							src={internfairLogo}
 							alt="E-Cell Logo"
 							height="100%"
 							style={{ padding: "0.9em" }}
@@ -46,7 +45,7 @@ const Header = ({ menuVisibile, setMenuVisibility }) => {
 					<Button
 						type="dashed"
 						icon={
-							menuVisibile ? (
+							menuVisible ? (
 								<CloseOutlined style={{ fontSize: "1.5rem" }} />
 							) : (
 								<MenuOutlined style={{ fontSize: "1.5rem" }} />
