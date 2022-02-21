@@ -21,7 +21,8 @@ import axios from "../../utils/_axios";
 const { Option } = Select;
 const { Content } = Layout;
 
-const OptionsOfIDDD = [
+const idddList = [
+	"None",
 	"Advanced Materials and Nanotechnology",
 	"Bio-Medical Engineering",
 	"Computational Engineering",
@@ -52,7 +53,6 @@ const RegisterForm = () => {
 		try {
 			setLoading(true);
 			const values = await form.validateFields();
-			delete values.confirm;
 			const res = await axios.post("/register", values);
 			localStorage.setItem("studentData", JSON.stringify(res.data));
 
@@ -62,9 +62,6 @@ const RegisterForm = () => {
 			const errorMsg = error.msg ?? error.message;
 			handleError(errorMsg);
 		}
-	};
-	const onIDDDSelect = (value) => {
-		form.setFieldsValue({ IDDD: value });
 	};
 
 	return (
@@ -185,7 +182,7 @@ const RegisterForm = () => {
 							</Col>
 							<Col xs={24} md={16}>
 								<Form.Item
-									name="email"
+									name="personalEmail"
 									validateFirst={true}
 									label={
 										<span>
@@ -204,7 +201,7 @@ const RegisterForm = () => {
 							</Col>
 							<Col xs={24} md={12}>
 								<Form.Item
-									name="IDDD"
+									name="iddd"
 									label={
 										<span>
 											<AuditOutlined /> IDDD
@@ -215,8 +212,8 @@ const RegisterForm = () => {
 											required: false,
 										},
 									]}>
-									<Select placeholder="None" onChange={onIDDDSelect} allowClear>
-										{OptionsOfIDDD.map((value, i) => (
+									<Select placeholder="None" allowClear>
+										{idddList.map((value, i) => (
 											<Option key={i} value={value}>
 												{value}
 											</Option>
@@ -243,7 +240,7 @@ const RegisterForm = () => {
 
 							<Col xs={24} md={8}>
 								<Form.Item
-									name="pincode"
+									name="pinCode"
 									validateFirst={true}
 									label={
 										<span>
@@ -254,6 +251,10 @@ const RegisterForm = () => {
 										{
 											required: true,
 											message: "Please input your Pincode!",
+										},
+										{
+											pattern: /^[0-9]{6}$/,
+											message: "Please enter a PIN Code.",
 										},
 									]}>
 									<Input />
