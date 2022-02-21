@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Form, Row, Col, Input, Button, Typography, Layout, Card } from "antd";
+import { Form, Row, Col, Input, Button, Typography, Layout, Card, Select } from "antd";
 import {
 	UserOutlined,
 	NumberOutlined,
 	PhoneOutlined,
 	KeyOutlined,
+	CompassOutlined,
 	BookOutlined,
+	AuditOutlined,
+	MailOutlined,
 } from "@ant-design/icons";
 import openNotification from "../../utils/openAntdNotification";
 import "./RegisterForm.css";
@@ -13,10 +16,25 @@ import "./RegisterForm.css";
 import AuthHeader from "../../common/AuthHeader";
 import { Link, useLocation } from "wouter";
 import logo from "../../assets/startup-internfair_logo.png";
+
 import axios from "../../utils/_axios";
+
+const { Option } = Select;
 const { Content } = Layout;
 
-const studentType = "iitm";
+const OptionsOfIDDD = [
+	"Advanced Materials and Nanotechnology",
+	"Bio-Medical Engineering",
+	"Computational Engineering",
+	"Data Science",
+	"Energy Systems",
+	"Robotics",
+	"Quantum Science & Technology",
+	"Complex Systems and Dynamics",
+	"Cyber Physical Systems",
+	"Electric Vehicles",
+	"Tech MBA",
+];
 
 const RegisterForm = () => {
 	const [form] = Form.useForm();
@@ -47,6 +65,9 @@ const RegisterForm = () => {
 			handleError(errorMsg);
 		}
 	};
+	const onIDDDSelect = (value) => {
+		form.setFieldsValue({ IDDD: value });
+	};
 
 	return (
 		<>
@@ -62,17 +83,7 @@ const RegisterForm = () => {
 						padding: "0.5rem",
 					}}
 				/>
-				<Card
-					className="loginCard"
-					// title={
-					// 	<Radio.Group
-					// 		value={studentType}
-					// 		onChange={(e) => setStudentType(e.target.value)}>
-					// 		<Radio value="online">IITM Online B.Sc Student</Radio>
-					// 		<Radio value="iitm">IITM Student</Radio>
-					// 	</Radio.Group>
-					// }
-					title={<strong>Register</strong>}>
+				<Card className="loginCard" title={<strong>Register</strong>}>
 					<Form
 						form={form}
 						name="register"
@@ -81,29 +92,27 @@ const RegisterForm = () => {
 						validateTrigger="onSubmit"
 						onFinish={onFinish}>
 						<Row gutter={24}>
-							{studentType === "online" && (
-								<Col span={24}>
-									<Form.Item
-										name="name"
-										label={
-											<span>
-												<UserOutlined /> Name
-											</span>
-										}
-										rules={[
-											{ required: true, message: "Please enter your name!" },
-										]}>
-										<Input />
-									</Form.Item>
-								</Col>
-							)}
-							<Col span={studentType === "online" ? 16 : 24}>
+							<Col span={24}>
+								<Form.Item
+									name="name"
+									label={
+										<span>
+											<UserOutlined /> Name
+										</span>
+									}
+									rules={[
+										{ required: true, message: "Please enter your name!" },
+									]}>
+									<Input />
+								</Form.Item>
+							</Col>
+
+							<Col xs={24} md={12}>
 								<Form.Item
 									name="roll"
 									label={
 										<span>
-											<NumberOutlined />{" "}
-											{studentType === "online" ? "Email" : "LDAP Roll No."}
+											<NumberOutlined /> LDAP Roll No.
 										</span>
 									}
 									rules={[
@@ -112,10 +121,7 @@ const RegisterForm = () => {
 											message: "Please enter your Roll No.",
 										},
 										{
-											pattern:
-												studentType === "online"
-													? /^\d{2}[a-z]\d{7}$/i
-													: /^[a-z]{2}\d{2}[a-z]\d{3}$/i,
+											pattern: /^[a-z]{2}\d{2}[a-z]\d{3}$/i,
 											message: "Invalid roll",
 											transform: (val) => (!val ? "" : val.trim()),
 										},
@@ -123,23 +129,35 @@ const RegisterForm = () => {
 									<Input
 										onFocus={() => setIsRollFocused(true)}
 										onBlur={() => setIsRollFocused(false)}
-										addonAfter={
-											studentType === "online" && (
-												<div
-													style={{
-														width: isRollFocused ? 50 : "auto",
-														textOverflow: "ellipsis",
-														overflow: "clip",
-													}}>
-													@student.onlinedegree.iitm.ac.in
-												</div>
-											)
-										}
 									/>
 								</Form.Item>
 							</Col>
 
-							<Col span={studentType === "online" ? 8 : 24}>
+							<Col xs={24} md={12}>
+								<Form.Item
+									name="password"
+									rules={[
+										{
+											required: true,
+											message: "Please input your password.",
+										},
+										{
+											min: 6,
+											message: "Please input at least 6 characters.",
+										},
+									]}
+									label={
+										<span>
+											<KeyOutlined />
+											LDAP Password
+										</span>
+									}
+									extra="We do not store your LDAP password. We only check if you're an IITM student by authenticating you against institute records.">
+									<Input.Password />
+								</Form.Item>
+							</Col>
+
+							<Col xs={24} md={8}>
 								<Form.Item
 									name="phone"
 									validateFirst={true}
@@ -161,68 +179,26 @@ const RegisterForm = () => {
 									<Input prefix="+91" />
 								</Form.Item>
 							</Col>
-							<Col xs={24} md={studentType === "online" ? 12 : 24}>
+							<Col xs={24} md={16}>
 								<Form.Item
-									name="password"
+									name="email"
+									validateFirst={true}
+									label={
+										<span>
+											<MailOutlined /> Personal Mail
+										</span>
+									}
 									rules={[
 										{
 											required: true,
-											message: "Please input your password.",
+											type: "email",
+											message: "Please input your Personal mail!",
 										},
-										studentType === "online"
-											? {
-													min: 6,
-													message: "Please input at least 6 characters.",
-											  }
-											: {},
-									]}
-									label={
-										<span>
-											<KeyOutlined />
-											{studentType === "online"
-												? "Create Password"
-												: "LDAP Password"}
-										</span>
-									}
-									extra="We do not store your LDAP password. We only check if you're an IITM student by authenticating you against institute records.">
-									<Input.Password />
+									]}>
+									<Input />
 								</Form.Item>
 							</Col>
-
-							{studentType === "online" && (
-								<Col xs={24} md={12}>
-									<Form.Item
-										dependencies={["password"]}
-										name="confirm"
-										hasFeedback
-										validateTrigger="onChange"
-										rules={[
-											{
-												required: true,
-												message: "Please confirm your password.",
-											},
-											({ getFieldValue }) => ({
-												validator(rule, value) {
-													if (
-														!value ||
-														getFieldValue("password") === value
-													) {
-														return Promise.resolve();
-													}
-													return Promise.reject("");
-												},
-											}),
-										]}
-										label={
-											<span>
-												<KeyOutlined /> Confirm Password
-											</span>
-										}>
-										<Input.Password />
-									</Form.Item>
-								</Col>
-							)}
-							<Col span={studentType === "online" ? 8 : 24}>
+							<Col xs={24} md={6}>
 								<Form.Item
 									name="cgpa"
 									validateFirst={true}
@@ -237,7 +213,85 @@ const RegisterForm = () => {
 											message: "Please input your CGPA!",
 										},
 									]}>
-									<Input prefix="+91" />
+									<Input />
+								</Form.Item>
+							</Col>
+							<Col xs={24} md={18}>
+								<Form.Item
+									name="IDDD"
+									label={
+										<span>
+											<AuditOutlined /> IDDD
+										</span>
+									}
+									rules={[
+										{
+											required: false,
+										},
+									]}
+									extra="Are You an IDDD Student? If not leave blank">
+									<Select placeholder="None" onChange={onIDDDSelect} allowClear>
+										{OptionsOfIDDD.map((value, i) => (
+											<Option key={i} value={value}>
+												{value}
+											</Option>
+										))}
+									</Select>
+								</Form.Item>
+							</Col>
+							<Col span={24}>
+								<Form.Item
+									name="minor"
+									label={
+										<span>
+											<AuditOutlined /> Minor
+										</span>
+									}
+									rules={[
+										{
+											required: false,
+										},
+									]}
+									extra="Do you have Minor? If not leave blank">
+									<Input />
+								</Form.Item>
+							</Col>
+
+							<Col xs={24} md={6}>
+								<Form.Item
+									name="pincode"
+									validateFirst={true}
+									label={
+										<span>
+											<CompassOutlined />
+											Residential Pincode
+										</span>
+									}
+									rules={[
+										{
+											required: true,
+											message: "Please input your Pincode!",
+										},
+									]}>
+									<Input />
+								</Form.Item>
+							</Col>
+							<Col xs={24} md={18}>
+								<Form.Item
+									name="address"
+									validateFirst={true}
+									label={
+										<span>
+											<CompassOutlined /> Hostel Address
+										</span>
+									}
+									rules={[
+										{
+											required: true,
+											message: "Please input your Hostel Address!",
+										},
+									]}>
+									<Input />
 								</Form.Item>
 							</Col>
 						</Row>
