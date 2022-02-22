@@ -34,9 +34,9 @@ const RulesModal = ({ isVisible, closeModal }) => {
 					</li>
 
 					<li>
-						Students should<b>not</b> mention contact details in their resume. If found,
-						your account will be permanently blocked. The registration fee will not be
-						refunded in such a case.
+						Students should <b>not</b> mention contact details in their resume. If
+						found, your account will be permanently blocked. The registration fee will
+						not be refunded in such a case.
 					</li>
 					<li>
 						The fee is non-refundable and E-Cell IIT Madras will not be responsible for
