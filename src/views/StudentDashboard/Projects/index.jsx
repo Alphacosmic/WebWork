@@ -57,7 +57,6 @@ const makeFormdata = async (policy, file) => {
 };
 export const upload = async (file) => {
 	const res = await axios.get("https://ecell.iitm.ac.in/data/s3-signed-policy/internfair");
-	console.log(res.data);
 	const S3SignedPolicyObject = { ...res.data };
 	const bucketWriteUrl = `https://${S3SignedPolicyObject.bucket}.s3.ap-south-1.amazonaws.com`;
 
@@ -100,7 +99,6 @@ const Projects = ({ filter = "none" }) => {
 			setIsFetching(false);
 		});
 		axios.get("/getStudent").then((res) => {
-			console.log(res.data);
 			setStudent(res.data);
 		});
 	}, []);
@@ -120,8 +118,9 @@ const Projects = ({ filter = "none" }) => {
 			openNotification("success", "Successfully Applied");
 			handleCancel();
 		} catch (error) {
-			const errorMsg = error.response ? error.response.data.msg : error.message;
-			openNotification("error", "Already registered for this profile", errorMsg);
+			console.log(error);
+			const errorMsg = error.response ? error.response.data : error.message;
+			openNotification("error", "Error in Applying", errorMsg);
 		}
 	};
 
@@ -133,7 +132,10 @@ const Projects = ({ filter = "none" }) => {
 			const resumeURL = await upload(file);
 
 			await axios.put(`/resume`, { resumeURL });
-			setStudent((old) => ({ ...old, resumeURL: [...old.resumeURL, resumeURL] }));
+			setStudent((old) => ({
+				...old,
+				resumeURL: [...(old.resumeURL ? old.resumeURL : []), resumeURL],
+			}));
 			setselectedResume(resumeURL);
 			handleApply();
 			openNotification("success", "Successfully Uploaded Resume");

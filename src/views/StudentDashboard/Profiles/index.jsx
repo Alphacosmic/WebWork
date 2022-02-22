@@ -17,7 +17,6 @@ const ProfileCards = ({ filter }) => {
 
 	useEffect(() => {
 		axios.get("/getAppliedProfiles").then((res) => {
-			console.log("res.data", res.data);
 			const formattedData = res.data.appliedProfiles.map((item) => ({
 				stipendWithCurrency:
 					item.profile.stipend.currency + " " + item.profile.stipend.amount,
@@ -135,9 +134,7 @@ const ProfileCards = ({ filter }) => {
 		},
 	];
 
-	function onChange(pagination, filters, sorter, extra) {
-		console.log("params", pagination, filters, sorter, extra);
-	}
+	function onChange(pagination, filters, sorter, extra) {}
 
 	return (
 		<Suspense fallback="">
