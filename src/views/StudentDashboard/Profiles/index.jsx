@@ -25,22 +25,13 @@ const ProfileCards = () => {
 					stipendWithCurrency:
 						item.profile.stipend.currency + " " + item.profile.stipend.amount,
 					...item.profile,
-					[item.round]: "Yes",
 					studentCurrentRound: item.round,
-					...ROUNDS.reduce(
-						(p, c) =>
-							c == item.round
-								? { ...p }
-								: {
-										...p,
-										[c]: item.profile.rounds.includes(c)
-											? ROUNDS.indexOf(item.round) < ROUNDS.indexOf(c)
-												? "-"
-												: "No"
-											: "N/A",
-								  },
-						{}
-					),
+					...ROUNDS.reduce((previous, current) => {
+						return {
+							...previous,
+							[current]: item.profile.rounds.includes(current) ? "-" : "N/A",
+						};
+					}, {}),
 				}));
 
 				setProfiles(formattedData);
@@ -128,24 +119,29 @@ const ProfileCards = () => {
 			dataIndex: "title",
 		},
 		{
-			title: "Resume",
+			title: "Resume SL",
 			dataIndex: "RESUME",
+			render: (tag) => <span style={{ color: "#1890FF" }}>{tag}</span>,
 		},
 		{
-			title: "Test",
+			title: "Test SL",
 			dataIndex: "TEST",
+			render: (tag) => <span style={{ color: "#1890FF" }}>{tag}</span>,
 		},
 		{
-			title: "Group Discussion",
+			title: "Group Discussion SL",
 			dataIndex: "GROUP_DISCUSSION",
+			render: (tag) => <span style={{ color: "#1890FF" }}>{tag}</span>,
 		},
 		{
-			title: "Interview",
+			title: "Interview SL",
 			dataIndex: "INTERVIEW",
+			render: (tag) => <span style={{ color: "#1890FF" }}>{tag}</span>,
 		},
 		{
-			title: "Offer",
+			title: "Offer SL",
 			dataIndex: "OFFER",
+			render: (tag) => <span style={{ color: "#1890FF" }}>{tag}</span>,
 		},
 	];
 
