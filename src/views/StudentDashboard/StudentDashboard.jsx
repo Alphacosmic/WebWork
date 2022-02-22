@@ -1,7 +1,18 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import "./StudentDashboard.css";
 import StudentMenu from "./StudentMenu";
-import { Layout, Typography, Drawer, Tabs, Button, Popover, Radio, Space, Divider } from "antd";
+import {
+	Layout,
+	Typography,
+	Drawer,
+	Tabs,
+	Button,
+	Popover,
+	Radio,
+	Space,
+	Divider,
+	Alert,
+} from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import Header from "./Header";
@@ -38,59 +49,39 @@ const StudentDashboard = () => {
 	}, [headerHeight]);
 
 	const Settings = (
-		<Space>
+		<Space direction={{ xs: "vertical", md: "horizontal" }} align="center">
+			<Alert
+				type="warning"
+				banner
+				message={
+					!screen.xs ? (
+						<span>
+							The last date to apply to a profile is{" "}
+							<strong>1st March 11:59 PM</strong>
+						</span>
+					) : (
+						<span>
+							Last date to apply:
+							<br /> <strong>1st March 11:59 PM</strong>
+						</span>
+					)
+				}
+			/>
+
+			<Divider type="vertical" />
 			<Button
 				type="link"
 				onClick={() => setRulesModalVisible(true)}
 				icon={<InfoCircleOutlined />}>
 				Rules
 			</Button>
-
-			<Divider type="vertical" />
-
-			{/* {screen.md && (
-				<>
-					<Radio.Group
-						buttonStyle="solid"
-						value={displayType}
-						onChange={(e) => {
-							setDisplayType(e.target.value);
-							localStorage.displayType = e.target.value;
-						}}>
-						<Radio.Button value="table">Table</Radio.Button>
-						<Radio.Button value="grid">Grid</Radio.Button>
-					</Radio.Group>
-					<Divider type="vertical" />
-				</>
-			)} */}
-			{/* <Popover
-				trigger="click"
-				placement="bottom"
-				content={
-					<>
-						<Radio.Group
-							value={statusFilter}
-							onChange={(val) => {
-								setStatusFilter(val.target.value);
-							}}>
-							<Space direction="vertical">
-								<Radio value={APPLIED}>Applied</Radio>
-								<Radio value={SELECTED}>Selected</Radio>
-								<Radio value={REJECTED}>Rejected</Radio>
-							</Space>
-						</Radio.Group>
-						<Divider />
-						<Button onClick={() => setStatusFilter(ALL)}>Clear Filters</Button>
-					</>
-				}>
-				<Button>Filters</Button>
-			</Popover> */}
 		</Space>
 	);
 
 	return (
 		<>
 			<Header menuVisible={menuVisible} setMenuVisibility={setMenuVisibility} />
+
 			<RulesModal
 				isVisible={rulesModalVisible}
 				closeModal={() => setRulesModalVisible(false)}
@@ -98,6 +89,7 @@ const StudentDashboard = () => {
 			<Content id="student-dashboard-content" style={{ marginTop: headerHeight }}>
 				<div id="projects-table-container">
 					{screen.xs && Settings}
+
 					<Tabs
 						size="large"
 						style={{ overflow: "visible" }}
