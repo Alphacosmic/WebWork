@@ -11,6 +11,7 @@ import {
 	Upload,
 	Radio,
 	Divider,
+	Tooltip,
 } from "antd";
 import {
 	CheckOutlined,
@@ -194,19 +195,13 @@ const Projects = ({ filter = "none" }) => {
 
 	const EmptyList = () => (
 		<div style={{ textAlign: "center", marginTop: "3rem" }}>
-			{paymentDone ? (
-				<>
-					<SmileOutlined style={{ fontSize: "3rem" }} />
-					<br />
-					<Text type="secondary" strong>
-						There are no new profiles currently.
-					</Text>
-					<br />
-					<Text type="secondary">Please wait.</Text>
-				</>
-			) : (
-				<PaymentPrompt />
-			)}
+			<SmileOutlined style={{ fontSize: "3rem" }} />
+			<br />
+			<Text type="secondary" strong>
+				There are no new profiles currently.
+			</Text>
+			<br />
+			<Text type="secondary">Please wait.</Text>
 		</div>
 	);
 
@@ -278,6 +273,7 @@ const Projects = ({ filter = "none" }) => {
 					block
 					style={{ marginTop: "1em" }}
 					type="primary"
+					loading={isCVUploading}
 					onClick={async () => {
 						if (fileList && fileList.length > 0) {
 							const resumeURL = await handleUpload();
@@ -289,6 +285,7 @@ const Projects = ({ filter = "none" }) => {
 					Apply
 				</Button>
 			</Modal>
+			<PaymentPrompt />
 			<List
 				size="large"
 				itemLayout="horizontal"
@@ -322,15 +319,20 @@ const Projects = ({ filter = "none" }) => {
 										<CheckOutlined /> Applied
 									</Text>
 								) : (
-									<Button
-										type="link"
-										block
-										onClick={() => {
-											setSelectedProfile(profile);
-											showModal();
-										}}>
-										Apply
-									</Button>
+									<Tooltip title="You have not made the payment for E-Cell Internfair.">
+										<Button
+											type="link"
+											block
+											disabled={!paymentDone}
+											onClick={() => {
+												if (paymentDone) {
+													setSelectedProfile(profile);
+													showModal();
+												}
+											}}>
+											Apply
+										</Button>
+									</Tooltip>
 								),
 							]}>
 							<Row justify="space-between">
