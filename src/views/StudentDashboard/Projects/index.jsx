@@ -290,6 +290,7 @@ const Projects = ({ filter = "none" }) => {
 			<List
 				size="large"
 				itemLayout="horizontal"
+				style={{ marginTop: "1em" }}
 				locale={{ emptyText: <EmptyList filter={filter} /> }}
 				loading={isFetching}
 				grid={{ column: screen.xs ? 1 : 2 }}
