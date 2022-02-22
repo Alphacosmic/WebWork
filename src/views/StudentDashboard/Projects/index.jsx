@@ -286,7 +286,7 @@ const Projects = ({ filter = "none" }) => {
 					Apply
 				</Button>
 			</Modal>
-			<PaymentPrompt />
+			{!paymentDone && !isFetching && <PaymentPrompt />}
 			<List
 				size="large"
 				itemLayout="horizontal"
