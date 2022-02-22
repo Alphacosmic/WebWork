@@ -7,14 +7,12 @@ import {
 	Typography,
 	Row,
 	Col,
-	Tag,
 	Modal,
-	Tooltip,
 	Upload,
 	Radio,
+	Divider,
 } from "antd";
 import {
-	ThunderboltOutlined,
 	CheckOutlined,
 	CompassOutlined,
 	TeamOutlined,
@@ -22,13 +20,13 @@ import {
 	DollarOutlined,
 	SolutionOutlined,
 	SmileOutlined,
-	UploadOutlined,
 	LinkOutlined,
 } from "@ant-design/icons";
 import openNotification from "../../../utils/openAntdNotification";
 
 import Questions from "./QuestionsModal";
 import axios from "../../../utils/_axios";
+import PaymentPrompt from "../PaymentPrompt";
 
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
@@ -79,25 +77,32 @@ export const upload = async (file) => {
 
 const Projects = ({ filter = "none" }) => {
 	const screen = useBreakpoint();
+	const [paymentDone, setPaymentDone] = useState(true);
+
 	const [projects, setProjects] = useState([]);
 	const [isFetching, setIsFetching] = useState(true);
 	const [questionModal, setQuestionModal] = useState({ visible: false, data: {} });
 	const [isModalVisible, setIsModalVisible] = useState(false);
-	const [selectedProfile, setselectedProfile] = useState(0);
+	const [selectedProfile, setSelectedProfile] = useState(0);
 	const [isCVUploading, setCVUploading] = useState(false);
 	const [fileList, updateFileList] = useState([]);
 	const [student, setStudent] = useState({});
-	const [selectedResume, setselectedResume] = React.useState("");
-
-	const onChange = (e) => {
-		setselectedResume(e.target.value);
-	};
+	const [selectedResume, setSelectedResume] = React.useState("");
 
 	useEffect(() => {
-		axios.get("/profiles").then((res) => {
-			setProjects(res.data);
-			setIsFetching(false);
-		});
+		axios
+			.get("/profiles")
+			.then((res) => {
+				setProjects(res.data);
+				setIsFetching(false);
+			})
+			.catch((err) => {
+				if (err?.response?.data === "PAYMENT_NOT_DONE") {
+					setPaymentDone(false);
+					setIsFetching(false);
+				}
+				console.debug(err);
+			});
 		axios.get("/getStudent").then((res) => {
 			setStudent(res.data);
 		});
@@ -109,11 +114,11 @@ const Projects = ({ filter = "none" }) => {
 	const handleCancel = () => {
 		setIsModalVisible(false);
 	};
-	const handleApply = async () => {
+	const handleApply = async (resumeURL = selectedResume) => {
 		try {
 			await axios.post("/applyToProfile", {
 				profileId: selectedProfile._id,
-				resumeURL: selectedResume,
+				resumeURL,
 			});
 			openNotification("success", "Successfully Applied");
 			handleCancel();
@@ -136,10 +141,10 @@ const Projects = ({ filter = "none" }) => {
 				...old,
 				resumeURL: [...(old.resumeURL ? old.resumeURL : []), resumeURL],
 			}));
-			setselectedResume(resumeURL);
-			handleApply();
+			setSelectedResume(resumeURL);
 			openNotification("success", "Successfully Uploaded Resume");
 			updateFileList([]);
+			return resumeURL;
 		} catch (err) {
 			console.log(err);
 			const error = err.response ? err.response.data : err;
@@ -182,46 +187,25 @@ const Projects = ({ filter = "none" }) => {
 						file.size / 1024 / 1024 < 8
 				)
 			);
+			setSelectedResume("");
 		},
 		multiple: false,
 	};
 
-	const EmptyList = ({ filter }) => (
+	const EmptyList = () => (
 		<div style={{ textAlign: "center", marginTop: "3rem" }}>
-			{filter === APPLIED ? (
+			{paymentDone ? (
 				<>
 					<SmileOutlined style={{ fontSize: "3rem" }} />
 					<br />
 					<Text type="secondary" strong>
-						You have not applied for any projects.
+						There are no new profiles currently.
 					</Text>
 					<br />
-					<Text type="secondary">
-						Apply now from the <strong>All</strong> tab.
-					</Text>
-				</>
-			) : filter === SELECTED ? (
-				<>
-					<TeamOutlined style={{ fontSize: "3rem" }} />
-					<br />
-					<Text type="secondary" strong>
-						No selections yet.
-					</Text>
-					<br />
-					<Text type="secondary"> Please check back later!</Text>
+					<Text type="secondary">Please wait.</Text>
 				</>
 			) : (
-				<>
-					<ThunderboltOutlined style={{ fontSize: "3rem" }} />
-					<br />
-					<Text type="secondary" strong>
-						No Projects found with the selected filters
-					</Text>
-					<br />
-					<Text type="secondary">
-						Keep an eye on the <strong>Selected</strong> tab
-					</Text>
-				</>
+				<PaymentPrompt />
 			)}
 		</div>
 	);
@@ -238,26 +222,24 @@ const Projects = ({ filter = "none" }) => {
 				title={selectedProfile.title}
 				visible={isModalVisible}
 				onCancel={handleCancel}>
-				<p>Please Select/Upload the resume you want to send to the company</p>
-				{student?.resumeURL?.length < 3 || !student?.resumeURL?.length ? (
-					<Col span={24}>
-						<Upload {...uploadProps}>
-							<Button type="primary">Upload Resume</Button>
-						</Upload>
-						{fileList && fileList.length > 0 && (
-							<Button onClick={handleUpload} loading={isCVUploading}>
-								<span>
-									<UploadOutlined /> Upload the Selected File and Apply
-								</span>
-							</Button>
-						)}
-					</Col>
+				{student?.resumeURL?.length > 0 ? (
+					<p>
+						<strong>Select</strong> the previously uploaded resume that you want to send
+						to the company
+					</p>
 				) : (
-					""
+					<p>
+						<strong>Upload</strong> a resume that you want to send to the company
+					</p>
 				)}
-				<Col style={{ marginTop: "1em" }}>
+				<Col style={{ marginBottom: "1em" }}>
 					{student?.resumeURL?.length > 0 ? (
-						<Radio.Group onChange={onChange} value={selectedResume}>
+						<Radio.Group
+							onChange={(e) => {
+								setSelectedResume(e.target.value);
+								updateFileList([]);
+							}}
+							value={selectedResume}>
 							{student?.resumeURL?.map((url, i) => (
 								<>
 									<Radio key={i} value={url}>
@@ -273,14 +255,37 @@ const Projects = ({ filter = "none" }) => {
 						""
 					)}
 				</Col>
+				{student?.resumeURL?.length > 0 && student?.resumeURL?.length < 3 && (
+					<Divider orientation="center">
+						<strong>OR</strong>
+					</Divider>
+				)}
+				{student?.resumeURL?.length < 3 || !student?.resumeURL?.length ? (
+					<Col style={{ textAlign: "center" }}>
+						<Upload {...uploadProps}>
+							<Button type="primary">Upload Resume</Button>
+						</Upload>
+					</Col>
+				) : (
+					""
+				)}
+
+				<Divider></Divider>
 
 				<Button
-					disabled={!selectedResume}
+					disabled={!selectedResume && !fileList && fileList.length === 0}
 					key={1}
 					block
 					style={{ marginTop: "1em" }}
 					type="primary"
-					onClick={() => handleApply()}>
+					onClick={async () => {
+						if (fileList && fileList.length > 0) {
+							const resumeURL = await handleUpload();
+							await handleApply(resumeURL);
+						} else {
+							await handleApply();
+						}
+					}}>
 					Apply
 				</Button>
 			</Modal>
@@ -321,7 +326,7 @@ const Projects = ({ filter = "none" }) => {
 										type="link"
 										block
 										onClick={() => {
-											setselectedProfile(profile);
+											setSelectedProfile(profile);
 											showModal();
 										}}>
 										Apply
@@ -335,11 +340,9 @@ const Projects = ({ filter = "none" }) => {
 										Company :{" "}
 									</Text>
 
-									<Typography.Link
-										href={`mailto:${profile?.company?.email}`}
-										key={1}>
+									<Typography.Text key={1}>
 										{profile.company.name}
-									</Typography.Link>
+									</Typography.Text>
 								</Col>
 								<Col span={24}>
 									<Row>

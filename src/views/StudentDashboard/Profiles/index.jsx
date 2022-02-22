@@ -2,6 +2,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { Grid, Row, Col } from "antd";
 
 import axios from "../../../utils/_axios";
+import PaymentPrompt from "../PaymentPrompt";
 const AppliedProfileCard = React.lazy(() => import("./AppliedProfileCard"));
 const AppliedProfileTable = React.lazy(() => import("./AppliedProfileTable"));
 
@@ -9,41 +10,46 @@ const { useBreakpoint } = Grid;
 
 const ROUNDS = ["RESUME", "TEST", "GROUP_DISCUSSION", "INTERVIEW", "OFFER"];
 
-const ProfileCards = ({ filter }) => {
+const ProfileCards = () => {
 	const screen = useBreakpoint();
 
 	const [profiles, setProfiles] = useState([]);
+	const [paymentDone, setPaymentDone] = useState(true);
 	const [isFetching, setIsFetching] = useState(true);
 
 	useEffect(() => {
-		axios.get("/getAppliedProfiles").then((res) => {
-			const formattedData = res.data.appliedProfiles.map((item) => ({
-				stipendWithCurrency:
-					item.profile.stipend.currency + " " + item.profile.stipend.amount,
-				...item.profile,
-				[item.round]: "Yes",
-				studentCurrentRound: item.round,
-				...ROUNDS.reduce(
-					(p, c) =>
-						c == item.round
-							? { ...p }
-							: {
-									...p,
-									[c]: item.profile.rounds.includes(c)
-										? ROUNDS.indexOf(item.round) < ROUNDS.indexOf(c)
-											? "-"
-											: "No"
-										: "N/A",
-							  },
-					{}
-				),
-			}));
-			console.log("formattedData", formattedData);
-			setProfiles(formattedData);
-			setIsFetching(false);
-		});
+		axios
+			.get("/getAppliedProfiles")
+			.then((res) => {
+				const formattedData = res.data.appliedProfiles.map((item) => ({
+					stipendWithCurrency:
+						item.profile.stipend.currency + " " + item.profile.stipend.amount,
+					...item.profile,
+					studentCurrentRound: item.round,
+					...ROUNDS.reduce((previous, current) => {
+						return {
+							...previous,
+							[current]: item.profile.rounds.includes(current) ? "-" : "N/A",
+						};
+					}, {}),
+				}));
+
+				setProfiles(formattedData);
+				setIsFetching(false);
+			})
+			.catch((err) => {
+				if (err?.response?.data === "PAYMENT_NOT_DONE") {
+					setPaymentDone(false);
+					setIsFetching(false);
+				}
+				console.debug(err.response);
+			});
 	}, []);
 
+	console.debug(paymentDone);
+	if (!paymentDone) {
+		return <PaymentPrompt />;
+	}
 	// const showConfirmation = (profileID, profileTitle, startup) => {
 	// 	Modal.confirm({
 	// 		title: (
@@ -113,28 +119,31 @@ const ProfileCards = ({ filter }) => {
 			dataIndex: "title",
 		},
 		{
-			title: "Resume",
+			title: "Resume SL",
 			dataIndex: "RESUME",
+			render: (tag) => <span style={{ color: "#1890FF" }}>{tag}</span>,
 		},
 		{
-			title: "Test",
+			title: "Test SL",
 			dataIndex: "TEST",
+			render: (tag) => <span style={{ color: "#1890FF" }}>{tag}</span>,
 		},
 		{
-			title: "Group Discussion",
+			title: "Group Discussion SL",
 			dataIndex: "GROUP_DISCUSSION",
+			render: (tag) => <span style={{ color: "#1890FF" }}>{tag}</span>,
 		},
 		{
-			title: "Interview",
+			title: "Interview SL",
 			dataIndex: "INTERVIEW",
+			render: (tag) => <span style={{ color: "#1890FF" }}>{tag}</span>,
 		},
 		{
-			title: "Offer",
+			title: "Offer SL",
 			dataIndex: "OFFER",
+			render: (tag) => <span style={{ color: "#1890FF" }}>{tag}</span>,
 		},
 	];
-
-	function onChange(pagination, filters, sorter, extra) {}
 
 	return (
 		<Suspense fallback="">
@@ -147,7 +156,7 @@ const ProfileCards = ({ filter }) => {
 					))}
 				</Row>
 			) : (
-				<AppliedProfileTable columns={columns} profiles={profiles} onChange={onChange} />
+				<AppliedProfileTable columns={columns} profiles={profiles} />
 			)}
 		</Suspense>
 	);

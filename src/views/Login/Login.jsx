@@ -31,9 +31,8 @@ const Login = () => {
 			} else throw new Error("Could not authorize.");
 		} catch (error) {
 			console.log(error);
-			const errorMsg = error.response ? error.response.data.msg : error.message;
 			setIsSubmitting(false);
-			openNotification("error", "Error occured in logging in.", errorMsg);
+			openNotification("error", "Error occured in logging in.", error.response.data);
 		}
 	};
 

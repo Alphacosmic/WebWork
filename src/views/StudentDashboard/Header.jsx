@@ -3,12 +3,29 @@ import React from "react";
 import { Button, Col, Grid, Layout, Row } from "antd";
 import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
 
-import largeLogo from "../../assets/e-cell_logo_hor.png";
-import teamupLogo from "../../assets/teamup-header.png";
-import smallTeamupLogo from "../../assets/teamup-header-small.png";
+import ecellLogo from "../../assets/e-cell_logo_hor.png";
+import internfairLogo from "../../assets/startup-internfair_logo_hor.png";
+import { LogoutOutlined } from "@ant-design/icons";
+import openNotification from "../../utils/openAntdNotification";
+import { useLocation } from "wouter";
+import axios from "../../utils/_axios";
 
-const Header = ({ menuVisibile, setMenuVisibility }) => {
+const Header = ({ menuVisible, setMenuVisibility }) => {
 	const { xs, md } = Grid.useBreakpoint();
+	const [, setLocation] = useLocation();
+	const handleLogout = async () => {
+		try {
+			await axios.get(`/logout`);
+			localStorage.removeItem("studentData");
+			setLocation("/login");
+		} catch (err) {
+			console.log(err);
+			const error = err.response ? err.response.data : err;
+			const errorMsg = error.response ? error.response.data.msg : error.message;
+			openNotification("error", "Error in logging out", errorMsg);
+		}
+	};
+
 	return (
 		<Layout.Header
 			style={{
@@ -25,7 +42,7 @@ const Header = ({ menuVisibile, setMenuVisibility }) => {
 				<Col span={8}>
 					<a href="https://ecell.iitm.ac.in" target="_blank" rel="noopener noreferrer">
 						<img
-							src={xs ? smallTeamupLogo : largeLogo}
+							src={xs ? internfairLogo : ecellLogo}
 							alt="E-Cell Logo"
 							height="100%"
 							style={{ padding: "0.85em 0" }}
@@ -35,18 +52,33 @@ const Header = ({ menuVisibile, setMenuVisibility }) => {
 				{md && (
 					<Col span={8} style={{ textAlign: "center" }}>
 						<img
-							src={teamupLogo}
+							src={internfairLogo}
 							alt="E-Cell Logo"
 							height="100%"
 							style={{ padding: "0.9em" }}
 						/>
 					</Col>
 				)}
-				<Col span={8} style={{ textAlign: "right" }}>
+				<Col
+					xs={12}
+					lg={8}
+					style={{
+						textAlign: "right",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "flex-end",
+					}}>
+					<Button
+						danger
+						icon={<LogoutOutlined style={{ fontSize: "1rem" }} />}
+						onClick={handleLogout}
+						style={{ marginRight: "1rem" }}>
+						{xs ? "" : "LOG OUT"}
+					</Button>
 					<Button
 						type="dashed"
 						icon={
-							menuVisibile ? (
+							menuVisible ? (
 								<CloseOutlined style={{ fontSize: "1.5rem" }} />
 							) : (
 								<MenuOutlined style={{ fontSize: "1.5rem" }} />

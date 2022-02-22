@@ -30,31 +30,13 @@ const branches = {
 	ph: "Physics",
 };
 
-const programs = {
+const degrees = {
 	btech: "B. Tech",
-	phd: "Ph. D",
-	msc: "M. Sc",
-	mtech: "M. Tech",
-	bsc: "B. Sc",
+	dualdegree: "Dual Degree",
 };
 
 const StudentMenu = () => {
 	const studentData = JSON.parse(localStorage.studentData || "{}");
-
-	const [, setLocation] = useLocation();
-
-	const handleLogout = async () => {
-		try {
-			await axios.get(`/logout`);
-			localStorage.removeItem("studentData");
-			setLocation("/login");
-		} catch (err) {
-			console.log(err);
-			const error = err.response ? err.response.data : err;
-			const errorMsg = error.response ? error.response.data.msg : error.message;
-			openNotification("error", "Error in logging out", errorMsg);
-		}
-	};
 
 	return (
 		<Row justify="center">
@@ -68,72 +50,53 @@ const StudentMenu = () => {
 					{studentData.email}
 				</Title>
 			</Col>
-			<Row justify="space-between" style={{ width: "100%" }}>
-				<Col span={12} style={{ marginBottom: "1rem" }}>
+			<Row gutter={[0, 24]} justify="space-between" style={{ width: "100%" }}>
+				<Col span={12}>
 					<Text strong>Roll No.</Text>
 					<br />
-					<Text>{studentData.roll}</Text>
+					<Text>{studentData.roll?.toUpperCase()}</Text>
 				</Col>
-				{studentData.yearOfStudy && (
-					<Col span={12} style={{ marginBottom: "1rem", textAlign: "right" }}>
-						<Text strong>Year Of Study</Text>
-						<br />
-						<Text>{studentData.yearOfStudy}</Text>
-					</Col>
-				)}
-				{studentData.branch && (
-					<Col span={12}>
-						<Text strong>Branch</Text>
-						<br />
-						<Text>{branches[studentData.branch]}</Text>
-					</Col>
-				)}
+
 				<Col span={12} style={{ textAlign: "right" }}>
-					<Text strong>Contact no.</Text>
+					<Text strong>Year Of Study</Text>
 					<br />
-					<Text>{studentData.phone}</Text>
+					<Text>{studentData.yearOfStudy}</Text>
 				</Col>
-				<Col span={12} style={{ textAlign: "left" }}>
-					<Text strong>Personal Email</Text>
+
+				<Col span={12}>
+					<Text strong>Branch</Text>
 					<br />
-					<Text>{studentData.personalEmail}</Text>
+					<Text>{branches[studentData.department]}</Text>
 				</Col>
 				<Col span={12} style={{ textAlign: "right" }}>
+					<Text strong>Degree</Text>
+					<br />
+					<Text>{degrees[studentData.degree]}</Text>
+				</Col>
+				<Col span={12}>
 					<Text strong>CGPA</Text>
 					<br />
 					<Text>{studentData.cgpa}</Text>
 				</Col>
 
-				<Col span={12}>
-					<Text strong>Hostel Address</Text>
+				<Col span={10} style={{ textAlign: "right" }}>
+					<Text strong>Contact no.</Text>
 					<br />
-					<Text>{studentData.address}</Text>
+					<Text>{studentData.phone}</Text>
 				</Col>
 
-				<Col span={12} style={{ textAlign: "right" }}>
-					<Text strong>Residential Pincode</Text>
+				<Col span={24}>
+					<Text strong>Minor</Text>
 					<br />
-					<Text>{studentData.pincode}</Text>
+					<Text>{studentData.minor || "None"}</Text>
 				</Col>
-				{studentData.minor && (
-					<Col span={12}>
-						<Text strong>Minor</Text>
-						<br />
-						<Text>{studentData.minor}</Text>
-					</Col>
-				)}
-				{studentData.iddd && (
-					<Col span={12} style={{ textAlign: "right" }}>
-						<Text strong>IDDD</Text>
-						<br />
-						<Text>{studentData.iddd ? studentData.iddd : "None"}</Text>
-					</Col>
-				)}
+				<Col span={24}>
+					<Text strong>IDDD</Text>
+					<br />
+					<Text>{studentData.iddd ? studentData.iddd : "None"}</Text>
+				</Col>
 			</Row>
 			<Divider />
-			<Button danger icon={<LogoutOutlined />} onClick={handleLogout}>
-				LOG OUT
-			</Button>
 		</Row>
 	);
 };

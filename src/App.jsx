@@ -47,8 +47,8 @@ function App() {
 									<Redirect to="/login" />
 								)
 							}
-							redirectTo="/login"
 						/>
+						<Route path="/*" component={() => <Redirect to="/" />} />
 					</Switch>
 				</Layout>
 			</Router>
@@ -59,6 +59,16 @@ function App() {
 						name: "Abhijit",
 						whatsappNum: "+91 8895219514",
 						profileURL: "https://github.com/abhijit-hota",
+					},
+					{
+						name: "Ishaan",
+						whatsappNum: "+91 9152363694",
+						profileURL: "https://github.com/KlumsyKamikaze",
+					},
+					{
+						name: "Madhav",
+						whatsappNum: "+91 8156910582",
+						profileURL: "https://github.com/GodOfCoding1",
 					},
 				]}
 			/>
