@@ -20,7 +20,6 @@ import {
 	DollarOutlined,
 	SolutionOutlined,
 	SmileOutlined,
-	UploadOutlined,
 	LinkOutlined,
 } from "@ant-design/icons";
 import openNotification from "../../../utils/openAntdNotification";
@@ -339,11 +338,9 @@ const Projects = ({ filter = "none" }) => {
 										Company :{" "}
 									</Text>
 
-									<Typography.Link
-										href={`mailto:${profile?.company?.email}`}
-										key={1}>
+									<Typography.Text key={1}>
 										{profile.company.name}
-									</Typography.Link>
+									</Typography.Text>
 								</Col>
 								<Col span={24}>
 									<Row>
