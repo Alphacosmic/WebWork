@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Row, Col, Input, Button, Typography, Layout, Card, Select } from "antd";
+import { Form, Row, Col, Input, Button, Typography, Layout, Card, Select, Alert } from "antd";
 import {
 	NumberOutlined,
 	PhoneOutlined,
@@ -17,6 +17,7 @@ import { Link, useLocation } from "wouter";
 import logo from "../../assets/startup-internfair_logo.png";
 
 import axios from "../../utils/_axios";
+import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 
 const { Option } = Select;
 const { Content } = Layout;
@@ -38,6 +39,7 @@ const idddList = [
 
 const RegisterForm = () => {
 	const [form] = Form.useForm();
+	const screen = useBreakpoint();
 	const [loading, setLoading] = useState(false);
 
 	const [, setLocation] = useLocation();
@@ -73,7 +75,36 @@ const RegisterForm = () => {
 						padding: "0.5rem",
 					}}
 				/>
-				<Card className="loginCard" title={<strong>Register</strong>}>
+				{screen.xs && (
+					<Alert
+						type="warning"
+						banner
+						message={
+							<span>
+								Last date to apply: <strong>1st March 11:59 PM</strong>
+							</span>
+						}
+						style={{ borderRadius: "1rem", width: "90%" }}
+					/>
+				)}
+				<Card
+					className="loginCard"
+					title={<strong>Register</strong>}
+					extra={
+						screen.lg && (
+							<Alert
+								type="warning"
+								banner
+								message={
+									<span>
+										The last date to apply to a profile is{" "}
+										<strong>1st March 11:59 PM</strong>
+									</span>
+								}
+								style={{ borderRadius: "1rem" }}
+							/>
+						)
+					}>
 					<Form
 						form={form}
 						name="register"
