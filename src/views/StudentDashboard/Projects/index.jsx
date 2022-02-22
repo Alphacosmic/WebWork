@@ -78,7 +78,7 @@ export const upload = async (file) => {
 
 const Projects = ({ filter = "none" }) => {
 	const screen = useBreakpoint();
-	const [paymentDone, setPaymentDone] = useState(true);
+	const [paymentDone, setPaymentDone] = useState(false);
 
 	const [projects, setProjects] = useState([]);
 	const [isFetching, setIsFetching] = useState(true);
@@ -106,6 +106,7 @@ const Projects = ({ filter = "none" }) => {
 			});
 		axios.get("/getStudent").then((res) => {
 			setStudent(res.data);
+			setPaymentDone(res.data.paymentDetails.captured);
 		});
 	}, []);
 
