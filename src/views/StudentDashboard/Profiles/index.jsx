@@ -21,17 +21,29 @@ const ProfileCards = () => {
 		axios
 			.get("/getAppliedProfiles")
 			.then((res) => {
+				console.log(res.data);
 				const formattedData = res.data.appliedProfiles.map((item) => ({
 					stipendWithCurrency:
 						item.profile.stipend.currency + " " + item.profile.stipend.amount,
 					...item.profile,
 					studentCurrentRound: item.round,
-					...ROUNDS.reduce((previous, current) => {
-						return {
+					...ROUNDS.reduce(
+						(previous, current) => ({
 							...previous,
-							[current]: item.profile.rounds.includes(current) ? "-" : "N/A",
-						};
-					}, {}),
+							[current]: item.profile.rounds.includes(current)
+								? item.profile.rounds.indexOf(item.profile.currentRound) >
+										item.profile.rounds.indexOf(current) &&
+								  item.profile.rounds.indexOf(current) <
+										item.profile.rounds.indexOf(item.round)
+									? "Yes"
+									: item.profile.rounds.indexOf(item.profile.currentRound) >
+									  item.profile.rounds.indexOf(item.round)
+									? "No"
+									: "-"
+								: "N/A",
+						}),
+						{}
+					),
 				}));
 
 				setProfiles(formattedData);
