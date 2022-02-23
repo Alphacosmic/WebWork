@@ -6,7 +6,7 @@ import openNotification from "../../utils/openAntdNotification";
 import axios from "../../utils/_axios";
 const { Title } = Typography;
 
-const PaymentPrompt = () => {
+const PaymentPrompt = ({ updatePaymentInfo }) => {
 	async function handlePayment() {
 		const studentData = JSON.parse(localStorage.studentData || "{}");
 
@@ -58,6 +58,7 @@ const PaymentPrompt = () => {
 							},
 							okText: "Ok",
 						});
+						updatePaymentInfo(paymentID);
 					} catch (error) {
 						console.log(error);
 						openNotification(

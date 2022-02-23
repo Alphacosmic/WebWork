@@ -10,12 +10,11 @@ const { useBreakpoint } = Grid;
 
 const ROUNDS = ["RESUME", "TEST", "GROUP_DISCUSSION", "INTERVIEW", "OFFER"];
 
-const ProfileCards = () => {
+const ProfileCards = ({ updatePaymentInfo }) => {
 	const screen = useBreakpoint();
 
 	const [profiles, setProfiles] = useState([]);
 	const [paymentDone, setPaymentDone] = useState(true);
-	const [isFetching, setIsFetching] = useState(true);
 
 	useEffect(() => {
 		axios
@@ -47,20 +46,17 @@ const ProfileCards = () => {
 				}));
 
 				setProfiles(formattedData);
-				setIsFetching(false);
 			})
 			.catch((err) => {
 				if (err?.response?.data === "PAYMENT_NOT_DONE") {
 					setPaymentDone(false);
-					setIsFetching(false);
 				}
 				console.debug(err.response);
 			});
 	}, []);
 
-	console.debug(paymentDone);
 	if (!paymentDone) {
-		return <PaymentPrompt />;
+		return <PaymentPrompt updatePaymentInfo={updatePaymentInfo} />;
 	}
 	// const showConfirmation = (profileID, profileTitle, startup) => {
 	// 	Modal.confirm({
