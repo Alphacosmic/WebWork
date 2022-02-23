@@ -28,6 +28,7 @@ const Projects = ({ student, updatePaymentInfo }) => {
 	const [selectedProfile, setSelectedProfile] = useState(0);
 	const [isApplying, setIsApplying] = useState(false);
 	const [selectedResume, setSelectedResume] = React.useState("");
+	const [toolTipVisible, setToolTipVisible] = useState("");
 
 	useEffect(() => {
 		axios
@@ -152,12 +153,17 @@ const Projects = ({ student, updatePaymentInfo }) => {
 									Open Job Description
 								</Button>,
 								<Tooltip
+									visible={!paymentDone && toolTipVisible === profile?._id}
 									key={2}
+									mouseEnterDelay={0}
+									mouseLeaveDelay={0}
 									title="You have not made the payment for E-Cell Internfair.">
 									<Button
 										type="link"
 										block
 										disabled={!paymentDone}
+										onMouseEnter={() => setToolTipVisible(profile._id)}
+										onMouseLeave={() => setToolTipVisible("")}
 										onClick={() => {
 											if (paymentDone) {
 												setSelectedProfile(profile);
