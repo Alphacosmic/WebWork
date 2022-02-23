@@ -1,18 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import "./StudentDashboard.css";
 import StudentMenu from "./StudentMenu";
-import {
-	Layout,
-	Typography,
-	Drawer,
-	Tabs,
-	Button,
-	Popover,
-	Radio,
-	Space,
-	Divider,
-	Alert,
-} from "antd";
+import { Layout, Typography, Drawer, Tabs, Button, Space, Divider, Alert } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import Header from "./Header";
@@ -94,7 +83,7 @@ const StudentDashboard = () => {
 						size="large"
 						style={{ overflow: "visible" }}
 						onChange={(key) => (localStorage.type = key)}
-						defaultActiveKey={localStorage.type || 1}
+						defaultActiveKey={localStorage.type || 0}
 						tabBarExtraContent={screen.md && Settings}>
 						<Tabs.TabPane
 							tab={<Typography.Title level={3}>All</Typography.Title>}

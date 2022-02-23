@@ -102,7 +102,6 @@ const Projects = ({ filter = "none" }) => {
 					setPaymentDone(false);
 					setIsFetching(false);
 				}
-				console.debug(err);
 			});
 		axios.get("/getStudent").then((res) => {
 			setStudent(res.data);
@@ -341,7 +340,7 @@ const Projects = ({ filter = "none" }) => {
 								<Col span={24} style={{ marginBottom: "1rem" }}>
 									<UserOutlined />
 									<Text strong type="secondary">
-										Company :{" "}
+										Company:{" "}
 									</Text>
 
 									<Typography.Text key={1}>
@@ -384,7 +383,8 @@ const Projects = ({ filter = "none" }) => {
 												{profile.stipend.amount > 0
 													? profile.stipend.currency +
 													  " " +
-													  profile.stipend.amount
+													  profile.stipend.amount +
+													  " per month"
 													: "Unpaid"}
 											</Text>
 										</Col>

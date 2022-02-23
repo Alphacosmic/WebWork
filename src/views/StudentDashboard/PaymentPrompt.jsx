@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Button, Modal, Result } from "antd";
+import { Typography, Button, Modal, Result, Popconfirm } from "antd";
 import { WarningOutlined, SmileOutlined } from "@ant-design/icons";
 import loadScript from "../../utils/loadScript";
 import openNotification from "../../utils/openAntdNotification";
@@ -76,7 +76,7 @@ const PaymentPrompt = () => {
 		}
 	}
 	return (
-		<div style={{ textAlign: "center", marginTop: "3rem" }}>
+		<div style={{ textAlign: "center" }}>
 			<WarningOutlined style={{ fontSize: "3rem", marginBottom: "1rem" }} />
 			<Title level={3} type="secondary" style={{ marginBottom: 0 }}>
 				You have not made the payment for E-Cell Internfair.
@@ -84,9 +84,25 @@ const PaymentPrompt = () => {
 			<Title level={4} type="secondary" style={{ marginTop: 0 }}>
 				Please do so to access companies.
 			</Title>
-			<Button size="large" type="primary" onClick={handlePayment}>
-				Proceed to pay ₹ 299 /-
-			</Button>
+			<Popconfirm
+				title={
+					<>
+						<span>
+							Internfair is only open to the following students. <br /> Please keep
+							this in mind before making a payment.
+						</span>
+						<br />
+						<br />
+						<strong>B.Tech.: 2020, 2021</strong>
+						<br />
+						<strong>Dual Degree/IDDD: 2019, 2020, 2021</strong>
+					</>
+				}
+				onConfirm={handlePayment}>
+				<Button size="large" type="primary">
+					Proceed to pay ₹ 299 /-
+				</Button>
+			</Popconfirm>
 		</div>
 	);
 };
