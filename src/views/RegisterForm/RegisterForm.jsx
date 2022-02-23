@@ -301,7 +301,8 @@ const RegisterForm = () => {
 											required: true,
 											message: "Please input your Hostel Address!",
 										},
-									]}>
+									]}
+									help="Put NA if you're from 2021 batch.">
 									<Input />
 								</Form.Item>
 							</Col>
