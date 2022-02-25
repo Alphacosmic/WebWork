@@ -1,7 +1,13 @@
 import { Button, Card, Col, Row, Typography } from "antd";
 import React from "react";
 const { Text } = Typography;
-import { FieldTimeOutlined, BankOutlined, LinkOutlined, EditOutlined } from "@ant-design/icons";
+import {
+	FieldTimeOutlined,
+	BankOutlined,
+	LinkOutlined,
+	EditOutlined,
+	Popconfirm,
+} from "@ant-design/icons";
 
 const roundMap = {
 	RESUME: "Resume Shortlisting",
@@ -11,7 +17,7 @@ const roundMap = {
 	OFFER: "Offer Received",
 };
 
-function AppliedProfileCard({ profile }) {
+function AppliedProfileCard({ profile, deregister }) {
 	return (
 		<Card title={<b style={{ color: "#444" }}>{profile.title}</b>}>
 			<Row justify="space-between">
@@ -33,7 +39,7 @@ function AppliedProfileCard({ profile }) {
 						Tap here <LinkOutlined />
 					</Typography.Link>
 				</Col>
-				<Col span={24} style={{ marginBottom: "1rem" }}>
+				<Col span={12} style={{ marginBottom: "1rem" }}>
 					<FieldTimeOutlined />{" "}
 					<Text strong type="secondary">
 						Your Current Round{" "}
@@ -42,6 +48,22 @@ function AppliedProfileCard({ profile }) {
 					<Text>
 						<strong>{roundMap[profile.studentCurrentRound]}</strong>
 					</Text>
+				</Col>
+				<Col
+					span={12}
+					style={{
+						display: "flex",
+						marginBottom: "1rem",
+						alignItems: "center",
+						justifyContent: "center",
+					}}>
+					<Popconfirm
+						title="Are you sure you want to deregister ?"
+						onConfirm={() => deregister(profile._id)}
+						okText="Yes"
+						cancelText="No">
+						<Button>Deregister</Button>
+					</Popconfirm>
 				</Col>
 			</Row>
 		</Card>

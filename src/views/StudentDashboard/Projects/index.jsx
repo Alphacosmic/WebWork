@@ -121,6 +121,7 @@ const Projects = ({ filter = "none" }) => {
 				resumeURL,
 			});
 			openNotification("success", "Successfully Applied");
+			setProjects((old) => old.filter((item) => item._id !== selectedProfile._id));
 			handleCancel();
 		} catch (error) {
 			console.log(error);

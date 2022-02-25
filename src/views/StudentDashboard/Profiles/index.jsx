@@ -1,11 +1,11 @@
 import React, { Suspense, useEffect, useState } from "react";
-import { Grid, Row, Col } from "antd";
+import { Grid, Row, Col, Button, Popconfirm } from "antd";
 
 import axios from "../../../utils/_axios";
 import PaymentPrompt from "../PaymentPrompt";
 const AppliedProfileCard = React.lazy(() => import("./AppliedProfileCard"));
 const AppliedProfileTable = React.lazy(() => import("./AppliedProfileTable"));
-
+import openNotification from "../../../utils/openAntdNotification";
 const { useBreakpoint } = Grid;
 
 const ROUNDS = ["RESUME", "TEST", "GROUP_DISCUSSION", "INTERVIEW", "OFFER"];
@@ -117,6 +117,24 @@ const ProfileCards = () => {
 	// 	});
 	// };
 
+	const deregister = (id) => {
+		console.log(id);
+		axios
+			.put("/deregister", { profileId: id })
+			.then((res) => {
+				console.log(res.data);
+				setProfiles((old) => old.filter((item) => item._id !== res.data.profile._id));
+				openNotification(
+					"success",
+					`You have succesfully deregistered from ${res.data.profile.title}`
+				);
+			})
+			.catch((err) => {
+				window.alert("Some Error occured");
+				console.debug(err.response);
+			});
+	};
+
 	const columns = [
 		{
 			title: "Company Name",
@@ -155,6 +173,19 @@ const ProfileCards = () => {
 			dataIndex: "OFFER",
 			render: (tag) => <span style={{ color: "#1890FF" }}>{tag}</span>,
 		},
+		{
+			title: "Actions",
+			dataIndex: "_id",
+			render: (tag) => (
+				<Popconfirm
+					title="Are you sure you want to deregister ?"
+					onConfirm={() => deregister(tag)}
+					okText="Yes"
+					cancelText="No">
+					<Button>Deregister</Button>
+				</Popconfirm>
+			),
+		},
 	];
 
 	return (
@@ -163,7 +194,7 @@ const ProfileCards = () => {
 				<Row justify="center">
 					{profiles.map((profile, index) => (
 						<Col key={index} xs={24}>
-							<AppliedProfileCard profile={profile} />
+							<AppliedProfileCard deregister={deregister} profile={profile} />
 						</Col>
 					))}
 				</Row>
