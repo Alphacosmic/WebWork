@@ -1,19 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Grid, List, Card, Button, Typography, Row, Col, Modal, Radio, Tooltip } from "antd";
 import {
-	Grid,
-	List,
-	Card,
-	Button,
-	Typography,
-	Row,
-	Col,
-	Modal,
-	Upload,
-	Radio,
-	Divider,
-} from "antd";
-import {
-	CheckOutlined,
 	CompassOutlined,
 	TeamOutlined,
 	UserOutlined,
@@ -24,70 +11,24 @@ import {
 } from "@ant-design/icons";
 import openNotification from "../../../utils/openAntdNotification";
 
-import Questions from "./QuestionsModal";
 import axios from "../../../utils/_axios";
 import PaymentPrompt from "../PaymentPrompt";
 
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
 
-const ALL = "ALL";
-const APPLIED = "APPLIED";
-const SELECTED = "SELECTED";
-// const REJECTED = "REJECTED";
+const Projects = ({ student, updatePaymentInfo }) => {
+	const paymentDone = student?.paymentDetails?.captured;
 
-const makeFormdata = async (policy, file) => {
-	const fd = new FormData();
-
-	fd.append("x-amz-algorithm", "AWS4-HMAC-SHA256");
-	fd.append("acl", policy.bucketAcl);
-	fd.append("policy", policy.encodedPolicy);
-	fd.append("x-amz-credential", policy.amzCred);
-	fd.append("x-amz-date", policy.expirationStrClean);
-	fd.append("X-Amz-Signature", policy.sign);
-
-	fd.append("key", file.name);
-	fd.append("Content-Type", file.type);
-
-	fd.append("file", file.file);
-
-	return fd;
-};
-export const upload = async (file) => {
-	const res = await axios.get("https://ecell.iitm.ac.in/data/s3-signed-policy/internfair");
-	const S3SignedPolicyObject = { ...res.data };
-	const bucketWriteUrl = `https://${S3SignedPolicyObject.bucket}.s3.ap-south-1.amazonaws.com`;
-
-	const { name, roll } = JSON.parse(localStorage.studentData || "{}");
-	const filename = `summer-2022/resumes/${name.replace(
-		/ /g,
-		""
-	)}-${roll}-${Date.now()}-CV.${file.name.split(".").pop()}`;
-
-	const fd = await makeFormdata(S3SignedPolicyObject, {
-		name: filename,
-		type: file.type,
-		file,
-	});
-
-	await axios.post(bucketWriteUrl, fd, { withCredentials: false });
-	const URL = `${bucketWriteUrl}/${filename}`;
-	return URL;
-};
-
-const Projects = ({ filter = "none" }) => {
 	const screen = useBreakpoint();
-	const [paymentDone, setPaymentDone] = useState(true);
 
 	const [projects, setProjects] = useState([]);
 	const [isFetching, setIsFetching] = useState(true);
-	const [questionModal, setQuestionModal] = useState({ visible: false, data: {} });
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [selectedProfile, setSelectedProfile] = useState(0);
-	const [isCVUploading, setCVUploading] = useState(false);
-	const [fileList, updateFileList] = useState([]);
-	const [student, setStudent] = useState({});
+	const [isApplying, setIsApplying] = useState(false);
 	const [selectedResume, setSelectedResume] = React.useState("");
+	const [toolTipVisible, setToolTipVisible] = useState("");
 
 	useEffect(() => {
 		axios
@@ -96,133 +37,51 @@ const Projects = ({ filter = "none" }) => {
 				setProjects(res.data);
 				setIsFetching(false);
 			})
-			.catch((err) => {
-				if (err?.response?.data === "PAYMENT_NOT_DONE") {
-					setPaymentDone(false);
-					setIsFetching(false);
-				}
-				console.debug(err);
+			.finally(() => {
+				setIsFetching(false);
 			});
-		axios.get("/getStudent").then((res) => {
-			setStudent(res.data);
-		});
 	}, []);
 
-	const showModal = () => {
-		setIsModalVisible(true);
-	};
-	const handleCancel = () => {
-		setIsModalVisible(false);
-	};
-	const handleApply = async (resumeURL = selectedResume) => {
+	const handleApply = async () => {
 		try {
+			setIsApplying(true);
 			await axios.post("/applyToProfile", {
 				profileId: selectedProfile._id,
-				resumeURL,
+				resumeURL: selectedResume,
 			});
 			openNotification("success", "Successfully Applied");
 			setProjects((old) => old.filter((item) => item._id !== selectedProfile._id));
-			handleCancel();
+			setIsModalVisible(false);
 		} catch (error) {
 			console.log(error);
 			const errorMsg = error.response ? error.response.data : error.message;
 			openNotification("error", "Error in Applying", errorMsg);
-		}
-	};
-
-	const handleUpload = async () => {
-		setCVUploading(true);
-		const file = fileList[0].originFileObj;
-
-		try {
-			const resumeURL = await upload(file);
-
-			await axios.put(`/resume`, { resumeURL });
-			setStudent((old) => ({
-				...old,
-				resumeURL: [...(old.resumeURL ? old.resumeURL : []), resumeURL],
-			}));
-			setSelectedResume(resumeURL);
-			openNotification("success", "Successfully Uploaded Resume");
-			updateFileList([]);
-			return resumeURL;
-		} catch (err) {
-			console.log(err);
-			const error = err.response ? err.response.data : err;
-			const errorMsg = error.response ? error.response.data.msg : error.message;
-			openNotification("error", "Error in uploading CV", errorMsg);
 		} finally {
-			setCVUploading(false);
+			setIsApplying(false);
 		}
-	};
-	const uploadProps = {
-		fileList,
-		accept: "application/pdf",
-		beforeUpload: (file) => {
-			if (file.type !== "application/pdf") {
-				openNotification(
-					"error",
-					"Please select a PDF file of size less than 8MB.",
-					`${file.name} is not a PDF file`
-				);
-				return false;
-			} else if (fileList.length === 1) {
-				openNotification(
-					"info",
-					"You file was replaced with the newer one.",
-					"File replaced."
-				);
-			}
-			const isLt8M = file.size / 1024 / 1024 > 8;
-			if (isLt8M) {
-				openNotification("error", "The PDF file must be within 8MB.", "Size error");
-			}
-			return isLt8M;
-		},
-		onChange: (info) => {
-			updateFileList(
-				info.fileList.filter(
-					(file, index) =>
-						index === info.fileList.length - 1 &&
-						file.type === "application/pdf" &&
-						file.size / 1024 / 1024 < 8
-				)
-			);
-			setSelectedResume("");
-		},
-		multiple: false,
 	};
 
 	const EmptyList = () => (
 		<div style={{ textAlign: "center", marginTop: "3rem" }}>
-			{paymentDone ? (
-				<>
-					<SmileOutlined style={{ fontSize: "3rem" }} />
-					<br />
-					<Text type="secondary" strong>
-						There are no new profiles currently.
-					</Text>
-					<br />
-					<Text type="secondary">Please wait.</Text>
-				</>
-			) : (
-				<PaymentPrompt />
-			)}
+			<SmileOutlined style={{ fontSize: "3rem" }} />
+			<br />
+			<Text type="secondary" strong>
+				There are no new profiles currently.
+			</Text>
+			<br />
+			<Text type="secondary">Please wait.</Text>
 		</div>
 	);
 
 	return (
 		<>
-			<Questions
-				projectData={questionModal.data}
-				isVisible={questionModal.visible}
-				closeModal={() => setQuestionModal({ visible: false })}
-			/>
 			<Modal
 				footer={null}
 				title={selectedProfile.title}
 				visible={isModalVisible}
-				onCancel={handleCancel}>
+				onCancel={() => {
+					setIsModalVisible(false);
+				}}>
 				{student?.resumeURL?.length > 0 ? (
 					<p>
 						<strong>Select</strong> the previously uploaded resume that you want to send
@@ -238,16 +97,15 @@ const Projects = ({ filter = "none" }) => {
 						<Radio.Group
 							onChange={(e) => {
 								setSelectedResume(e.target.value);
-								updateFileList([]);
 							}}
 							value={selectedResume}>
 							{student?.resumeURL?.map((url, i) => (
 								<>
 									<Radio key={i} value={url}>
-										Resume {i + 1}{" "}
-										<LinkOutlined
-											onClick={() => window.open(url, "_blank").focus()}
-										/>
+										Resume {i + 1}
+										<Button type="link" href={url} target="_blank">
+											<u>View</u> <LinkOutlined />
+										</Button>
 									</Radio>
 								</>
 							))}
@@ -256,49 +114,30 @@ const Projects = ({ filter = "none" }) => {
 						""
 					)}
 				</Col>
-				{student?.resumeURL?.length > 0 && student?.resumeURL?.length < 3 && (
-					<Divider orientation="center">
-						<strong>OR</strong>
-					</Divider>
-				)}
-				{student?.resumeURL?.length < 3 || !student?.resumeURL?.length ? (
-					<Col style={{ textAlign: "center" }}>
-						<Upload {...uploadProps}>
-							<Button type="primary">Upload Resume</Button>
-						</Upload>
-					</Col>
-				) : (
-					""
-				)}
-
-				<Divider></Divider>
+				{student?.resumeURL?.length < 3 || !student?.resumeURL?.length
+					? "or Upload a new resume from the sidebar"
+					: ""}
 
 				<Button
-					disabled={!selectedResume && !fileList && fileList.length === 0}
+					disabled={!selectedResume}
 					key={1}
 					block
 					style={{ marginTop: "1em" }}
 					type="primary"
-					onClick={async () => {
-						if (fileList && fileList.length > 0) {
-							const resumeURL = await handleUpload();
-							await handleApply(resumeURL);
-						} else {
-							await handleApply();
-						}
-					}}>
+					loading={isApplying}
+					onClick={handleApply}>
 					Apply
 				</Button>
 			</Modal>
+			{!paymentDone && !isFetching && <PaymentPrompt updatePaymentInfo={updatePaymentInfo} />}
 			<List
 				size="large"
 				itemLayout="horizontal"
-				locale={{ emptyText: <EmptyList filter={filter} /> }}
+				style={{ marginTop: "1em" }}
+				locale={{ emptyText: <EmptyList /> }}
 				loading={isFetching}
 				grid={{ column: screen.xs ? 1 : 2 }}
-				dataSource={projects.filter(({ status }) =>
-					filter === ALL ? true : filter === status
-				)}
+				dataSource={projects}
 				renderItem={(profile) => (
 					<List.Item
 						style={{ paddingTop: "8px", paddingBottom: "8px", paddingLeft: "0px" }}>
@@ -314,31 +153,33 @@ const Projects = ({ filter = "none" }) => {
 									}>
 									Open Job Description
 								</Button>,
-								profile.status === SELECTED ? (
-									<Text type="success" strong>
-										<CheckOutlined /> Selected
-									</Text>
-								) : profile.status === APPLIED ? (
-									<Text strong style={{ color: "#1890ff" }}>
-										<CheckOutlined /> Applied
-									</Text>
-								) : (
+								<Tooltip
+									visible={!paymentDone && toolTipVisible === profile?._id}
+									key={2}
+									mouseEnterDelay={0}
+									mouseLeaveDelay={0}
+									title="You have not made the payment for E-Cell Internfair.">
 									<Button
 										type="link"
 										block
+										disabled={!paymentDone}
+										onMouseEnter={() => setToolTipVisible(profile._id)}
+										onMouseLeave={() => setToolTipVisible("")}
 										onClick={() => {
-											setSelectedProfile(profile);
-											showModal();
+											if (paymentDone) {
+												setSelectedProfile(profile);
+												setIsModalVisible(true);
+											}
 										}}>
 										Apply
 									</Button>
-								),
+								</Tooltip>,
 							]}>
 							<Row justify="space-between">
 								<Col span={24} style={{ marginBottom: "1rem" }}>
 									<UserOutlined />
 									<Text strong type="secondary">
-										Company :{" "}
+										Company:{" "}
 									</Text>
 
 									<Typography.Text key={1}>
@@ -381,7 +222,8 @@ const Projects = ({ filter = "none" }) => {
 												{profile.stipend.amount > 0
 													? profile.stipend.currency +
 													  " " +
-													  profile.stipend.amount
+													  profile.stipend.amount +
+													  " per month"
 													: "Unpaid"}
 											</Text>
 										</Col>
