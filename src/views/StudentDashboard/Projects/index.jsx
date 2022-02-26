@@ -219,10 +219,12 @@ const Projects = ({ student, updatePaymentInfo }) => {
 											</Text>
 											<br />
 											<Text>
-												{profile.stipend.amount > 0
+												{profile.stipend.amount ||
+												profile.stipend.range?.length
 													? profile.stipend.currency +
 													  " " +
-													  profile.stipend.amount +
+													  (profile.stipend.amount ||
+															profile.stipend.range?.join(" - ")) +
 													  " per month"
 													: "Unpaid"}
 											</Text>
