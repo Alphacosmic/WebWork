@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Modal, Button } from "antd";
 import { EditOutlined } from "@ant-design/icons";
-
+//
 const RulesModal = ({ isVisible, closeModal }) => {
 	return (
 		<Modal
