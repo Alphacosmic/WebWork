@@ -30,6 +30,10 @@ const Projects = ({ student, updatePaymentInfo }) => {
 	const [selectedResume, setSelectedResume] = React.useState("");
 	const [toolTipVisible, setToolTipVisible] = useState("");
 
+	function numberWithCommas(x) {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+
 	useEffect(() => {
 		axios
 			.get("/profiles")
@@ -219,12 +223,27 @@ const Projects = ({ student, updatePaymentInfo }) => {
 											</Text>
 											<br />
 											<Text>
-												{profile.stipend.amount > 0
-													? profile.stipend.currency +
-													  " " +
-													  profile.stipend.amount +
-													  " per month"
-													: "Unpaid"}
+												<span>{profile.stipend?.currency}</span>{" "}
+												{profile.stipend?.range.length === 2 ? (
+													<span>
+														{numberWithCommas(profile.stipend.range[0])}{" "}
+														-{" "}
+														{numberWithCommas(profile.stipend.range[1])}{" "}
+														<span style={{ opacity: "70%" }}>
+															/month
+														</span>
+													</span>
+												) : profile.stipend.amount ? (
+													<>
+														{profile.stipend?.amount}
+														<span style={{ opacity: "70%" }}>
+															{" "}
+															/month
+														</span>
+													</>
+												) : (
+													"Unpaid"
+												)}
 											</Text>
 										</Col>
 										<Col flex="auto" md={12} style={{ marginBottom: "1rem" }}>

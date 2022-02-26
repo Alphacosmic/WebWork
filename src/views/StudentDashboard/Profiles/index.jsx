@@ -16,14 +16,16 @@ const ProfileCards = ({ updatePaymentInfo }) => {
 	const [profiles, setProfiles] = useState([]);
 	const [paymentDone, setPaymentDone] = useState(true);
 
+	function numberWithCommas(x) {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+
 	useEffect(() => {
 		axios
 			.get("/getAppliedProfiles")
 			.then((res) => {
 				console.log(res.data);
 				const formattedData = res.data.appliedProfiles.map((item) => ({
-					stipendWithCurrency:
-						item.profile.stipend.currency + " " + item.profile.stipend.amount,
 					...item.profile,
 					studentCurrentRound: item.round,
 					...ROUNDS.reduce(
@@ -137,8 +139,25 @@ const ProfileCards = ({ updatePaymentInfo }) => {
 			dataIndex: ["company", "name"],
 		},
 		{
-			title: "Stipend",
-			dataIndex: "stipendWithCurrency",
+			title: "Stipend ( /Month)",
+			dataIndex: "stipend",
+			render: (stipend) => {
+				return (
+					<>
+						<span>{stipend?.currency}</span>{" "}
+						{stipend?.range.length === 2 ? (
+							<span>
+								{numberWithCommas(stipend.range[0])} -{" "}
+								{numberWithCommas(stipend.range[1])}{" "}
+							</span>
+						) : stipend.amount ? (
+							<>{stipend?.amount}</>
+						) : (
+							"Unpaid"
+						)}
+					</>
+				);
+			},
 		},
 		{
 			title: "Profile Name",
