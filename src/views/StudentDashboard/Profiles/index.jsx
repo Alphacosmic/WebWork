@@ -145,7 +145,7 @@ const ProfileCards = ({ updatePaymentInfo }) => {
 				return (
 					<>
 						<span>{stipend?.currency}</span>{" "}
-						{stipend?.range.length === 2 ? (
+						{stipend?.range?.length === 2 ? (
 							<span>
 								{numberWithCommas(stipend.range[0])} -{" "}
 								{numberWithCommas(stipend.range[1])}{" "}
