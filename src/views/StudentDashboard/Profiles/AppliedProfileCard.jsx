@@ -1,13 +1,7 @@
-import { Button, Card, Col, Row, Typography } from "antd";
+import { Button, Card, Col, Row, Typography, Popconfirm } from "antd";
 import React from "react";
 const { Text } = Typography;
-import {
-	FieldTimeOutlined,
-	BankOutlined,
-	LinkOutlined,
-	EditOutlined,
-	Popconfirm,
-} from "@ant-design/icons";
+import { FieldTimeOutlined, BankOutlined, LinkOutlined, EditOutlined } from "@ant-design/icons";
 
 const roundMap = {
 	RESUME: "Resume Shortlisting",
