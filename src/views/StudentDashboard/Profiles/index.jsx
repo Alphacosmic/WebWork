@@ -138,6 +138,18 @@ const ProfileCards = ({ updatePaymentInfo }) => {
 			title: "Company Name",
 			dataIndex: ["company", "name"],
 		},
+
+		{
+			title: "Job Desc",
+			dataIndex: "jobDescriptionURL",
+			render: (tag) => (
+				<span
+					onClick={() => window.open(tag, "_blank").focus()}
+					style={{ cursor: "pointer", color: "#1890FF" }}>
+					Open
+				</span>
+			),
+		},
 		{
 			title: "Stipend ( /Month)",
 			dataIndex: "stipend",
