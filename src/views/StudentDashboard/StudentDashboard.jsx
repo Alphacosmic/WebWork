@@ -68,12 +68,12 @@ const StudentDashboard = () => {
 					!screen.xs ? (
 						<span>
 							The last date to apply to a profile is{" "}
-							<strong>1st March 11:59 PM</strong>
+							<strong>2nd March 11:59 PM</strong>
 						</span>
 					) : (
 						<span>
 							Last date to apply:
-							<br /> <strong>1st March 11:59 PM</strong>
+							<br /> <strong>2nd March 11:59 PM</strong>
 						</span>
 					)
 				}
