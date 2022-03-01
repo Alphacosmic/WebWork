@@ -224,11 +224,15 @@ const Projects = ({ student, updatePaymentInfo }) => {
 											<br />
 											<Text>
 												<span>{profile.stipend?.currency}</span>{" "}
-												{profile.stipend?.range.length === 2 ? (
+												{profile.stipend?.range?.length === 2 ? (
 													<span>
-														{numberWithCommas(profile.stipend.range[0])}{" "}
+														{numberWithCommas(
+															profile.stipend?.range?.[0]
+														)}{" "}
 														-{" "}
-														{numberWithCommas(profile.stipend.range[1])}{" "}
+														{numberWithCommas(
+															profile.stipend?.range?.[1]
+														)}{" "}
 														<span style={{ opacity: "70%" }}>
 															/month
 														</span>
