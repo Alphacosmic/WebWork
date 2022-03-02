@@ -7,15 +7,15 @@ import {
 	DollarOutlined,
 	SolutionOutlined,
 	SmileOutlined,
+	WarningOutlined,
 	LinkOutlined,
 } from "@ant-design/icons";
 import openNotification from "../../../utils/openAntdNotification";
 
 import axios from "../../../utils/_axios";
-import PaymentPrompt from "../PaymentPrompt";
 
 const { useBreakpoint } = Grid;
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 const Projects = ({ student, updatePaymentInfo }) => {
 	const paymentDone = student?.paymentDetails?.captured;
@@ -133,7 +133,17 @@ const Projects = ({ student, updatePaymentInfo }) => {
 					Apply
 				</Button>
 			</Modal>
-			{!paymentDone && !isFetching && <PaymentPrompt updatePaymentInfo={updatePaymentInfo} />}
+			{!paymentDone && !isFetching && (
+				<div style={{ textAlign: "center" }}>
+					<WarningOutlined style={{ fontSize: "3rem", marginBottom: "1rem" }} />
+					<Title level={3} type="secondary" style={{ marginBottom: 0 }}>
+						The payments for the InternFair 2022 have been closed
+					</Title>
+					<Title level={5} type="secondary" style={{ marginTop: 0 }}>
+						You have not made the payment for E-Cell Internfair.
+					</Title>
+				</div>
+			)}
 			<List
 				size="large"
 				itemLayout="horizontal"

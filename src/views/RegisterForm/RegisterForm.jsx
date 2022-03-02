@@ -81,7 +81,7 @@ const RegisterForm = () => {
 						banner
 						message={
 							<span>
-								Last date to apply: <strong>2nd March 11:59 PM</strong>
+								The portal has <strong> stopped </strong> accepting new payments.
 							</span>
 						}
 						style={{ borderRadius: "1rem", width: "90%" }}
@@ -97,8 +97,8 @@ const RegisterForm = () => {
 								banner
 								message={
 									<span>
-										The last date to apply to a profile is{" "}
-										<strong>2nd March 11:59 PM</strong>
+										The portal has <strong> stopped </strong> accepting new
+										payments.
 									</span>
 								}
 								style={{ borderRadius: "1rem" }}
