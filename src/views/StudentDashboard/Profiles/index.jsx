@@ -200,19 +200,6 @@ const ProfileCards = ({ updatePaymentInfo }) => {
 			dataIndex: "OFFER",
 			render: (tag) => <span style={{ color: "#1890FF" }}>{tag}</span>,
 		},
-		{
-			title: "Actions",
-			dataIndex: "_id",
-			render: (tag) => (
-				<Popconfirm
-					title="Are you sure you want to deregister ?"
-					onConfirm={() => deregister(tag)}
-					okText="Yes"
-					cancelText="No">
-					<Button>Deregister</Button>
-				</Popconfirm>
-			),
-		},
 	];
 
 	return (
