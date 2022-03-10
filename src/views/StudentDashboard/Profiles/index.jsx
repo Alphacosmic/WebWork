@@ -32,10 +32,12 @@ const ProfileCards = ({ updatePaymentInfo }) => {
 						(previous, current) => ({
 							...previous,
 							[current]: item.profile.rounds.includes(current)
-								? item.profile.rounds.indexOf(item.profile.currentRound) >
-										item.profile.rounds.indexOf(current) &&
-								  item.profile.rounds.indexOf(current) <
-										item.profile.rounds.indexOf(item.round)
+								? item.profile.currentRound === "OFFER" && item.round === "OFFER"
+									? "Yes"
+									: item.profile.rounds.indexOf(item.profile.currentRound) >
+											item.profile.rounds.indexOf(current) &&
+									  item.profile.rounds.indexOf(current) <
+											item.profile.rounds.indexOf(item.round)
 									? "Yes"
 									: item.profile.rounds.indexOf(item.profile.currentRound) >
 									  item.profile.rounds.indexOf(item.round)
