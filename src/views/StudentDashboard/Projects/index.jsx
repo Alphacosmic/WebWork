@@ -17,7 +17,7 @@ import axios from "../../../utils/_axios";
 const { useBreakpoint } = Grid;
 const { Text, Title } = Typography;
 
-const Projects = ({ student, updatePaymentInfo }) => {
+const Projects = ({ student }) => {
 	const paymentDone = student?.paymentDetails?.captured;
 
 	const screen = useBreakpoint();

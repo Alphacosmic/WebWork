@@ -117,7 +117,7 @@ const StudentDashboard = () => {
 									<ProjectTable filter={statusFilter} />
 								</React.Suspense>
 							)} */}
-							<Projects student={student} updatePaymentInfo={updatePaymentInfo} />
+							<Projects student={student} />
 						</Tabs.TabPane>
 						<Tabs.TabPane
 							tab={<Typography.Title level={3}>Applied</Typography.Title>}
