@@ -9,6 +9,7 @@ import {
 	SmileOutlined,
 	WarningOutlined,
 	LinkOutlined,
+	UsergroupAddOutlined,
 } from "@ant-design/icons";
 import openNotification from "../../../utils/openAntdNotification";
 
@@ -39,6 +40,7 @@ const Projects = ({ student }) => {
 			.get("/profiles")
 			.then((res) => {
 				setProjects(res.data);
+				console.log(res.data);
 				setIsFetching(false);
 			})
 			.finally(() => {
@@ -147,7 +149,7 @@ const Projects = ({ student }) => {
 			<List
 				size="large"
 				itemLayout="horizontal"
-				style={{ marginTop: "1em" }}
+				style={{ marginTop: "1em", width: screen.md ? "90vw" : "auto" }}
 				locale={{ emptyText: <EmptyList /> }}
 				loading={isFetching}
 				grid={{ column: screen.xs ? 1 : 2 }}
@@ -165,7 +167,7 @@ const Projects = ({ student }) => {
 									onClick={() =>
 										window.open(profile?.jobDescriptionURL, "_blank").focus()
 									}>
-									Open Job Description
+									Description
 								</Button>,
 								<Tooltip
 									visible={!paymentDone && toolTipVisible === profile?._id}
@@ -188,16 +190,29 @@ const Projects = ({ student }) => {
 										Apply
 									</Button>
 								</Tooltip>,
-							]}>
+							]}
+							bodyStyle={{
+								height: screen.xl ? "250px" : screen.lg ? "280px" : "300px",
+							}}>
 							<Row justify="space-between">
-								<Col span={24} style={{ marginBottom: "1rem" }}>
+								<Col span={12} style={{ marginBottom: "1rem" }}>
 									<UserOutlined />
 									<Text strong type="secondary">
-										Company:{" "}
+										Company
 									</Text>
-
+									<br />
 									<Typography.Text key={1}>
 										{profile.company.name}
+									</Typography.Text>
+								</Col>
+								<Col span={12} style={{ marginBottom: "1rem" }}>
+									<UsergroupAddOutlined />
+									<Text strong type="secondary">
+										Number of Applicants
+									</Text>
+									<br />
+									<Typography.Text key={2}>
+										{profile.applicants.length}
 									</Typography.Text>
 								</Col>
 								<Col span={24}>
