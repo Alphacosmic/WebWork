@@ -171,7 +171,7 @@ const StudentMenu = ({ student, updateResume }) => {
 					<Text>{student.phone}</Text>
 				</Col>
 
-				<Col span={!student.minor ? 12 : 24}>
+				<Col span={student.minor ? 12 : 24}>
 					<Text strong>Minor</Text>
 					<br />
 					<Text>{student.minor || "None"}</Text>
