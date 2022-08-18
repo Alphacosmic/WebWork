@@ -193,7 +193,16 @@ const Projects = ({ student }) => {
 							]}
 							bodyStyle={{
 								height: screen.xl ? "250px" : screen.lg ? "280px" : "300px",
-							}}>
+							}}
+							headStyle={
+								profile.company.isInstiStartup
+									? {
+											border: "1px solid #1890ff",
+											outline: "none",
+											boxShadow: "0 0 10px #359cfc",
+									  }
+									: {}
+							}>
 							<Row justify="space-between">
 								<Col span={12} style={{ marginBottom: "1rem" }}>
 									<UserOutlined />
