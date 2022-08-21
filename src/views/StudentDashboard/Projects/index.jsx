@@ -10,6 +10,7 @@ import {
 	WarningOutlined,
 	LinkOutlined,
 	UsergroupAddOutlined,
+	StarFilled,
 } from "@ant-design/icons";
 import openNotification from "../../../utils/openAntdNotification";
 
@@ -158,7 +159,14 @@ const Projects = ({ student }) => {
 					<List.Item
 						style={{ paddingTop: "8px", paddingBottom: "8px", paddingLeft: "0px" }}>
 						<Card
-							title={<b style={{ color: "#444" }}>{profile.title}</b>}
+							title={
+								<div style={{ display: "flex", justifyContent: "space-between" }}>
+									<b style={{ color: "#444" }}>{profile.title}</b>
+									{profile.company.isInstiStartup && (
+										<StarFilled style={{ color: "gold" }} />
+									)}
+								</div>
+							}
 							actions={[
 								<Button
 									key={1}
@@ -193,16 +201,7 @@ const Projects = ({ student }) => {
 							]}
 							bodyStyle={{
 								height: screen.xl ? "250px" : screen.lg ? "280px" : "300px",
-							}}
-							headStyle={
-								profile.company.isInstiStartup
-									? {
-											border: "1px solid #1890ff",
-											outline: "none",
-											boxShadow: "0 0 10px #359cfc",
-									  }
-									: {}
-							}>
+							}}>
 							<Row justify="space-between">
 								<Col span={12} style={{ marginBottom: "1rem" }}>
 									<UserOutlined />
@@ -221,7 +220,7 @@ const Projects = ({ student }) => {
 									</Text>
 									<br />
 									<Typography.Text key={2}>
-										{profile.applicants.length}
+										{profile.applicants.length}/{profile.vacancies}
 									</Typography.Text>
 								</Col>
 								<Col span={24}>
