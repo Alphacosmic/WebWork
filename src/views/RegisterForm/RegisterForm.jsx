@@ -1,5 +1,17 @@
 import React, { useState } from "react";
-import { Form, Row, Col, Input, Button, Typography, Layout, Card, Select, Alert } from "antd";
+import {
+	Form,
+	Row,
+	Col,
+	Input,
+	Button,
+	Typography,
+	Layout,
+	Card,
+	Select,
+	Alert,
+	Checkbox,
+} from "antd";
 import {
 	NumberOutlined,
 	PhoneOutlined,
@@ -41,12 +53,14 @@ const RegisterForm = () => {
 	const [form] = Form.useForm();
 	const screen = useBreakpoint();
 	const [loading, setLoading] = useState(false);
+	const [isTNCAccepted, setIsTNCAccepted] = useState(false);
 
 	const [, setLocation] = useLocation();
 
 	const handleSuccess = () => {
 		setLocation("/dashboard");
 	};
+
 	const onFinish = async () => {
 		try {
 			setLoading(true);
@@ -307,6 +321,16 @@ const RegisterForm = () => {
 								</Form.Item>
 							</Col>
 						</Row>
+						<Row>
+							<Col>
+								<Checkbox
+									onChange={() => {
+										setIsTNCAccepted(!isTNCAccepted);
+									}}>
+									I agree to the terms and conditions
+								</Checkbox>
+							</Col>
+						</Row>
 						<Row align="bottom">
 							<Col span={16}>
 								<Typography.Title level={5} style={{ margin: "0px" }}>
@@ -319,6 +343,7 @@ const RegisterForm = () => {
 										type="primary"
 										size="large"
 										htmlType="submit"
+										disabled={!isTNCAccepted}
 										loading={loading}>
 										Register
 									</Button>
