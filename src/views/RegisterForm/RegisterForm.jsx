@@ -174,8 +174,7 @@ const RegisterForm = () => {
 											required: true,
 											message: "Please input your CGPA!",
 										},
-									]}
-									help="Put 10 if you're from 2021 batch.">
+									]}>
 									<Input />
 								</Form.Item>
 							</Col>
@@ -301,8 +300,7 @@ const RegisterForm = () => {
 											required: true,
 											message: "Please input your Hostel Address!",
 										},
-									]}
-									help="Put NA if you're from 2021 batch.">
+									]}>
 									<Input />
 								</Form.Item>
 							</Col>
