@@ -27,6 +27,7 @@ const StudentDashboard = () => {
 			setStudent(res.data);
 		});
 	}, []);
+
 	useLayoutEffect(() => {
 		if (screen.md) {
 			setMenuVisibility(true);
@@ -48,6 +49,7 @@ const StudentDashboard = () => {
 			};
 		});
 	};
+
 	const updatePaymentInfo = (paymentID) => {
 		setStudent((prevState) => {
 			return {
@@ -59,6 +61,7 @@ const StudentDashboard = () => {
 			};
 		});
 	};
+
 	const Settings = (
 		<Space direction={{ xs: "vertical", md: "horizontal" }} align="center">
 			<Alert
@@ -117,7 +120,7 @@ const StudentDashboard = () => {
 									<ProjectTable filter={statusFilter} />
 								</React.Suspense>
 							)} */}
-							<Projects student={student} updatePaymentInfo={updatePaymentInfo} />
+							<Projects student={student} />
 						</Tabs.TabPane>
 						<Tabs.TabPane
 							tab={<Typography.Title level={3}>Applied</Typography.Title>}

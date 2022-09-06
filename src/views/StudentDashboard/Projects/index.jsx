@@ -9,6 +9,8 @@ import {
 	SmileOutlined,
 	WarningOutlined,
 	LinkOutlined,
+	UsergroupAddOutlined,
+	StarFilled,
 } from "@ant-design/icons";
 import openNotification from "../../../utils/openAntdNotification";
 
@@ -17,7 +19,7 @@ import axios from "../../../utils/_axios";
 const { useBreakpoint } = Grid;
 const { Text, Title } = Typography;
 
-const Projects = ({ student, updatePaymentInfo }) => {
+const Projects = ({ student }) => {
 	const paymentDone = student?.paymentDetails?.captured;
 
 	const screen = useBreakpoint();
@@ -39,6 +41,7 @@ const Projects = ({ student, updatePaymentInfo }) => {
 			.get("/profiles")
 			.then((res) => {
 				setProjects(res.data);
+				console.log(res.data);
 				setIsFetching(false);
 			})
 			.finally(() => {
@@ -147,7 +150,7 @@ const Projects = ({ student, updatePaymentInfo }) => {
 			<List
 				size="large"
 				itemLayout="horizontal"
-				style={{ marginTop: "1em" }}
+				style={{ marginTop: "1em", width: screen.md ? "90vw" : "auto" }}
 				locale={{ emptyText: <EmptyList /> }}
 				loading={isFetching}
 				grid={{ column: screen.xs ? 1 : 2 }}
@@ -156,7 +159,14 @@ const Projects = ({ student, updatePaymentInfo }) => {
 					<List.Item
 						style={{ paddingTop: "8px", paddingBottom: "8px", paddingLeft: "0px" }}>
 						<Card
-							title={<b style={{ color: "#444" }}>{profile.title}</b>}
+							title={
+								<div style={{ display: "flex", justifyContent: "space-between" }}>
+									<b style={{ color: "#444" }}>{profile.title}</b>
+									{profile.company.isInstiStartup && (
+										<StarFilled style={{ color: "gold" }} />
+									)}
+								</div>
+							}
 							actions={[
 								<Button
 									key={1}
@@ -165,7 +175,7 @@ const Projects = ({ student, updatePaymentInfo }) => {
 									onClick={() =>
 										window.open(profile?.jobDescriptionURL, "_blank").focus()
 									}>
-									Open Job Description
+									Description
 								</Button>,
 								<Tooltip
 									visible={!paymentDone && toolTipVisible === profile?._id}
@@ -188,16 +198,29 @@ const Projects = ({ student, updatePaymentInfo }) => {
 										Apply
 									</Button>
 								</Tooltip>,
-							]}>
+							]}
+							bodyStyle={{
+								height: screen.xl ? "250px" : screen.lg ? "280px" : "300px",
+							}}>
 							<Row justify="space-between">
-								<Col span={24} style={{ marginBottom: "1rem" }}>
+								<Col span={12} style={{ marginBottom: "1rem" }}>
 									<UserOutlined />
 									<Text strong type="secondary">
-										Company:{" "}
+										Company
 									</Text>
-
+									<br />
 									<Typography.Text key={1}>
 										{profile.company.name}
+									</Typography.Text>
+								</Col>
+								<Col span={12} style={{ marginBottom: "1rem" }}>
+									<UsergroupAddOutlined />
+									<Text strong type="secondary">
+										Number of Applicants
+									</Text>
+									<br />
+									<Typography.Text key={2}>
+										{profile.applicants.length}/{profile.vacancies}
 									</Typography.Text>
 								</Col>
 								<Col span={24}>

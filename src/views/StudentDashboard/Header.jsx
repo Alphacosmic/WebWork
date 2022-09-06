@@ -13,6 +13,7 @@ import axios from "../../utils/_axios";
 const Header = ({ menuVisible, setMenuVisibility }) => {
 	const { xs, md } = Grid.useBreakpoint();
 	const [, setLocation] = useLocation();
+
 	const handleLogout = async () => {
 		try {
 			await axios.get(`/logout`);
@@ -60,8 +61,7 @@ const Header = ({ menuVisible, setMenuVisibility }) => {
 					</Col>
 				)}
 				<Col
-					xs={12}
-					lg={8}
+					span={md ? 8 : 12}
 					style={{
 						textAlign: "right",
 						display: "flex",
