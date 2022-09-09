@@ -1,18 +1,56 @@
 import React from "react";
-import { Button } from "antd";
+import Slot from "./Slot";
+
+const slots = [
+	{
+		startTime: "12:45",
+		endTime: "13:15",
+	},
+	{
+		startTime: "12:45",
+		endTime: "13:15",
+	},
+	{
+		startTime: "12:45",
+		endTime: "13:15",
+	},
+	{
+		startTime: "12:45",
+		endTime: "13:15",
+	},
+	{
+		startTime: "12:45",
+		endTime: "13:15",
+	},
+	{
+		startTime: "12:45",
+		endTime: "13:15",
+	},
+	{
+		startTime: "12:45",
+		endTime: "13:15",
+	},
+];
 
 function AvailableSlots() {
 	return (
-		<div style={{ display: "flex", justifyContent: "space-between" }}>
-			<div>
-				<Button>12:45 - 13:15</Button>
-			</div>
-			<div>
-				<Button>13:30 - 14:00</Button>
-			</div>
-			<div>
-				<Button>14:15 - 14:45</Button>
-			</div>
+		<div>
+			{slots.map((slot, index) => {
+				if (index % 3 !== 0) return <div></div>;
+				return (
+					<div
+						key={index}
+						style={{
+							display: "flex",
+							justifyContent: "space-between",
+							marginTop: "10px",
+						}}>
+						<Slot slot={slot} />
+						{index + 1 < slots.length && <Slot slot={slots[index + 1]} />}
+						{index + 2 < slots.length && <Slot slot={slots[index + 2]} />}
+					</div>
+				);
+			})}
 		</div>
 	);
 }
