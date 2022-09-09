@@ -7,7 +7,7 @@ import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import Header from "./Header";
 import Projects from "./Projects";
 // const ProjectTable = React.lazy(() => import("./Projects/ProjectTable"));
-import ProfileCards from "./Profiles";
+import ProfilesTable from "./Profiles";
 // import ProfileTable from "./Profiles/ProfileTable";
 import RulesModal from "./RulesModal";
 import axios from "../../utils/_axios";
@@ -132,7 +132,7 @@ const StudentDashboard = () => {
 									<ProfileTable filter={statusFilter} />
 								</React.Suspense>
 							)} */}
-							<ProfileCards updatePaymentInfo={updatePaymentInfo} />
+							<ProfilesTable updatePaymentInfo={updatePaymentInfo} />
 						</Tabs.TabPane>
 					</Tabs>
 					<Drawer

@@ -1,24 +1,23 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { Grid, Row, Col, Button, Popconfirm } from "antd";
-
+import { CalendarOutlined } from "@ant-design/icons";
 import axios from "../../../utils/_axios";
 import PaymentPrompt from "../PaymentPrompt";
+import InterviewScheduler from "./InterviewScheduler";
 const AppliedProfileCard = React.lazy(() => import("./AppliedProfileCard"));
 const AppliedProfileTable = React.lazy(() => import("./AppliedProfileTable"));
 import openNotification from "../../../utils/openAntdNotification";
+import numberWithCommas from "../../../utils/numberWithCommas";
 const { useBreakpoint } = Grid;
 
 const ROUNDS = ["RESUME", "TEST", "GROUP_DISCUSSION", "INTERVIEW", "OFFER"];
 
-const ProfileCards = ({ updatePaymentInfo }) => {
+const ProfilesTable = ({ updatePaymentInfo }) => {
 	const screen = useBreakpoint();
 
 	const [profiles, setProfiles] = useState([]);
 	const [paymentDone, setPaymentDone] = useState(true);
-
-	function numberWithCommas(x) {
-		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	}
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	useEffect(() => {
 		axios
@@ -135,6 +134,21 @@ const ProfileCards = ({ updatePaymentInfo }) => {
 			});
 	};
 
+	const openSchedulingModal = () => {
+		console.log("Reaching");
+		setIsModalOpen(true);
+	};
+
+	const handleOk = () => {
+		console.log("Reaching");
+		setIsModalOpen(false);
+	};
+
+	const handleCancel = () => {
+		console.log("Reaching");
+		setIsModalOpen(false);
+	};
+
 	const columns = [
 		{
 			title: "Company Name",
@@ -195,7 +209,15 @@ const ProfileCards = ({ updatePaymentInfo }) => {
 		{
 			title: "Interview SL",
 			dataIndex: "INTERVIEW",
-			render: (tag) => <span style={{ color: "#1890FF" }}>{tag}</span>,
+			render: (tag) => (
+				<div style={{ display: "flex", justifyContent: "space-between" }}>
+					<span style={{ color: "#1890FF" }}>{tag}</span>
+					<CalendarOutlined
+						style={{ fontSize: "15px", color: "#1890FF" }}
+						onClick={openSchedulingModal}
+					/>
+				</div>
+			),
 		},
 		{
 			title: "Offer SL",
@@ -205,20 +227,23 @@ const ProfileCards = ({ updatePaymentInfo }) => {
 	];
 
 	return (
-		<Suspense fallback="">
-			{screen.xs ? (
-				<Row justify="center">
-					{profiles.map((profile, index) => (
-						<Col key={index} xs={24}>
-							<AppliedProfileCard deregister={deregister} profile={profile} />
-						</Col>
-					))}
-				</Row>
-			) : (
-				<AppliedProfileTable columns={columns} profiles={profiles} />
-			)}
-		</Suspense>
+		<div>
+			<Suspense fallback="">
+				{screen.xs ? (
+					<Row justify="center">
+						{profiles.map((profile, index) => (
+							<Col key={index} xs={24}>
+								<AppliedProfileCard deregister={deregister} profile={profile} />
+							</Col>
+						))}
+					</Row>
+				) : (
+					<AppliedProfileTable columns={columns} profiles={profiles} />
+				)}
+			</Suspense>
+			<InterviewScheduler props={{ isModalOpen, handleOk, handleCancel }} />
+		</div>
 	);
 };
 
-export default ProfileCards;
+export default ProfilesTable;
