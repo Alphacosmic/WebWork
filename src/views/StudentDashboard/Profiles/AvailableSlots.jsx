@@ -38,7 +38,7 @@ function AvailableSlots(props) {
 	return (
 		<div>
 			{slots.map((slot, index) => {
-				if (index % 3 !== 0) return <div></div>;
+				if (index % 3 !== 0) return <div key={index}></div>;
 				return (
 					<div
 						key={index}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Calendar } from "antd";
+import { Modal, Calendar, Form } from "antd";
 import AvailableSlots from "./AvailableSlots";
 import moment from "moment";
 import interviews from "../../../data/db.json";
@@ -38,27 +38,37 @@ function InterviewScheduler(props) {
 						handleOk();
 					}}
 					onCancel={handleCancel}>
-					<Calendar
-						fullscreen={false}
-						onPanelChange={onPanelChange}
-						onSelect={onSelect}
-						validRange={[
-							moment(interview.dateRange[0], "DDMMYYYY"),
-							moment(interview.dateRange[1], "DDMMYYYY"),
-						]}
-						headerRender={() => null}
-						defaultValue={moment("20221103", "YYYYMMDD")}
-					/>
-					{selectedDate && (
-						<AvailableSlots
-							props={{
-								slots: interview.slots.filter((slot) => {
-									return slot.date.slice(0, 2) === selectedDate.slice(0, 2);
-								}),
-								setSelectedSlot,
-							}}
-						/>
-					)}
+					<Form
+						id="schedulingForm"
+						initialValues={{ selectedDate: moment("20221103", "YYYYMMDD") }}>
+						<Form.Item name="selectedDate">
+							<Calendar
+								fullscreen={false}
+								onPanelChange={onPanelChange}
+								onSelect={onSelect}
+								validRange={[
+									moment(interview.dateRange[0], "DDMMYYYY"),
+									moment(interview.dateRange[1], "DDMMYYYY"),
+								]}
+								headerRender={() => null}
+								// defaultValue={moment("20221103", "YYYYMMDD")}
+							/>
+						</Form.Item>
+						{selectedDate && (
+							<Form.Item>
+								<AvailableSlots
+									props={{
+										slots: interview.slots.filter((slot) => {
+											return (
+												slot.date.slice(0, 2) === selectedDate.slice(0, 2)
+											);
+										}),
+										setSelectedSlot,
+									}}
+								/>
+							</Form.Item>
+						)}
+					</Form>
 				</Modal>
 			)}
 		</div>
