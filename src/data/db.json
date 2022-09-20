@@ -1,0 +1,35 @@
+[
+	{
+		"id": "1",
+		"profile": {
+			"id": "1",
+			"title": "Some test profile"
+		},
+		"company": {},
+		"duration": "30",
+		"meetLink": "https://meet.google.com/rtf-wer-ukla",
+		"dateRange": ["03112022", "05112022"],
+		"slots": [
+			{
+				"status": "VACANT",
+				"applicant": null,
+				"date": "03112022",
+				"timeRange": "13:30-14:00"
+			},
+			{
+				"status": "VACANT",
+				"applicant": null,
+				"date": "03112022",
+				"timeRange": "14:15-1445"
+			},
+			{
+				"status": "BOOKED",
+				"applicant": {
+					"email": "ch21b005@smail.iitm.ac.in"
+				},
+				"date": "04112022",
+				"timeRange": "13:30-14:00"
+			}
+		]
+	}
+]

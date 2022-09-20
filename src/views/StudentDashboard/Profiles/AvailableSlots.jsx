@@ -32,7 +32,9 @@ const slots = [
 	},
 ];
 
-function AvailableSlots() {
+function AvailableSlots(props) {
+	const { slots, setSelectedSlot } = props.props;
+
 	return (
 		<div>
 			{slots.map((slot, index) => {
@@ -42,12 +44,16 @@ function AvailableSlots() {
 						key={index}
 						style={{
 							display: "flex",
-							justifyContent: "space-between",
+							justifyContent: "center",
 							marginTop: "10px",
 						}}>
-						<Slot slot={slot} />
-						{index + 1 < slots.length && <Slot slot={slots[index + 1]} />}
-						{index + 2 < slots.length && <Slot slot={slots[index + 2]} />}
+						<Slot props={{ slot, setSelectedSlot }} />
+						{index + 1 < slots.length && (
+							<Slot props={{ slot: slots[index + 1], setSelectedSlot }} />
+						)}
+						{index + 2 < slots.length && (
+							<Slot props={{ slot: slots[index + 2], setSelectedSlot }} />
+						)}
 					</div>
 				);
 			})}

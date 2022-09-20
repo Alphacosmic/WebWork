@@ -18,12 +18,12 @@ const ProfilesTable = ({ updatePaymentInfo }) => {
 	const [profiles, setProfiles] = useState([]);
 	const [paymentDone, setPaymentDone] = useState(true);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [interviewID, setInterviewID] = useState(null);
 
 	useEffect(() => {
 		axios
 			.get("/getAppliedProfiles")
 			.then((res) => {
-				console.log(res.data);
 				const formattedData = res.data.appliedProfiles.map((item) => ({
 					...item.profile,
 					studentCurrentRound: item.round,
@@ -61,60 +61,6 @@ const ProfilesTable = ({ updatePaymentInfo }) => {
 	if (!paymentDone) {
 		return <PaymentPrompt updatePaymentInfo={updatePaymentInfo} />;
 	}
-	// const showConfirmation = (profileID, profileTitle, startup) => {
-	// 	Modal.confirm({
-	// 		title: (
-	// 			<span>
-	// 				Confirm your application <SmileOutlined />
-	// 			</span>
-	// 		),
-	// 		icon: null,
-	// 		content: (
-	// 			<span>
-	// 				You are applying for <strong>{profileTitle}</strong> at{" "}
-	// 				<strong>{startup}</strong>. Your CV will be made accessible to the Startup.
-	// 				<br />
-	// 				<Text type="secondary">
-	// 					Note that once applied, you cannot revert your action.
-	// 				</Text>
-	// 			</span>
-	// 		),
-	// 		onOk: async () => {
-	// 			try {
-	// 				await axios.post("/student/apply/profile", { profileID });
-	// 				setProfiles((profiles) =>
-	// 					profiles.map((profile) =>
-	// 						profile._id !== profileID ? profile : { ...profile, status: "APPLIED" }
-	// 					)
-	// 				);
-	// 				openAntdNotification(
-	// 					"success",
-	// 					`Successfully applied to profile: ${profileTitle}, ${startup}`,
-	// 					<span>
-	// 						Keep an eye on the <strong>Selected</strong> tab!
-	// 					</span>
-	// 				);
-	// 			} catch (error) {
-	// 				openAntdNotification(
-	// 					"error",
-	// 					"An error occured in applying",
-	// 					error?.response?.data?.msg ?? error.message
-	// 				);
-	// 			}
-	// 		},
-	// 		centered: true,
-	// 	});
-	// };
-
-	// const showAlertToUploadCV = () => {
-	// 	Modal.info({
-	// 		title: "Please upload your CV",
-	// 		icon: <FileDoneOutlined />,
-	// 		content:
-	// 			"You need to upload your CV from the menu in order to apply to profiles by startups.",
-	// 		centered: true,
-	// 	});
-	// };
 
 	const deregister = (id) => {
 		console.log(id);
@@ -135,18 +81,17 @@ const ProfilesTable = ({ updatePaymentInfo }) => {
 	};
 
 	const openSchedulingModal = () => {
-		console.log("Reaching");
 		setIsModalOpen(true);
 	};
 
 	const handleOk = () => {
-		console.log("Reaching");
 		setIsModalOpen(false);
+		setInterviewID(null);
 	};
 
 	const handleCancel = () => {
-		console.log("Reaching");
 		setIsModalOpen(false);
+		setInterviewID(null);
 	};
 
 	const columns = [
@@ -214,7 +159,11 @@ const ProfilesTable = ({ updatePaymentInfo }) => {
 					<span style={{ color: "#1890FF" }}>{tag}</span>
 					<CalendarOutlined
 						style={{ fontSize: "15px", color: "#1890FF" }}
-						onClick={openSchedulingModal}
+						onClick={(e) => {
+							e.preventDefault();
+							setInterviewID("1");
+							openSchedulingModal();
+						}}
 					/>
 				</div>
 			),
@@ -241,7 +190,7 @@ const ProfilesTable = ({ updatePaymentInfo }) => {
 					<AppliedProfileTable columns={columns} profiles={profiles} />
 				)}
 			</Suspense>
-			<InterviewScheduler props={{ isModalOpen, handleOk, handleCancel }} />
+			<InterviewScheduler props={{ isModalOpen, handleOk, handleCancel, interviewID }} />
 		</div>
 	);
 };

@@ -1,11 +1,17 @@
 import React from "react";
 import { Button } from "antd";
 
-function Slot({ slot }) {
+function Slot(props) {
+	const { slot, setSelectedSlot } = props.props;
 	return (
-		<div>
-			<Button style={{ borderRadius: "30px" }}>
-				{slot.startTime}-{slot.endTime}
+		<div style={{ marginRight: "10px" }}>
+			<Button
+				style={{ borderRadius: "30px" }}
+				onClick={(e) => {
+					e.preventDefault();
+					setSelectedSlot(slot.timeRange);
+				}}>
+				{slot.timeRange}
 			</Button>
 		</div>
 	);
