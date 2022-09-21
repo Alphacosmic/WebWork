@@ -20,12 +20,31 @@
 				"status": "VACANT",
 				"applicant": null,
 				"date": "03112022",
-				"timeRange": "14:15-1445"
+				"timeRange": "14:15-14:45"
+			},
+			{
+				"status": "VACANT",
+				"applicant": null,
+				"date": "03112022",
+				"timeRange": "14:45-15:15"
+			},
+			{
+				"status": "VACANT",
+				"applicant": null,
+				"date": "03112022",
+				"timeRange": "15:15-15:45"
+			},
+			{
+				"status": "VACANT",
+				"applicant": null,
+				"date": "03112022",
+				"timeRange": "16:15-16:45"
 			},
 			{
 				"status": "BOOKED",
 				"applicant": {
-					"email": "ch21b005@smail.iitm.ac.in"
+					"email": "ch21b005@smail.iitm.ac.in",
+					"phoneNumber": "1234567890"
 				},
 				"date": "04112022",
 				"timeRange": "13:30-14:00"

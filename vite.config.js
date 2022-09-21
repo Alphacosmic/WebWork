@@ -6,5 +6,6 @@ export default defineConfig({
 	base: "/internfair/student/",
 	server: {
 		port: 3030,
+		host: true,
 	},
 });

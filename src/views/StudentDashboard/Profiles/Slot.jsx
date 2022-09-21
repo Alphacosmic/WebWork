@@ -4,7 +4,21 @@ import { Button, Popover } from "antd";
 function Slot(props) {
 	const { slot, setSelectedSlot } = props.props;
 
-	const occupantContact = <div>{slot.applicant?.email || "Vacant"}</div>;
+	const occupantContact =
+		slot.status === "BOOKED" ? (
+			<div>
+				<div>
+					<b>Email:</b> {slot.applicant.email}
+				</div>
+				<div>
+					<b>Phone:</b> {slot.applicant.phoneNumber}
+				</div>
+			</div>
+		) : (
+			<div>
+				<b>Vacant</b>
+			</div>
+		);
 
 	return (
 		<div style={{ marginRight: "10px" }}>

@@ -51,7 +51,6 @@ function InterviewScheduler(props) {
 									moment(interview.dateRange[1], "DDMMYYYY"),
 								]}
 								headerRender={() => null}
-								// defaultValue={moment("20221103", "YYYYMMDD")}
 							/>
 						</Form.Item>
 						{selectedDate && (
