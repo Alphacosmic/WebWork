@@ -57,11 +57,11 @@ function InterviewScheduler(props) {
 							<Form.Item>
 								<AvailableSlots
 									props={{
-										slots: interview.slots.filter((slot) => {
+										slots: interview.interviewSlots.filter((slot) => {
 											return (
 												slot.date.slice(0, 2) === selectedDate.slice(0, 2)
 											);
-										}),
+										})[0].timeSlots,
 										setSelectedSlot,
 									}}
 								/>

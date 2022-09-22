@@ -33,7 +33,7 @@ function Slot(props) {
 						e.preventDefault();
 						setSelectedSlot(slot.timeRange);
 					}}>
-					{slot.timeRange}
+					{slot.startTime + slot.endTime}
 				</Button>
 			</Popover>
 		</div>

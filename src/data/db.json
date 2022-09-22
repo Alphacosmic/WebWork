@@ -5,49 +5,68 @@
 			"id": "1",
 			"title": "Some test profile"
 		},
-		"company": {},
 		"duration": "30",
 		"meetLink": "https://meet.google.com/rtf-wer-ukla",
 		"dateRange": ["03112022", "05112022"],
-		"slots": [
+		"interviewSlots": [
 			{
-				"status": "VACANT",
-				"applicant": null,
 				"date": "03112022",
-				"timeRange": "13:30-14:00"
+				"timeSlots": [
+					{
+						"startTime": "13:30",
+						"endTime": "14:00",
+						"status": "BOOKED",
+						"applicant": {
+							"email": "ch21b005@smail.iitm.ac.in",
+							"phoneNumber": "1234567890"
+						}
+					},
+					{
+						"startTime": "14:30",
+						"endTime": "15:00",
+						"status": "VACANT",
+						"applicant": null
+					},
+					{
+						"startTime": "15:30",
+						"endTime": "16:00",
+						"status": "VACANT",
+						"applicant": null
+					}
+				]
 			},
 			{
-				"status": "VACANT",
-				"applicant": null,
-				"date": "03112022",
-				"timeRange": "14:15-14:45"
-			},
-			{
-				"status": "VACANT",
-				"applicant": null,
-				"date": "03112022",
-				"timeRange": "14:45-15:15"
-			},
-			{
-				"status": "VACANT",
-				"applicant": null,
-				"date": "03112022",
-				"timeRange": "15:15-15:45"
-			},
-			{
-				"status": "VACANT",
-				"applicant": null,
-				"date": "03112022",
-				"timeRange": "16:15-16:45"
-			},
-			{
-				"status": "BOOKED",
-				"applicant": {
-					"email": "ch21b005@smail.iitm.ac.in",
-					"phoneNumber": "1234567890"
-				},
 				"date": "04112022",
-				"timeRange": "13:30-14:00"
+				"timeSlots": [
+					{
+						"startTime": "13:30",
+						"endTime": "14:00",
+						"status": "BOOKED",
+						"applicant": {
+							"email": "ch21b005@smail.iitm.ac.in",
+							"phoneNumber": "1234567890"
+						}
+					},
+					{
+						"startTime": "14:30",
+						"endTime": "15:00",
+						"status": "BOOKED",
+						"applicant": {
+							"email": "ch21b005@smail.iitm.ac.in",
+							"phoneNumber": "1234567890"
+						}
+					},
+					{
+						"startTime": "15:30",
+						"endTime": "16:00",
+						"status": "VACANT",
+						"applicant": null
+					}
+				]
+			},
+			{
+				"date": "05112022",
+				"timeSlots": []
 			}
 		]
 	}
