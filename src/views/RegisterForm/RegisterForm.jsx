@@ -49,6 +49,8 @@ const idddList = [
 	"Tech MBA",
 ];
 
+const preferredLocations = ["WFH", "IN_PERSON"];
+
 const RegisterForm = () => {
 	const [form] = Form.useForm();
 	const screen = useBreakpoint();
@@ -323,15 +325,19 @@ const RegisterForm = () => {
 							<Col span={24}>
 								<Form.Item
 									name="preferredLocation"
-									validateFirst={true}
-									label={<span>Preferred Location</span>}
+									label={<span>Preferred location</span>}
 									rules={[
 										{
 											required: true,
-											message: "Please input your preferred location!",
 										},
 									]}>
-									<Input />
+									<Select placeholder="None">
+										{preferredLocations.map((value, i) => (
+											<Option key={i} value={value}>
+												{value}
+											</Option>
+										))}
+									</Select>
 								</Form.Item>
 							</Col>
 						</Row>
