@@ -31,9 +31,9 @@ function Slot(props) {
 					disabled={slot.status === "BOOKED"}
 					onClick={(e) => {
 						e.preventDefault();
-						setSelectedSlot(slot.timeRange);
+						setSelectedSlot(`${slot.startTime}-${slot.endTime}`);
 					}}>
-					{slot.startTime + slot.endTime}
+					{slot.startTime}-{slot.endTime}
 				</Button>
 			</Popover>
 		</div>

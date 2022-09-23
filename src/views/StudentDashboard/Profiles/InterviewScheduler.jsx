@@ -5,14 +5,20 @@ import moment from "moment";
 import interviews from "../../../data/db.json";
 
 function InterviewScheduler(props) {
+	const [form] = Form.useForm();
 	const { isModalOpen, handleOk, handleCancel, interviewID } = props.props;
 	const [interview, setInterview] = useState(null);
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [selectedSlot, setSelectedSlot] = useState(null);
+	const [formValues, setFormValues] = useState({});
 
 	useEffect(() => {
 		setInterview(interviews[0]);
 	}, []);
+
+	useEffect(() => {
+		console.log(formValues);
+	}, [formValues]);
 
 	const onPanelChange = (value, mode) => {
 		console.log(value.format("YYYY-MM-DD"), mode);
@@ -24,6 +30,11 @@ function InterviewScheduler(props) {
 
 	const handleSubmit = () => {
 		console.log(selectedDate, selectedSlot, interview.id);
+		setFormValues((f) => {
+			let temp = { ...f, ...form.getFieldsValue(), selectedSlot };
+			return temp;
+		});
+		console.log(formValues);
 	};
 
 	return (
@@ -39,6 +50,7 @@ function InterviewScheduler(props) {
 					}}
 					onCancel={handleCancel}>
 					<Form
+						form={form}
 						id="schedulingForm"
 						initialValues={{ selectedDate: moment("20221103", "YYYYMMDD") }}>
 						<Form.Item name="selectedDate">
@@ -54,18 +66,14 @@ function InterviewScheduler(props) {
 							/>
 						</Form.Item>
 						{selectedDate && (
-							<Form.Item>
-								<AvailableSlots
-									props={{
-										slots: interview.interviewSlots.filter((slot) => {
-											return (
-												slot.date.slice(0, 2) === selectedDate.slice(0, 2)
-											);
-										})[0].timeSlots,
-										setSelectedSlot,
-									}}
-								/>
-							</Form.Item>
+							<AvailableSlots
+								props={{
+									slots: interview.interviewSlots.filter((slot) => {
+										return slot.date.slice(0, 2) === selectedDate.slice(0, 2);
+									})[0].timeSlots,
+									setSelectedSlot,
+								}}
+							/>
 						)}
 					</Form>
 				</Modal>

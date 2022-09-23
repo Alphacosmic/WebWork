@@ -32,6 +32,24 @@
 						"endTime": "16:00",
 						"status": "VACANT",
 						"applicant": null
+					},
+					{
+						"startTime": "14:30",
+						"endTime": "15:00",
+						"status": "BOOKED",
+						"applicant": {
+							"email": "ch21b005@smail.iitm.ac.in",
+							"phoneNumber": "1234567890"
+						}
+					},
+					{
+						"startTime": "15:30",
+						"endTime": "16:00",
+						"status": "BOOKED",
+						"applicant": {
+							"email": "ch21b005@smail.iitm.ac.in",
+							"phoneNumber": "1234567890"
+						}
 					}
 				]
 			},
