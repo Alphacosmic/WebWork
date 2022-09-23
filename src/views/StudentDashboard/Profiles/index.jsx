@@ -24,6 +24,7 @@ const ProfilesTable = ({ updatePaymentInfo }) => {
 		axios
 			.get("/getAppliedProfiles")
 			.then((res) => {
+				console.log(res);
 				const formattedData = res.data.appliedProfiles.map((item) => ({
 					...item.profile,
 					studentCurrentRound: item.round,
@@ -47,7 +48,6 @@ const ProfilesTable = ({ updatePaymentInfo }) => {
 						{}
 					),
 				}));
-
 				setProfiles(formattedData);
 			})
 			.catch((err) => {
