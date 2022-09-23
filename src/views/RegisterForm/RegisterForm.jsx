@@ -320,6 +320,22 @@ const RegisterForm = () => {
 							</Col>
 						</Row>
 						<Row>
+							<Col span={24}>
+								<Form.Item
+									name="preferredLocation"
+									validateFirst={true}
+									label={<span>Preferred Location</span>}
+									rules={[
+										{
+											required: true,
+											message: "Please input your preferred location!",
+										},
+									]}>
+									<Input />
+								</Form.Item>
+							</Col>
+						</Row>
+						<Row>
 							<Col>
 								<Checkbox
 									onChange={() => {
