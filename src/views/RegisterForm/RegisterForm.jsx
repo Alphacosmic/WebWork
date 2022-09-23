@@ -118,14 +118,16 @@ const RegisterForm = () => {
 								style={{ borderRadius: "1rem" }}
 							/>
 						)
-					}>
+					}
+				>
 					<Form
 						form={form}
 						name="register"
 						size="large"
 						layout="vertical"
 						validateTrigger="onSubmit"
-						onFinish={onFinish}>
+						onFinish={onFinish}
+					>
 						<Row gutter={12}>
 							<Col xs={12} md={8}>
 								<Form.Item
@@ -146,7 +148,8 @@ const RegisterForm = () => {
 											message: "Invalid roll",
 											transform: (val) => (!val ? "" : val.trim()),
 										},
-									]}>
+									]}
+								>
 									<Input />
 								</Form.Item>
 							</Col>
@@ -169,7 +172,8 @@ const RegisterForm = () => {
 										<span>
 											<KeyOutlined /> LDAP Password
 										</span>
-									}>
+									}
+								>
 									<Input.Password />
 								</Form.Item>
 							</Col>
@@ -188,7 +192,8 @@ const RegisterForm = () => {
 											required: true,
 											message: "Please input your CGPA!",
 										},
-									]}>
+									]}
+								>
 									<Input />
 								</Form.Item>
 							</Col>
@@ -216,7 +221,8 @@ const RegisterForm = () => {
 											pattern: /^[0-9]{10}$/,
 											message: "Please enter a valid phone number.",
 										},
-									]}>
+									]}
+								>
 									<Input prefix="+91" />
 								</Form.Item>
 							</Col>
@@ -235,7 +241,8 @@ const RegisterForm = () => {
 											type: "email",
 											message: "Please input your Personal mail!",
 										},
-									]}>
+									]}
+								>
 									<Input />
 								</Form.Item>
 							</Col>
@@ -251,7 +258,8 @@ const RegisterForm = () => {
 										{
 											required: false,
 										},
-									]}>
+									]}
+								>
 									<Select placeholder="None" allowClear>
 										{idddList.map((value, i) => (
 											<Option key={i} value={value}>
@@ -273,7 +281,8 @@ const RegisterForm = () => {
 										{
 											required: false,
 										},
-									]}>
+									]}
+								>
 									<Input placeholder="None" />
 								</Form.Item>
 							</Col>
@@ -296,7 +305,8 @@ const RegisterForm = () => {
 											pattern: /^[0-9]{6}$/,
 											message: "Please enter a PIN Code.",
 										},
-									]}>
+									]}
+								>
 									<Input />
 								</Form.Item>
 							</Col>
@@ -314,7 +324,8 @@ const RegisterForm = () => {
 											required: true,
 											message: "Please input your Hostel Address!",
 										},
-									]}>
+									]}
+								>
 									<Input />
 								</Form.Item>
 							</Col>
@@ -322,7 +333,7 @@ const RegisterForm = () => {
 						<Row>
 							<Col span={24}>
 								<Form.Item
-									name="preferredLocation"
+									name="prefferredLocation"
 									validateFirst={true}
 									label={<span>Preferred Location</span>}
 									rules={[
@@ -330,7 +341,8 @@ const RegisterForm = () => {
 											required: true,
 											message: "Please input your preferred location!",
 										},
-									]}>
+									]}
+								>
 									<Input />
 								</Form.Item>
 							</Col>
@@ -340,7 +352,8 @@ const RegisterForm = () => {
 								<Checkbox
 									onChange={() => {
 										setIsTNCAccepted(!isTNCAccepted);
-									}}>
+									}}
+								>
 									I agree to the terms and conditions
 								</Checkbox>
 							</Col>
@@ -358,7 +371,8 @@ const RegisterForm = () => {
 										size="large"
 										htmlType="submit"
 										disabled={!isTNCAccepted}
-										loading={loading}>
+										loading={loading}
+									>
 										Register
 									</Button>
 								</Form.Item>
