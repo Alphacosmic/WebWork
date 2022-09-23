@@ -79,6 +79,7 @@ const transformYear = (year) => `${year}${ordinals[year - 1]} year`;
 const StudentMenu = ({ student, updateResume }) => {
 	const [fileList, setFileList] = useState();
 	const [resumeUploading, setResumeUploading] = useState(false);
+	console.log(student);
 	const handleUpload = async () => {
 		setResumeUploading(true);
 		const file = fileList[0].originFileObj;
@@ -176,12 +177,16 @@ const StudentMenu = ({ student, updateResume }) => {
 					<br />
 					<Text>{student.minor || "None"}</Text>
 				</Col>
-				<Col
-					span={!student.iddd || student.iddd === "None" ? 12 : 24}
-					style={{ textAlign: "right" }}>
+				<Col span={!student.iddd || student.iddd === "None" ? 12 : 24}>
 					<Text strong>IDDD</Text>
 					<br />
 					<Text>{student.iddd || "None"}</Text>
+				</Col>
+				<Col>
+					<Text strong>For issues, contact </Text>
+					<br />
+					<Text>{student.allottedSSManager.name}: </Text>
+					<Text style={{ color: "#1890ff" }}>{student.allottedSSManager.phone}</Text>
 				</Col>
 				<Divider style={{ marginTop: 0, marginBottom: 0 }} />
 				<Col span={24}>

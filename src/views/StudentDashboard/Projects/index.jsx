@@ -88,8 +88,7 @@ const AllProfiles = ({ student, updatePaymentInfo }) => {
 				visible={isModalVisible}
 				onCancel={() => {
 					setIsModalVisible(false);
-				}}
-			>
+				}}>
 				{student?.resumeURL?.length > 0 ? (
 					<p>
 						<strong>Select</strong> the previously uploaded resume that you want to send
@@ -106,17 +105,16 @@ const AllProfiles = ({ student, updatePaymentInfo }) => {
 							onChange={(e) => {
 								setSelectedResume(e.target.value);
 							}}
-							value={selectedResume}
-						>
+							value={selectedResume}>
 							{student?.resumeURL?.map((url, i) => (
-								<>
-									<Radio key={i} value={url}>
+								<div key={i}>
+									<Radio value={url}>
 										Resume {i + 1}
 										<Button type="link" href={url} target="_blank">
 											<u>View</u> <LinkOutlined />
 										</Button>
 									</Radio>
-								</>
+								</div>
 							))}
 						</Radio.Group>
 					) : (
@@ -134,8 +132,7 @@ const AllProfiles = ({ student, updatePaymentInfo }) => {
 					style={{ marginTop: "1em" }}
 					type="primary"
 					loading={isApplying}
-					onClick={handleApply}
-				>
+					onClick={handleApply}>
 					Apply
 				</Button>
 			</Modal>
@@ -161,8 +158,7 @@ const AllProfiles = ({ student, updatePaymentInfo }) => {
 				dataSource={projects}
 				renderItem={(profile) => (
 					<List.Item
-						style={{ paddingTop: "8px", paddingBottom: "8px", paddingLeft: "0px" }}
-					>
+						style={{ paddingTop: "8px", paddingBottom: "8px", paddingLeft: "0px" }}>
 						<Card
 							title={
 								<div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -180,8 +176,7 @@ const AllProfiles = ({ student, updatePaymentInfo }) => {
 									onClick={() =>
 										window.open(profile?.jobDescriptionURL, "_blank").focus()
 									}
-									icon={<LinkOutlined />}
-								>
+									icon={<LinkOutlined />}>
 									View Job Description
 								</Button>,
 								<Tooltip
@@ -189,8 +184,7 @@ const AllProfiles = ({ student, updatePaymentInfo }) => {
 									key={2}
 									mouseEnterDelay={0}
 									mouseLeaveDelay={0}
-									title="You have not made the payment for E-Cell Internfair."
-								>
+									title="You have not made the payment for E-Cell Internfair.">
 									<Button
 										type="link"
 										block
@@ -202,16 +196,14 @@ const AllProfiles = ({ student, updatePaymentInfo }) => {
 												setSelectedProfile(profile);
 												setIsModalVisible(true);
 											}
-										}}
-									>
+										}}>
 										Apply
 									</Button>
 								</Tooltip>,
 							]}
 							bodyStyle={{
 								height: screen.xl ? "250px" : screen.lg ? "280px" : "300px",
-							}}
-						>
+							}}>
 							<Row justify="space-between">
 								<Col span={12} style={{ marginBottom: "1rem" }}>
 									<UserOutlined />
@@ -246,8 +238,7 @@ const AllProfiles = ({ student, updatePaymentInfo }) => {
 										<Col
 											flex="auto"
 											md={12}
-											style={!screen.md && { marginBottom: "1rem" }}
-										>
+											style={!screen.md && { marginBottom: "1rem" }}>
 											<SolutionOutlined />
 											<Typography.Text strong type="secondary">
 												{" "}

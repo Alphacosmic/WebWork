@@ -19,7 +19,7 @@ const StudentDashboard = () => {
 	const screen = useBreakpoint();
 	const [menuVisible, setMenuVisibility] = useState(false);
 	const [rulesModalVisible, setRulesModalVisible] = useState(false);
-	const [student, setStudent] = useState({});
+	const [student, setStudent] = useState(null);
 	// const [statusFilter, setStatusFilter] = useState(ALL);
 	// const [displayType, setDisplayType] = useState(() => localStorage.displayType || "grid");
 	useEffect(() => {
@@ -128,11 +128,13 @@ const StudentDashboard = () => {
 						visible={menuVisible}
 						mask={!screen.md}
 						style={{ marginTop: headerHeight - 24 }}>
-						<StudentMenu
-							student={student}
-							paymentDone={student?.paymentDetails?.captured}
-							updateResume={updateResume}
-						/>
+						{student === null || (
+							<StudentMenu
+								student={student}
+								paymentDone={student?.paymentDetails?.captured}
+								updateResume={updateResume}
+							/>
+						)}
 					</Drawer>
 				</div>
 			</Content>
