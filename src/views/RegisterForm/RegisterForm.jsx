@@ -49,7 +49,16 @@ const idddList = [
 	"Tech MBA",
 ];
 
-const preferredLocations = ["WFH", "IN_PERSON"];
+const preferredLocations = [
+	{
+		label: "Work from home",
+		value: "WFH",
+	},
+	{
+		label: "In person",
+		value: "IN_PERSON",
+	},
+];
 
 const RegisterForm = () => {
 	const [form] = Form.useForm();
@@ -331,13 +340,7 @@ const RegisterForm = () => {
 											required: true,
 										},
 									]}>
-									<Select placeholder="None">
-										{preferredLocations.map((value, i) => (
-											<Option key={i} value={value}>
-												{value}
-											</Option>
-										))}
-									</Select>
+									<Select placeholder="None" options={preferredLocations} />
 								</Form.Item>
 							</Col>
 						</Row>

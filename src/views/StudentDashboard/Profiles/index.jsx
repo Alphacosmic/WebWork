@@ -12,7 +12,7 @@ const { useBreakpoint } = Grid;
 
 const ROUNDS = ["RESUME", "TEST", "GROUP_DISCUSSION", "INTERVIEW", "OFFER"];
 
-const ProfilesTable = ({ updatePaymentInfo }) => {
+const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 	const screen = useBreakpoint();
 
 	const [profiles, setProfiles] = useState([]);
@@ -195,4 +195,4 @@ const ProfilesTable = ({ updatePaymentInfo }) => {
 	);
 };
 
-export default ProfilesTable;
+export default AppliedProfilesTable;

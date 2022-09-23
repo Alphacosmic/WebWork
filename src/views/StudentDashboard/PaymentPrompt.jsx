@@ -101,7 +101,7 @@ const PaymentPrompt = ({ updatePaymentInfo }) => {
 				}
 				onConfirm={handlePayment}>
 				<Button size="large" type="primary">
-					Proceed to pay ₹ 299 /-
+					Proceed to pay ₹ 499 /-
 				</Button>
 			</Popconfirm>
 		</div>

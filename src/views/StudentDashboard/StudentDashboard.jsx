@@ -5,9 +5,9 @@ import { Layout, Typography, Drawer, Tabs, Button, Space, Divider, Alert } from 
 import { InfoCircleOutlined } from "@ant-design/icons";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import Header from "./Header";
-import Projects from "./Projects";
+import AllProfiles from "./Projects";
 // const ProjectTable = React.lazy(() => import("./Projects/ProjectTable"));
-import ProfilesTable from "./Profiles";
+import AppliedProfilesTable from "./Profiles";
 // import ProfileTable from "./Profiles/ProfileTable";
 import RulesModal from "./RulesModal";
 import axios from "../../utils/_axios";
@@ -64,7 +64,7 @@ const StudentDashboard = () => {
 
 	const Settings = (
 		<Space direction={{ xs: "vertical", md: "horizontal" }} align="center">
-			<Alert
+			{/* <Alert
 				type="warning"
 				banner
 				message={
@@ -80,7 +80,7 @@ const StudentDashboard = () => {
 						</span>
 					)
 				}
-			/>
+			/> */}
 
 			<Divider type="vertical" />
 			<Button
@@ -113,26 +113,12 @@ const StudentDashboard = () => {
 						<Tabs.TabPane
 							tab={<Typography.Title level={3}>All</Typography.Title>}
 							key={1}>
-							{/* {displayType === "grid" ? (
-								<Projects filter={statusFilter} />
-							) : (
-								<React.Suspense fallback="Loading Table">
-									<ProjectTable filter={statusFilter} />
-								</React.Suspense>
-							)} */}
-							<Projects student={student} />
+							<AllProfiles student={student} updatePaymentInfo={updatePaymentInfo} />
 						</Tabs.TabPane>
 						<Tabs.TabPane
 							tab={<Typography.Title level={3}>Applied</Typography.Title>}
 							key={2}>
-							{/* {displayType === "grid" ? (
-								<ProfileCards filter={statusFilter} />
-							) : (
-								<React.Suspense fallback="Loading Table">
-									<ProfileTable filter={statusFilter} />
-								</React.Suspense>
-							)} */}
-							<ProfilesTable updatePaymentInfo={updatePaymentInfo} />
+							<AppliedProfilesTable updatePaymentInfo={updatePaymentInfo} />
 						</Tabs.TabPane>
 					</Tabs>
 					<Drawer

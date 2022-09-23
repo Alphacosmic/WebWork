@@ -13,13 +13,13 @@ import {
 	StarFilled,
 } from "@ant-design/icons";
 import openNotification from "../../../utils/openAntdNotification";
-
+import PaymentPrompt from "../PaymentPrompt";
 import axios from "../../../utils/_axios";
 
 const { useBreakpoint } = Grid;
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
-const Projects = ({ student }) => {
+const AllProfiles = ({ student, updatePaymentInfo }) => {
 	const paymentDone = student?.paymentDetails?.captured;
 
 	const screen = useBreakpoint();
@@ -136,7 +136,7 @@ const Projects = ({ student }) => {
 					Apply
 				</Button>
 			</Modal>
-			{!paymentDone && !isFetching && (
+			{/* {!paymentDone && !isFetching && (
 				<div style={{ textAlign: "center" }}>
 					<WarningOutlined style={{ fontSize: "3rem", marginBottom: "1rem" }} />
 					<Title level={3} type="secondary" style={{ marginBottom: 0 }}>
@@ -146,7 +146,8 @@ const Projects = ({ student }) => {
 						You have not made the payment for E-Cell Internfair.
 					</Title>
 				</div>
-			)}
+			)} */}
+			{!paymentDone && !isFetching && <PaymentPrompt updatePaymentInfo={updatePaymentInfo} />}
 			<List
 				size="large"
 				itemLayout="horizontal"
@@ -303,4 +304,4 @@ const Projects = ({ student }) => {
 	);
 };
 
-export default Projects;
+export default AllProfiles;
