@@ -41,7 +41,6 @@ const AllProfiles = ({ student, updatePaymentInfo }) => {
 			.get("/profiles")
 			.then((res) => {
 				setProjects(res.data);
-				console.log(res.data);
 				setIsFetching(false);
 			})
 			.finally(() => {
@@ -163,7 +162,8 @@ const AllProfiles = ({ student, updatePaymentInfo }) => {
 							title={
 								<div style={{ display: "flex", justifyContent: "space-between" }}>
 									<b style={{ color: "#444" }}>{profile.title}</b>
-									{profile.company.isInstiStartup && (
+									{(profile.company.isFromIITMResearchPark ||
+										/nirmaan/i.test(profile.company.incubatorName)) && (
 										<StarFilled style={{ color: "gold" }} />
 									)}
 								</div>

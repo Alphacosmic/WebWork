@@ -79,7 +79,6 @@ const transformYear = (year) => `${year}${ordinals[year - 1]} year`;
 const StudentMenu = ({ student, updateResume }) => {
 	const [fileList, setFileList] = useState();
 	const [resumeUploading, setResumeUploading] = useState(false);
-	console.log(student);
 	const handleUpload = async () => {
 		setResumeUploading(true);
 		const file = fileList[0].originFileObj;
