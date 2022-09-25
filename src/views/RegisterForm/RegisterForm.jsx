@@ -351,7 +351,13 @@ const RegisterForm = () => {
 									onChange={() => {
 										setIsTNCAccepted(!isTNCAccepted);
 									}}>
-									I agree to the terms and conditions
+									I agree to the{" "}
+									<a
+										href="https://drive.google.com/file/d/1q5WXJrOBQkWPkHpVWXQ5f5UHRyCNnnxu/view"
+										target="_blank"
+										rel="noreferrer">
+										terms and conditions
+									</a>
 								</Checkbox>
 							</Col>
 						</Row>
