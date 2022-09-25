@@ -100,7 +100,7 @@ const RegisterForm = () => {
 						padding: "0.5rem",
 					}}
 				/>
-				{screen.xs && (
+				{/* {screen.xs && (
 					<Alert
 						type="warning"
 						banner
@@ -111,25 +111,26 @@ const RegisterForm = () => {
 						}
 						style={{ borderRadius: "1rem", width: "90%" }}
 					/>
-				)}
+				)} */}
 				<Card
 					className="loginCard"
 					title={<strong>Register</strong>}
-					extra={
-						screen.lg && (
-							<Alert
-								type="warning"
-								banner
-								message={
-									<span>
-										The portal has <strong> stopped </strong> accepting new
-										payments.
-									</span>
-								}
-								style={{ borderRadius: "1rem" }}
-							/>
-						)
-					}>
+					// extra={
+					// 	screen.lg && (
+					// 		<Alert
+					// 			type="warning"
+					// 			banner
+					// 			message={
+					// 				<span>
+					// 					The portal has <strong> stopped </strong> accepting new
+					// 					payments.
+					// 				</span>
+					// 			}
+					// 			style={{ borderRadius: "1rem" }}
+					// 		/>
+					// 	)
+					// }
+				>
 					<Form
 						form={form}
 						name="register"

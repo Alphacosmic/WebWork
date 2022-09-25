@@ -157,14 +157,14 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 			render: (tag) => (
 				<div style={{ display: "flex", justifyContent: "space-between" }}>
 					<span style={{ color: "#1890FF" }}>{tag}</span>
-					<CalendarOutlined
+					{/* <CalendarOutlined
 						style={{ fontSize: "15px", color: "#1890FF" }}
 						onClick={(e) => {
 							e.preventDefault();
 							setInterviewID("1");
 							openSchedulingModal();
 						}}
-					/>
+					/> */}
 				</div>
 			),
 		},

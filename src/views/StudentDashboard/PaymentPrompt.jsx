@@ -97,6 +97,8 @@ const PaymentPrompt = ({ updatePaymentInfo }) => {
 						<strong>B.Tech.: 2020, 2021</strong>
 						<br />
 						<strong>Dual Degree/IDDD: 2019, 2020, 2021</strong>
+						<br />
+						<strong>Humanities: 2019, 2020, 2021</strong>
 					</>
 				}
 				onConfirm={handlePayment}>

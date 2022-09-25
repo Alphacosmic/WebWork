@@ -3,6 +3,7 @@ import { Modal, Calendar, Form } from "antd";
 import AvailableSlots from "./AvailableSlots";
 import moment from "moment";
 import interviews from "../../../data/db.json";
+import axios from "../../../utils/_axios";
 
 function InterviewScheduler(props) {
 	const [form] = Form.useForm();
@@ -13,6 +14,18 @@ function InterviewScheduler(props) {
 	const [formValues, setFormValues] = useState({});
 
 	useEffect(() => {
+		axios
+			.get("/interview")
+			.then((res) => {
+				console.log(res.json());
+				console.log("Reaching");
+			})
+			.catch((err) => {
+				console.error(err);
+			})
+			.finally(() => {
+				console.log("Fetch finished");
+			});
 		setInterview(interviews[0]);
 	}, []);
 
