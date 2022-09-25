@@ -58,6 +58,7 @@ export const upload = async (file) => {
 	const bucketWriteUrl = `https://${S3SignedPolicyObject.bucket}.s3.ap-south-1.amazonaws.com`;
 
 	const { name, roll } = JSON.parse(localStorage.studentData || "{}");
+	// file name is for winters
 	const filename = `winter-2022/resumes/${name.replace(
 		/ /g,
 		""
