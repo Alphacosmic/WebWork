@@ -32,6 +32,7 @@ const branches = {
 const degrees = {
 	btech: "B. Tech",
 	dualdegree: "Dual Degree",
+	ma: "Masters",
 };
 
 const makeFormdata = async (policy, file) => {
