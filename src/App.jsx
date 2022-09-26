@@ -56,11 +56,6 @@ function App() {
 			<ECellFooter
 				developers={[
 					{
-						name: "Ishaan",
-						whatsappNum: "+91 9152363694",
-						profileURL: "https://github.com/KlumsyKamikaze",
-					},
-					{
 						name: "Aditya",
 						whatsappNum: "+91 9560667329",
 						profileURL: "https://github.com/spartacus5329/",
