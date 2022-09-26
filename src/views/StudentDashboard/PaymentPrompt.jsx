@@ -7,9 +7,8 @@ import axios from "../../utils/_axios";
 const { Title } = Typography;
 
 const PaymentPrompt = ({ updatePaymentInfo }) => {
+	const studentData = JSON.parse(localStorage.studentData || "{}");
 	async function handlePayment() {
-		const studentData = JSON.parse(localStorage.studentData || "{}");
-
 		const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
 		if (!res) {
@@ -103,7 +102,10 @@ const PaymentPrompt = ({ updatePaymentInfo }) => {
 					</>
 				}
 				onConfirm={handlePayment}>
-				<Button disabled={true} size="large" type="primary">
+				<Button
+					disabled={!(studentData.roll.toLowerCase() === "rp22t222")}
+					size="large"
+					type="primary">
 					Pay
 				</Button>
 			</Popconfirm>
