@@ -57,6 +57,24 @@ const ECellFooter = ({ developers }) => {
 							<Typography.Link>contact us.</Typography.Link>
 						</Popover>
 					</div>
+					<Row style={{ fontSize: "0.9rem" }}>
+						<Col span={10}>
+							<a
+								href="https://ecell.iitm.ac.in/internfair-terms-and-conditions"
+								target={"_blank"}
+								rel="noreferrer">
+								Terms and Conditions
+							</a>
+						</Col>{" "}
+						<Col span={10}>
+							<a
+								href="https://ecell.iitm.ac.in/internfair-privacy-policy"
+								target={"_blank"}
+								rel="noreferrer">
+								Privacy Policy
+							</a>
+						</Col>
+					</Row>
 				</Col>
 			</Row>
 		</Footer>
