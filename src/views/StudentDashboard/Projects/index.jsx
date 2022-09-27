@@ -1,5 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Grid, List, Card, Button, Typography, Row, Col, Modal, Radio, Tooltip } from "antd";
+import {
+	Grid,
+	List,
+	Card,
+	Button,
+	Typography,
+	Row,
+	Col,
+	Modal,
+	Radio,
+	Tooltip,
+	Popover,
+} from "antd";
 import {
 	CompassOutlined,
 	TeamOutlined,
@@ -164,7 +176,12 @@ const AllProfiles = ({ student, updatePaymentInfo }) => {
 									<b style={{ color: "#444" }}>{profile.title}</b>
 									{(profile.company.isFromIITMResearchPark ||
 										/nirmaan/i.test(profile.company.incubatorName)) && (
-										<StarFilled style={{ color: "gold" }} />
+										<Popover
+											content={
+												<div style={{ color: "gold" }}>Insti startup</div>
+											}>
+											<StarFilled style={{ color: "gold" }} />
+										</Popover>
 									)}
 								</div>
 							}
