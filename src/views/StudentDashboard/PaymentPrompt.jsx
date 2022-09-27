@@ -82,8 +82,8 @@ const PaymentPrompt = ({ updatePaymentInfo }) => {
 				You have not made the payment for E-Cell Internfair.
 			</Title>
 			<Title level={4} type="secondary" style={{ marginTop: 0 }}>
-				{/* Please do so to access companies. */}
-				Payments starting soon.
+				Please do so to access companies.
+				{/* Payments starting soon. */}
 			</Title>
 			<Popconfirm
 				title={
@@ -103,7 +103,7 @@ const PaymentPrompt = ({ updatePaymentInfo }) => {
 				}
 				onConfirm={handlePayment}>
 				<Button
-					disabled={!(studentData.roll.toLowerCase() === "rp22t222")}
+					// disabled={!(studentData.roll.toLowerCase() === "rp22t222")}
 					size="large"
 					type="primary">
 					Pay
