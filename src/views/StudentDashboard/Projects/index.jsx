@@ -135,9 +135,9 @@ const AllProfiles = ({ student, updatePaymentInfo }) => {
 				{student?.resumeURL?.length < 3 || !student?.resumeURL?.length
 					? "or Upload a new resume from the sidebar"
 					: ""}
-
 				<Button
-					disabled={!selectedResume}
+					// disabled={!selectedResume}
+					disabled={true}
 					key={1}
 					block
 					style={{ marginTop: "1em" }}
@@ -202,20 +202,23 @@ const AllProfiles = ({ student, updatePaymentInfo }) => {
 									mouseEnterDelay={0}
 									mouseLeaveDelay={0}
 									title="You have not made the payment for E-Cell Internfair.">
-									<Button
-										type="link"
-										block
-										disabled={!paymentDone}
-										onMouseEnter={() => setToolTipVisible(profile._id)}
-										onMouseLeave={() => setToolTipVisible("")}
-										onClick={() => {
-											if (paymentDone) {
-												setSelectedProfile(profile);
-												setIsModalVisible(true);
-											}
-										}}>
-										Apply
-									</Button>
+									<Popover content={<div>Applications begin from 30/09</div>}>
+										<Button
+											type="link"
+											block
+											// disabled={!paymentDone}
+											disabled={true}
+											onMouseEnter={() => setToolTipVisible(profile._id)}
+											onMouseLeave={() => setToolTipVisible("")}
+											onClick={() => {
+												if (paymentDone) {
+													setSelectedProfile(profile);
+													setIsModalVisible(true);
+												}
+											}}>
+											Apply
+										</Button>
+									</Popover>
 								</Tooltip>,
 							]}
 							bodyStyle={{
