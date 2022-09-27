@@ -106,7 +106,7 @@ const PaymentPrompt = ({ updatePaymentInfo }) => {
 					// disabled={!(studentData.roll.toLowerCase() === "rp22t222")}
 					size="large"
 					type="primary">
-					Pay
+					Pay ₹399/-
 				</Button>
 			</Popconfirm>
 		</div>
