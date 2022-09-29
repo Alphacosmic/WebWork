@@ -139,40 +139,50 @@ const StudentDashboard = () => {
 							<Radio.Group
 								value={statusSort}
 								onChange={(val) => {
+									setStatusSortOrder(NONE);
 									setStatusSort(val.target.value);
 								}}>
 								<Space direction="vertical">
-									<Button
-										onClick={(e) => {
-											e.preventDefault();
-											setStatusSort(STIPEND);
-											setStatusSortOrder((statusSortOrder) => {
-												let index = SORT_ORDER.indexOf(statusSortOrder);
-												return SORT_ORDER[(index + 1) % SORT_ORDER.length];
-											});
-											console.log(statusSortOrder);
-										}}>
-										Stipend
-									</Button>
-									{/* {statusSortOrder === NONE || sortOrderIcon} */}
-									{statusSortOrder === ASCENDING && <div>Asc</div>}
-									{statusSortOrder === DESCENDING && <div>Desc</div>}
-									<Button
-										onClick={(e) => {
-											e.preventDefault();
-											setStatusSort(NUMBER_OF_APPLICANTS);
-											setStatusSortOrder((statusSortOrder) => {
-												let index = SORT_ORDER.indexOf(statusSortOrder);
-												return SORT_ORDER[(index + 1) % SORT_ORDER.length];
-											});
-										}}>
-										Number of applicants
-									</Button>
-									{/* {statusSortOrder === NONE || sortOrderIcon} */}
+									<Radio value={STIPEND}>Stipend</Radio>
+									{statusSort === STIPEND && (
+										<Radio.Group
+											value={statusSortOrder}
+											onChange={(val) => {
+												setStatusSortOrder(val.target.value);
+											}}>
+											<Space
+												direction="vertical"
+												style={{ marginLeft: "15px" }}>
+												<Radio value={DESCENDING}>Descending</Radio>
+												<Radio value={ASCENDING}>Ascending</Radio>
+											</Space>
+										</Radio.Group>
+									)}
+									<Radio value={NUMBER_OF_APPLICANTS}>Number of applicants</Radio>
+									{statusSort === NUMBER_OF_APPLICANTS && (
+										<Radio.Group
+											value={statusSortOrder}
+											onChange={(val) => {
+												setStatusSortOrder(val.target.value);
+											}}>
+											<Space
+												direction="vertical"
+												style={{ marginLeft: "15px" }}>
+												<Radio value={DESCENDING}>Descending</Radio>
+												<Radio value={ASCENDING}>Ascending</Radio>
+											</Space>
+										</Radio.Group>
+									)}
 								</Space>
 							</Radio.Group>
 							<Divider />
-							<Button onClick={() => setStatusSort(NONE)}>Clear Sorting</Button>
+							<Button
+								onClick={() => {
+									setStatusSort(NONE);
+									setStatusSortOrder(NONE);
+								}}>
+								Clear Sorting
+							</Button>
 						</>
 					}>
 					<Button>Sorting</Button>
