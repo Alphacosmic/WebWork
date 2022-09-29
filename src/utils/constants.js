@@ -12,3 +12,11 @@ export const idddList = [
 	"Electric Vehicles",
 	"Tech MBA",
 ];
+
+export const WFH = "WFH";
+export const ALL = "ALL";
+export const NONE = "NONE";
+export const STIPEND = "STIPEND";
+export const ASCENDING = "ASCENDING";
+export const DESCENDING = "DESCENDING";
+export const NUMBER_OF_APPLICANTS = "NUMBER_OF_APPLICANTS";

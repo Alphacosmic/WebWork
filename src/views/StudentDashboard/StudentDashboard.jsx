@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import "./StudentDashboard.css";
 import StudentMenu from "./StudentMenu";
-import { Layout, Typography, Drawer, Tabs, Button, Space, Divider, Alert } from "antd";
+import { Layout, Typography, Drawer, Tabs, Button, Space, Divider, Popover, Radio } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import Header from "./Header";
@@ -11,6 +11,7 @@ import AppliedProfilesTable from "./Profiles";
 // import ProfileTable from "./Profiles/ProfileTable";
 import RulesModal from "./RulesModal";
 import axios from "../../utils/_axios";
+import { ALL, NONE, STIPEND, WFH, NUMBER_OF_APPLICANTS } from "../../utils/constants";
 
 const { Content } = Layout;
 
@@ -20,6 +21,8 @@ const StudentDashboard = () => {
 	const [menuVisible, setMenuVisibility] = useState(false);
 	const [rulesModalVisible, setRulesModalVisible] = useState(false);
 	const [student, setStudent] = useState(null);
+	const [statusFilter, setStatusFilter] = useState(ALL);
+	const [statusSort, setStatusSort] = useState(NONE);
 	// const [statusFilter, setStatusFilter] = useState(ALL);
 	// const [displayType, setDisplayType] = useState(() => localStorage.displayType || "grid");
 	useEffect(() => {
@@ -89,6 +92,50 @@ const StudentDashboard = () => {
 				icon={<InfoCircleOutlined />}>
 				Rules
 			</Button>
+			<>
+				<Divider type="vertical" />
+				<Popover
+					trigger="click"
+					placement="bottom"
+					content={
+						<>
+							<Radio.Group
+								value={statusFilter}
+								onChange={(val) => {
+									setStatusFilter(val.target.value);
+								}}>
+								<Space direction="vertical">
+									<Radio value={WFH}>WFH</Radio>
+								</Space>
+							</Radio.Group>
+							<Divider />
+							<Button onClick={() => setStatusFilter(ALL)}>Clear Filters</Button>
+						</>
+					}>
+					<Button>Filters</Button>
+				</Popover>
+				<Popover
+					trigger="click"
+					placement="bottom"
+					content={
+						<>
+							<Radio.Group
+								value={statusSort}
+								onChange={(val) => {
+									setStatusSort(val.target.value);
+								}}>
+								<Space direction="vertical">
+									<Radio value={STIPEND}>Stipend</Radio>
+									<Radio value={NUMBER_OF_APPLICANTS}>Applicants</Radio>
+								</Space>
+							</Radio.Group>
+							<Divider />
+							<Button onClick={() => setStatusSort(NONE)}>Clear Sorting</Button>
+						</>
+					}>
+					<Button>Sorting</Button>
+				</Popover>
+			</>
 		</Space>
 	);
 
@@ -113,7 +160,9 @@ const StudentDashboard = () => {
 						<Tabs.TabPane
 							tab={<Typography.Title level={3}>All</Typography.Title>}
 							key={1}>
-							<AllProfiles student={student} updatePaymentInfo={updatePaymentInfo} />
+							<AllProfiles
+								props={{ student, updatePaymentInfo, statusFilter, statusSort }}
+							/>
 						</Tabs.TabPane>
 						<Tabs.TabPane
 							tab={<Typography.Title level={3}>Applied</Typography.Title>}
