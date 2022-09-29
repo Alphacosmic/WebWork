@@ -13,6 +13,8 @@ export const idddList = [
 	"Tech MBA",
 ];
 
+export const SORT_ORDER = ["NONE", "DESCENDING", "ASCENDING"];
+
 export const WFH = "WFH";
 export const ALL = "ALL";
 export const NONE = "NONE";

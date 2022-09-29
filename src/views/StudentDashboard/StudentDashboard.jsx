@@ -2,7 +2,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import "./StudentDashboard.css";
 import StudentMenu from "./StudentMenu";
 import { Layout, Typography, Drawer, Tabs, Button, Space, Divider, Popover, Radio } from "antd";
-import { InfoCircleOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined, ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import Header from "./Header";
 import AllProfiles from "./Projects";
@@ -11,7 +11,16 @@ import AppliedProfilesTable from "./Profiles";
 // import ProfileTable from "./Profiles/ProfileTable";
 import RulesModal from "./RulesModal";
 import axios from "../../utils/_axios";
-import { ALL, NONE, STIPEND, WFH, NUMBER_OF_APPLICANTS } from "../../utils/constants";
+import {
+	ALL,
+	NONE,
+	STIPEND,
+	WFH,
+	NUMBER_OF_APPLICANTS,
+	SORT_ORDER,
+	DESCENDING,
+	ASCENDING,
+} from "../../utils/constants";
 
 const { Content } = Layout;
 
@@ -23,6 +32,8 @@ const StudentDashboard = () => {
 	const [student, setStudent] = useState(null);
 	const [statusFilter, setStatusFilter] = useState(ALL);
 	const [statusSort, setStatusSort] = useState(NONE);
+	const [statusSortOrder, setStatusSortOrder] = useState(NONE);
+	const [sortOrderIcon, setSortOrderIcon] = useState(null);
 	// const [statusFilter, setStatusFilter] = useState(ALL);
 	// const [displayType, setDisplayType] = useState(() => localStorage.displayType || "grid");
 	useEffect(() => {
@@ -30,6 +41,12 @@ const StudentDashboard = () => {
 			setStudent(res.data);
 		});
 	}, []);
+
+	useEffect(() => {
+		if (statusSortOrder === DESCENDING) setSortOrderIcon(<ArrowUpOutlined />);
+		else if (statusSortOrder === ASCENDING) setSortOrderIcon(<ArrowDownOutlined />);
+		else setSortOrderIcon(null);
+	}, [statusSortOrder]);
 
 	useLayoutEffect(() => {
 		if (screen.md) {
@@ -125,8 +142,33 @@ const StudentDashboard = () => {
 									setStatusSort(val.target.value);
 								}}>
 								<Space direction="vertical">
-									<Radio value={STIPEND}>Stipend</Radio>
-									<Radio value={NUMBER_OF_APPLICANTS}>Applicants</Radio>
+									<Button
+										onClick={(e) => {
+											e.preventDefault();
+											setStatusSort(STIPEND);
+											setStatusSortOrder((statusSortOrder) => {
+												let index = SORT_ORDER.indexOf(statusSortOrder);
+												return SORT_ORDER[(index + 1) % SORT_ORDER.length];
+											});
+											console.log(statusSortOrder);
+										}}>
+										Stipend
+									</Button>
+									{/* {statusSortOrder === NONE || sortOrderIcon} */}
+									{statusSortOrder === ASCENDING && <div>Asc</div>}
+									{statusSortOrder === DESCENDING && <div>Desc</div>}
+									<Button
+										onClick={(e) => {
+											e.preventDefault();
+											setStatusSort(NUMBER_OF_APPLICANTS);
+											setStatusSortOrder((statusSortOrder) => {
+												let index = SORT_ORDER.indexOf(statusSortOrder);
+												return SORT_ORDER[(index + 1) % SORT_ORDER.length];
+											});
+										}}>
+										Number of applicants
+									</Button>
+									{/* {statusSortOrder === NONE || sortOrderIcon} */}
 								</Space>
 							</Radio.Group>
 							<Divider />
@@ -161,7 +203,13 @@ const StudentDashboard = () => {
 							tab={<Typography.Title level={3}>All</Typography.Title>}
 							key={1}>
 							<AllProfiles
-								props={{ student, updatePaymentInfo, statusFilter, statusSort }}
+								props={{
+									student,
+									updatePaymentInfo,
+									statusFilter,
+									statusSort,
+									statusSortOrder,
+								}}
 							/>
 						</Tabs.TabPane>
 						<Tabs.TabPane

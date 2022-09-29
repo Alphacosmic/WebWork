@@ -33,7 +33,7 @@ const { useBreakpoint } = Grid;
 const { Text } = Typography;
 
 const AllProfiles = (props) => {
-	const { student, updatePaymentInfo, statusFilter, statusSort } = props.props;
+	const { student, updatePaymentInfo, statusFilter, statusSort, statusSortOrder } = props.props;
 	const paymentDone = student?.paymentDetails?.captured;
 
 	const screen = useBreakpoint();
@@ -168,7 +168,12 @@ const AllProfiles = (props) => {
 				locale={{ emptyText: <EmptyList /> }}
 				loading={isFetching}
 				grid={{ column: screen.xs ? 1 : 2 }}
-				dataSource={dataSourceGenerator(projects, statusFilter, statusSort)}
+				dataSource={dataSourceGenerator(
+					projects,
+					statusFilter,
+					statusSort,
+					statusSortOrder
+				)}
 				renderItem={(profile) => (
 					<List.Item
 						style={{ paddingTop: "8px", paddingBottom: "8px", paddingLeft: "0px" }}>

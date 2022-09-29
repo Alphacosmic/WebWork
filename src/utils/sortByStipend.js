@@ -1,13 +1,13 @@
-import { ASCENDING, DESCENDING } from "./constants";
+import { DESCENDING } from "./constants";
 
 /**
  *
  * @param {array} profiles all profiles set by companies
- * @param {('DESCENDING'|'ASCENDING')}  sort the type of sorting
+ * @param {('DESCENDING'|'ASCENDING'|'NONE')}  sort the type of sorting
  * @returns {array}
  */
 
-const sortByStipend = (profiles, sort) => {
+const sortByStipend = (profiles, order) => {
 	return [...profiles].sort((profile_1, profile_2) => {
 		const stipend_1 =
 			profile_1.stipend.range.length !== 0
@@ -17,7 +17,7 @@ const sortByStipend = (profiles, sort) => {
 			profile_2.stipend.range.length !== 0
 				? profile_2.stipend.range[0]
 				: profile_2.stipend.amount;
-		return stipend_2 - stipend_1;
+		return order === DESCENDING ? stipend_2 - stipend_1 : stipend_1 - stipend_2;
 	});
 };
 

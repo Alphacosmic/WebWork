@@ -7,9 +7,10 @@ import sortByNumberOfApplicants from "./sortByNumberOfApplicants";
  * @param {array} profiles - The profiles/ profiles array to be sorted.
  * @param {('ALL'|'APPLIED'|'SELECTED'|'REJECTED'|'ELIGIBLE')} sort - The type of filtering.
  * @param {('LATEST_FIRST'|'OLDEST_FIRST')} sort - The type of sorting.
+ * @param {('NONE'|'ASCENDING'|'DESCENDING')} order - The order of sorting
  */
 
-export const dataSourceGenerator = (profiles, filter, sort) => {
+export const dataSourceGenerator = (profiles, filter, sort, order) => {
 	// console.log(filter, sort);
 	const filteredProjects = profiles.filter(({ location }) =>
 		filter === ALL ? true : filter === location
@@ -17,10 +18,10 @@ export const dataSourceGenerator = (profiles, filter, sort) => {
 	let sortedFilteredProjects = filteredProjects;
 	switch (sort) {
 		case STIPEND:
-			sortedFilteredProjects = sortByStipend(filteredProjects, sort);
+			sortedFilteredProjects = sortByStipend(filteredProjects, order);
 			break;
 		case NUMBER_OF_APPLICANTS:
-			sortedFilteredProjects = sortByNumberOfApplicants(filteredProjects, sort);
+			sortedFilteredProjects = sortByNumberOfApplicants(filteredProjects, order);
 			break;
 		default:
 			break;
