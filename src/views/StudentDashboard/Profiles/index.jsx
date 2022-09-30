@@ -24,7 +24,7 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 		axios
 			.get("/getAppliedProfiles")
 			.then((res) => {
-				console.log(res);
+				console.log("res", res);
 				const formattedData = res.data.appliedProfiles.map((item) => ({
 					...item.profile,
 					studentCurrentRound: item.round,
@@ -48,6 +48,7 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 						{}
 					),
 				}));
+				console.log(formattedData);
 				setProfiles(formattedData);
 			})
 			.catch((err) => {
@@ -157,14 +158,14 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 			render: (tag) => (
 				<div style={{ display: "flex", justifyContent: "space-between" }}>
 					<span style={{ color: "#1890FF" }}>{tag}</span>
-					{/* <CalendarOutlined
+					<CalendarOutlined
 						style={{ fontSize: "15px", color: "#1890FF" }}
 						onClick={(e) => {
 							e.preventDefault();
 							setInterviewID("1");
 							openSchedulingModal();
 						}}
-					/> */}
+					/>
 				</div>
 			),
 		},

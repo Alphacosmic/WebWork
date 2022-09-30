@@ -138,8 +138,8 @@ const AllProfiles = (props) => {
 					? "or Upload a new resume from the sidebar"
 					: ""}
 				<Button
-					// disabled={!selectedResume}
-					disabled={true}
+					disabled={!selectedResume}
+					// disabled={true}
 					key={1}
 					block
 					style={{ marginTop: "1em" }}
@@ -183,10 +183,7 @@ const AllProfiles = (props) => {
 									<b style={{ color: "#444" }}>{profile.title}</b>
 									{(profile.company.isFromIITMResearchPark ||
 										/nirmaan/i.test(profile.company.incubatorName)) && (
-										<Popover
-											content={
-												<div style={{ color: "gold" }}>Insti startup</div>
-											}>
+										<Popover content={<div>Institute based startup</div>}>
 											<StarFilled style={{ color: "gold" }} />
 										</Popover>
 									)}
@@ -213,8 +210,8 @@ const AllProfiles = (props) => {
 										<Button
 											type="link"
 											block
-											// disabled={!paymentDone}
-											disabled={true}
+											disabled={!paymentDone}
+											// disabled={true}
 											onMouseEnter={() => setToolTipVisible(profile._id)}
 											onMouseLeave={() => setToolTipVisible("")}
 											onClick={() => {
