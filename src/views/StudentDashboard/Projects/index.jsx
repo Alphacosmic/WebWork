@@ -183,10 +183,7 @@ const AllProfiles = (props) => {
 									<b style={{ color: "#444" }}>{profile.title}</b>
 									{(profile.company.isFromIITMResearchPark ||
 										/nirmaan/i.test(profile.company.incubatorName)) && (
-										<Popover
-											content={
-												<div style={{ color: "gold" }}>Insti startup</div>
-											}>
+										<Popover content={<div>Institute based startup</div>}>
 											<StarFilled style={{ color: "gold" }} />
 										</Popover>
 									)}
