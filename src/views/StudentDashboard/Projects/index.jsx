@@ -138,8 +138,7 @@ const AllProfiles = (props) => {
 					? "or Upload a new resume from the sidebar"
 					: ""}
 				<Button
-					// disabled={!selectedResume}
-					disabled={true}
+					disabled={!selectedResume}
 					key={1}
 					block
 					style={{ marginTop: "1em" }}
@@ -206,23 +205,20 @@ const AllProfiles = (props) => {
 									mouseEnterDelay={0}
 									mouseLeaveDelay={0}
 									title="You have not made the payment for E-Cell Internfair.">
-									<Popover content={<div>Applications begin from 30/09</div>}>
-										<Button
-											type="link"
-											block
-											// disabled={!paymentDone}
-											disabled={true}
-											onMouseEnter={() => setToolTipVisible(profile._id)}
-											onMouseLeave={() => setToolTipVisible("")}
-											onClick={() => {
-												if (paymentDone) {
-													setSelectedProfile(profile);
-													setIsModalVisible(true);
-												}
-											}}>
-											Apply
-										</Button>
-									</Popover>
+									<Button
+										type="link"
+										block
+										disabled={!paymentDone}
+										onMouseEnter={() => setToolTipVisible(profile._id)}
+										onMouseLeave={() => setToolTipVisible("")}
+										onClick={() => {
+											if (paymentDone) {
+												setSelectedProfile(profile);
+												setIsModalVisible(true);
+											}
+										}}>
+										Apply
+									</Button>
 								</Tooltip>,
 							]}
 							bodyStyle={{
