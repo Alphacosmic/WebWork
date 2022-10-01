@@ -24,7 +24,7 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 		axios
 			.get("/getAppliedProfiles")
 			.then((res) => {
-				const formattedData = res.data.appliedProfiles.map((item) => ({
+				let formattedData = res.data.appliedProfiles.map((item) => ({
 					...item.profile,
 					studentCurrentRound: item.round,
 					...ROUNDS.reduce(
@@ -47,6 +47,20 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 						{}
 					),
 				}));
+				formattedData = formattedData.map((interview) => {
+					if (interview.currentRound === "INTERVIEW") {
+						console.log("Reaching");
+						let status = interview.INTERVIEW;
+						delete interview.INTERVIEW;
+						interview.INTERVIEW = {
+							status,
+							profileID: interview._id,
+						};
+					}
+					return interview;
+				});
+
+				console.log(formattedData);
 				setProfiles(formattedData);
 			})
 			.catch((err) => {
@@ -157,17 +171,19 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 		{
 			title: "Interview SL",
 			dataIndex: "INTERVIEW",
-			render: (tag) => (
+			render: (interview) => (
 				<div style={{ display: "flex", justifyContent: "space-between" }}>
-					<span style={{ color: "#1890FF" }}>{tag}</span>
-					<CalendarOutlined
-						style={{ fontSize: "15px", color: "#1890FF" }}
-						onClick={(e) => {
-							e.preventDefault();
-							setInterviewID("1");
-							openSchedulingModal();
-						}}
-					/>
+					<span style={{ color: "#1890FF" }}>{interview.status || "-"}</span>
+					{interview.status === "-" && (
+						<CalendarOutlined
+							style={{ fontSize: "15px", color: "#1890FF" }}
+							onClick={(e) => {
+								e.preventDefault();
+								setInterviewID(interview.profileID);
+								openSchedulingModal();
+							}}
+						/>
+					)}
 				</div>
 			),
 		},

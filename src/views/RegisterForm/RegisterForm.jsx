@@ -17,7 +17,6 @@ import { Link, useLocation } from "wouter";
 import logo from "../../assets/startup-internfair_logo.png";
 
 import axios from "../../utils/_axios";
-import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 
 const { Option } = Select;
 const { Content } = Layout;
