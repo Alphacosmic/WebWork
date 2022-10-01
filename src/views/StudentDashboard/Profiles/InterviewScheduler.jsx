@@ -15,19 +15,15 @@ function InterviewScheduler(props) {
 
 	useEffect(() => {
 		axios
-			.get("/interview")
+			.get(`/interview?id=${interviewID}`)
 			.then((res) => {
-				const interviews = res.data;
-				setInterview(interviews[0]);
-				setSelectedDate(interviews[0].dateRange[0]);
+				const interview = res.data;
+				setInterview(interview);
+				setSelectedDate(interview.dateRange[0]);
 			})
 			.catch((err) => {
 				console.error(err);
-			})
-			.finally(() => {
-				console.log("Fetch finished");
 			});
-		// setInterview(interviews[0]);
 	}, []);
 
 	useEffect(() => {
