@@ -111,7 +111,7 @@ const StudentDashboard = () => {
 			</Button>
 			<>
 				<Divider type="vertical" />
-				<Popover
+				{/* <Popover
 					trigger="click"
 					placement="bottom"
 					content={
@@ -130,7 +130,7 @@ const StudentDashboard = () => {
 						</>
 					}>
 					<Button>Filters</Button>
-				</Popover>
+				</Popover> */}
 				<Popover
 					trigger="click"
 					placement="bottom"
