@@ -37,15 +37,16 @@ const { Content } = Layout;
 const idddList = [
 	"None",
 	"Advanced Materials and Nanotechnology",
+	"Automotive Engineering",
 	"Bio-Medical Engineering",
-	"Computational Engineering",
-	"Data Science",
-	"Energy Systems",
-	"Robotics",
-	"Quantum Science & Technology",
 	"Complex Systems and Dynamics",
+	"Computational Engineering",
 	"Cyber Physical Systems",
+	"Data Science",
 	"Electric Vehicles",
+	"Energy Systems",
+	"Quantum Science & Technology",
+	"Robotics",
 	"Tech MBA",
 ];
 
