@@ -17,8 +17,9 @@ function InterviewScheduler(props) {
 		axios
 			.get("/interview")
 			.then((res) => {
-				console.log(res.json());
-				console.log("Reaching");
+				const interviews = res.data;
+				setInterview(interviews[0]);
+				setSelectedDate(interviews[0].dateRange[0]);
 			})
 			.catch((err) => {
 				console.error(err);
@@ -26,12 +27,16 @@ function InterviewScheduler(props) {
 			.finally(() => {
 				console.log("Fetch finished");
 			});
-		setInterview(interviews[0]);
+		// setInterview(interviews[0]);
 	}, []);
 
 	useEffect(() => {
 		console.log(formValues);
 	}, [formValues]);
+
+	useEffect(() => {
+		console.log(interview);
+	}, [interview]);
 
 	const onPanelChange = (value, mode) => {
 		console.log(value.format("YYYY-MM-DD"), mode);
@@ -55,7 +60,7 @@ function InterviewScheduler(props) {
 			{interview === null || (
 				<Modal
 					title="Schedule your interview"
-					visible={isModalOpen && interviewID === interview.id}
+					visible={isModalOpen}
 					onOk={(e) => {
 						e.preventDefault();
 						handleSubmit();
@@ -65,7 +70,7 @@ function InterviewScheduler(props) {
 					<Form
 						form={form}
 						id="schedulingForm"
-						initialValues={{ selectedDate: moment("20221103", "YYYYMMDD") }}>
+						initialValues={{ selectedDate: moment("13102022", "DDMMYYYY") }}>
 						<Form.Item name="selectedDate">
 							<Calendar
 								fullscreen={false}

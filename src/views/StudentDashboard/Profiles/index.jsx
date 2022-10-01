@@ -24,7 +24,6 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 		axios
 			.get("/getAppliedProfiles")
 			.then((res) => {
-				console.log("res", res);
 				const formattedData = res.data.appliedProfiles.map((item) => ({
 					...item.profile,
 					studentCurrentRound: item.round,
@@ -48,7 +47,6 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 						{}
 					),
 				}));
-				console.log(formattedData);
 				setProfiles(formattedData);
 			})
 			.catch((err) => {
@@ -62,6 +60,10 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 	if (!paymentDone) {
 		return <PaymentPrompt updatePaymentInfo={updatePaymentInfo} />;
 	}
+
+	useEffect(() => {
+		console.log(interviewID);
+	}, [interviewID]);
 
 	const deregister = (id) => {
 		console.log(id);
@@ -191,7 +193,9 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 					<AppliedProfileTable columns={columns} profiles={profiles} />
 				)}
 			</Suspense>
-			<InterviewScheduler props={{ isModalOpen, handleOk, handleCancel, interviewID }} />
+			{interviewID !== null && (
+				<InterviewScheduler props={{ isModalOpen, handleOk, handleCancel, interviewID }} />
+			)}
 		</div>
 	);
 };
