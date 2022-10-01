@@ -1,17 +1,5 @@
 import React, { useState } from "react";
-import {
-	Form,
-	Row,
-	Col,
-	Input,
-	Button,
-	Typography,
-	Layout,
-	Card,
-	Select,
-	Alert,
-	Checkbox,
-} from "antd";
+import { Form, Row, Col, Input, Button, Typography, Layout, Card, Select, Checkbox } from "antd";
 import {
 	NumberOutlined,
 	PhoneOutlined,
@@ -37,15 +25,16 @@ const { Content } = Layout;
 const idddList = [
 	"None",
 	"Advanced Materials and Nanotechnology",
+	"Automotive Engineering",
 	"Bio-Medical Engineering",
-	"Computational Engineering",
-	"Data Science",
-	"Energy Systems",
-	"Robotics",
-	"Quantum Science & Technology",
 	"Complex Systems and Dynamics",
+	"Computational Engineering",
 	"Cyber Physical Systems",
+	"Data Science",
 	"Electric Vehicles",
+	"Energy Systems",
+	"Quantum Science & Technology",
+	"Robotics",
 	"Tech MBA",
 ];
 
@@ -62,7 +51,6 @@ const preferredLocations = [
 
 const RegisterForm = () => {
 	const [form] = Form.useForm();
-	const screen = useBreakpoint();
 	const [loading, setLoading] = useState(false);
 	const [isTNCAccepted, setIsTNCAccepted] = useState(false);
 
