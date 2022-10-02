@@ -13,7 +13,12 @@ import sortByNumberOfApplicants from "./sortByNumberOfApplicants";
 export const dataSourceGenerator = (profiles, filter, sort, order) => {
 	// console.log(filter, sort);
 	const filteredProjects = profiles.filter(({ location }) =>
-		filter === ALL ? true : filter === location
+		filter === ALL
+			? true
+			: location.includes("WFH") ||
+			  location.includes("wfh") ||
+			  location.includes("work") ||
+			  location.includes("Work")
 	);
 	let sortedFilteredProjects = filteredProjects;
 	switch (sort) {
