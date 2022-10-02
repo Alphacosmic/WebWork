@@ -6,7 +6,8 @@ import openNotification from "../../utils/openAntdNotification";
 import axios from "../../utils/_axios";
 const { Title } = Typography;
 
-const PaymentPrompt = ({ updatePaymentInfo }) => {
+const PaymentPrompt = (props) => {
+	const { updatePaymentInfo, student } = props.props;
 	const studentData = JSON.parse(localStorage.studentData || "{}");
 	async function handlePayment() {
 		const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
@@ -104,6 +105,11 @@ const PaymentPrompt = ({ updatePaymentInfo }) => {
 				onConfirm={handlePayment}>
 				<Button
 					// disabled={!(studentData.roll.toLowerCase() === "rp22t222")}
+					disabled={
+						student.roll.slice(2, 4) === "19" &&
+						!/^be|bs|ed|ph/i.test(student.roll) &&
+						student.iddd === "None"
+					}
 					size="large"
 					type="primary">
 					Pay ₹399/-

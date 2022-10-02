@@ -12,7 +12,8 @@ const { useBreakpoint } = Grid;
 
 const ROUNDS = ["RESUME", "TEST", "GROUP_DISCUSSION", "INTERVIEW", "OFFER"];
 
-const AppliedProfilesTable = ({ updatePaymentInfo }) => {
+const AppliedProfilesTable = (props) => {
+	const { updatePaymentInfo, student } = props.props;
 	const screen = useBreakpoint();
 
 	const [profiles, setProfiles] = useState([]);
@@ -59,7 +60,7 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 	}, []);
 
 	if (!paymentDone) {
-		return <PaymentPrompt updatePaymentInfo={updatePaymentInfo} />;
+		return <PaymentPrompt props={{ updatePaymentInfo, student }} />;
 	}
 
 	const deregister = (id) => {
