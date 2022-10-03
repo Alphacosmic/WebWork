@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Popover } from "antd";
 import axios from "../../../utils/_axios";
 import { VACANT } from "../../../utils/constants";
+import cleanTimeSlot from "../../../utils/cleanTimeSlot";
 
 function Slot(props) {
 	const { slot, setSelectedSlot } = props.props;
@@ -46,7 +47,7 @@ function Slot(props) {
 						e.preventDefault();
 						setSelectedSlot(slot._id);
 					}}>
-					{slot.startTime}-{slot.endTime}
+					{cleanTimeSlot(slot)}
 				</Button>
 			</Popover>
 		</div>
