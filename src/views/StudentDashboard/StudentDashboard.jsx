@@ -225,7 +225,7 @@ const StudentDashboard = () => {
 						<Tabs.TabPane
 							tab={<Typography.Title level={3}>Applied</Typography.Title>}
 							key={2}>
-							<AppliedProfilesTable updatePaymentInfo={updatePaymentInfo} />
+							<AppliedProfilesTable props={{ updatePaymentInfo, student }} />
 						</Tabs.TabPane>
 					</Tabs>
 					<Drawer

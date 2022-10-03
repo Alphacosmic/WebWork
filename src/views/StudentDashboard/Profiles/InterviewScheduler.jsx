@@ -6,24 +6,10 @@ import axios from "../../../utils/_axios";
 
 function InterviewScheduler(props) {
 	const [form] = Form.useForm();
-	const { isModalOpen, handleOk, handleCancel, interviewID } = props.props;
-	const [interview, setInterview] = useState(null);
+	const { isModalOpen, handleOk, handleCancel, interview } = props.props;
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [selectedSlot, setSelectedSlot] = useState(null);
 	const [formValues, setFormValues] = useState({});
-
-	useEffect(() => {
-		axios
-			.get(`/interview?id=${interviewID}`)
-			.then((res) => {
-				const interview = res.data;
-				setInterview(interview);
-				setSelectedDate(interview.dateRange[0]);
-			})
-			.catch((err) => {
-				console.error(err);
-			});
-	}, []);
 
 	const onPanelChange = (value, mode) => {
 		console.log(value.format("YYYY-MM-DD"), mode);

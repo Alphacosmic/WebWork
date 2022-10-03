@@ -8,17 +8,20 @@ const AppliedProfileCard = React.lazy(() => import("./AppliedProfileCard"));
 const AppliedProfileTable = React.lazy(() => import("./AppliedProfileTable"));
 import openNotification from "../../../utils/openAntdNotification";
 import numberWithCommas from "../../../utils/numberWithCommas";
+import InterviewModal from "./InterviewModal";
 const { useBreakpoint } = Grid;
 
 const ROUNDS = ["RESUME", "TEST", "GROUP_DISCUSSION", "INTERVIEW", "OFFER"];
 
-const AppliedProfilesTable = ({ updatePaymentInfo }) => {
+const AppliedProfilesTable = (props) => {
+	const { updatePaymentInfo, student } = props.props;
 	const screen = useBreakpoint();
 
 	const [profiles, setProfiles] = useState([]);
 	const [paymentDone, setPaymentDone] = useState(true);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [interviewID, setInterviewID] = useState(null);
+	// const [calendarColor, setCalendarColor] = useState("#1890FF");
 
 	useEffect(() => {
 		axios
@@ -47,16 +50,16 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 						{}
 					),
 				}));
-				formattedData = formattedData.map((interview) => {
-					if (interview.currentRound === "INTERVIEW") {
-						let status = interview.INTERVIEW;
-						delete interview.INTERVIEW;
-						interview.INTERVIEW = {
+				formattedData = formattedData.map((profile) => {
+					if (profile.currentRound === "INTERVIEW") {
+						let status = profile.INTERVIEW;
+						delete profile.INTERVIEW;
+						profile.INTERVIEW = {
 							status,
-							profileID: interview._id,
+							profileID: profile._id,
 						};
 					}
-					return interview;
+					return profile;
 				});
 
 				setProfiles(formattedData);
@@ -204,7 +207,9 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 				)}
 			</Suspense>
 			{interviewID !== null && (
-				<InterviewScheduler props={{ isModalOpen, handleOk, handleCancel, interviewID }} />
+				<InterviewModal
+					props={{ isModalOpen, handleOk, handleCancel, interviewID, student }}
+				/>
 			)}
 		</div>
 	);
