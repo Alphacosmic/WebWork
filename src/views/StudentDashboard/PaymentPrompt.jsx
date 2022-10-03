@@ -80,10 +80,12 @@ const PaymentPrompt = (props) => {
 		<div style={{ textAlign: "center" }}>
 			<WarningOutlined style={{ fontSize: "3rem", marginBottom: "1rem" }} />
 			<Title level={3} type="secondary" style={{ marginBottom: 0 }}>
-				You have not made the payment for E-Cell Internfair.
+				{/* You have not made the payment for E-Cell Internfair. */}
+				We have stopped accepting new payments.
 			</Title>
-			<Title level={4} type="secondary" style={{ marginTop: 0 }}>
-				Please do so to access companies.
+			<Title level={4} type="secondary" style={{ marginTop: 0, opacity: "50%" }}>
+				Payments have stopped for this session of InternFair
+				{/* Please do so to access companies. */}
 				{/* Payments starting soon. */}
 			</Title>
 			<Popconfirm
@@ -105,11 +107,12 @@ const PaymentPrompt = (props) => {
 				onConfirm={handlePayment}>
 				<Button
 					// disabled={!(studentData.roll.toLowerCase() === "rp22t222")}
-					disabled={
-						student.roll.slice(2, 4) === "19" &&
-						!/^be|bs|ed|ph/i.test(student.roll) &&
-						student.iddd === "None"
-					}
+					// disabled={
+					// 	student.roll.slice(2, 4) === "19" &&
+					// 	!/^be|bs|ed|ph/i.test(student.roll) &&
+					// 	student.iddd === "None"
+					// }
+					disabled={true}
 					size="large"
 					type="primary">
 					Pay ₹399/-

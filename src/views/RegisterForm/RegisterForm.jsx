@@ -101,37 +101,38 @@ const RegisterForm = () => {
 						padding: "0.5rem",
 					}}
 				/>
-				{/* {screen.xs && (
+				{screen.xs && (
 					<Alert
 						type="warning"
 						banner
 						message={
 							<span>
-								The portal has <strong> stopped </strong> accepting new payments.
+								The portal has <strong> stopped </strong> accepting new
+								<strong> registrations </strong> and <strong> payments </strong>.
 							</span>
 						}
 						style={{ borderRadius: "1rem", width: "90%" }}
 					/>
-				)} */}
+				)}
 				<Card
 					className="loginCard"
 					title={<strong>Register</strong>}
-					// extra={
-					// 	screen.lg && (
-					// 		<Alert
-					// 			type="warning"
-					// 			banner
-					// 			message={
-					// 				<span>
-					// 					The portal has <strong> stopped </strong> accepting new
-					// 					payments.
-					// 				</span>
-					// 			}
-					// 			style={{ borderRadius: "1rem" }}
-					// 		/>
-					// 	)
-					// }
-				>
+					extra={
+						screen.lg && (
+							<Alert
+								type="warning"
+								banner
+								message={
+									<span>
+										The portal has <strong> stopped </strong> accepting new
+										<strong> registrations </strong> and{" "}
+										<strong> payments </strong>.
+									</span>
+								}
+								style={{ borderRadius: "1rem" }}
+							/>
+						)
+					}>
 					<Form
 						form={form}
 						name="register"
@@ -160,7 +161,7 @@ const RegisterForm = () => {
 											transform: (val) => (!val ? "" : val.trim()),
 										},
 									]}>
-									<Input />
+									<Input disabled={true} />
 								</Form.Item>
 							</Col>
 
@@ -183,7 +184,7 @@ const RegisterForm = () => {
 											<KeyOutlined /> LDAP Password
 										</span>
 									}>
-									<Input.Password />
+									<Input.Password disabled={true} />
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={8}>
@@ -202,7 +203,7 @@ const RegisterForm = () => {
 											message: "Please input your CGPA!",
 										},
 									]}>
-									<Input />
+									<Input disabled={true} />
 								</Form.Item>
 							</Col>
 							<Col style={{ marginBottom: "0.5em" }}>
@@ -230,7 +231,7 @@ const RegisterForm = () => {
 											message: "Please enter a valid phone number.",
 										},
 									]}>
-									<Input prefix="+91" />
+									<Input prefix="+91" disabled={true} />
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={16}>
@@ -249,7 +250,7 @@ const RegisterForm = () => {
 											message: "Please input your Personal mail!",
 										},
 									]}>
-									<Input />
+									<Input disabled={true} />
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={12}>
@@ -287,7 +288,7 @@ const RegisterForm = () => {
 											required: false,
 										},
 									]}>
-									<Input placeholder="None" />
+									<Input placeholder="None" disabled={true} />
 								</Form.Item>
 							</Col>
 
@@ -310,7 +311,7 @@ const RegisterForm = () => {
 											message: "Please enter a PIN Code.",
 										},
 									]}>
-									<Input />
+									<Input disabled={true} />
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={16}>
@@ -328,7 +329,7 @@ const RegisterForm = () => {
 											message: "Please input your Hostel Address!",
 										},
 									]}>
-									<Input />
+									<Input disabled={true} />
 								</Form.Item>
 							</Col>
 						</Row>
@@ -342,13 +343,18 @@ const RegisterForm = () => {
 											required: true,
 										},
 									]}>
-									<Select placeholder="None" options={preferredLocations} />
+									<Select
+										disabled={true}
+										placeholder="None"
+										options={preferredLocations}
+									/>
 								</Form.Item>
 							</Col>
 						</Row>
 						<Row>
 							<Col>
 								<Checkbox
+									disabled={true}
 									onChange={() => {
 										setIsTNCAccepted(!isTNCAccepted);
 									}}>
