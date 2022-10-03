@@ -112,7 +112,7 @@ const PaymentPrompt = (props) => {
 					// 	!/^be|bs|ed|ph/i.test(student.roll) &&
 					// 	student.iddd === "None"
 					// }
-					disabled={true}
+					// disabled={true}
 					size="large"
 					type="primary">
 					Pay ₹399/-
