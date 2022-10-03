@@ -49,7 +49,6 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 				}));
 				formattedData = formattedData.map((interview) => {
 					if (interview.currentRound === "INTERVIEW") {
-						console.log("Reaching");
 						let status = interview.INTERVIEW;
 						delete interview.INTERVIEW;
 						interview.INTERVIEW = {
@@ -60,7 +59,6 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 					return interview;
 				});
 
-				console.log(formattedData);
 				setProfiles(formattedData);
 			})
 			.catch((err) => {
@@ -74,10 +72,6 @@ const AppliedProfilesTable = ({ updatePaymentInfo }) => {
 	if (!paymentDone) {
 		return <PaymentPrompt updatePaymentInfo={updatePaymentInfo} />;
 	}
-
-	useEffect(() => {
-		console.log(interviewID);
-	}, [interviewID]);
 
 	const deregister = (id) => {
 		console.log(id);
