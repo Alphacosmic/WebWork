@@ -161,7 +161,7 @@ const RegisterForm = () => {
 											transform: (val) => (!val ? "" : val.trim()),
 										},
 									]}>
-									<Input />
+									<Input disabled={true} />
 								</Form.Item>
 							</Col>
 
@@ -184,7 +184,7 @@ const RegisterForm = () => {
 											<KeyOutlined /> LDAP Password
 										</span>
 									}>
-									<Input.Password />
+									<Input.Password disabled={true} />
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={8}>
@@ -203,7 +203,7 @@ const RegisterForm = () => {
 											message: "Please input your CGPA!",
 										},
 									]}>
-									<Input />
+									<Input disabled={true} />
 								</Form.Item>
 							</Col>
 							<Col style={{ marginBottom: "0.5em" }}>
@@ -231,7 +231,7 @@ const RegisterForm = () => {
 											message: "Please enter a valid phone number.",
 										},
 									]}>
-									<Input prefix="+91" />
+									<Input prefix="+91" disabled={true} />
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={16}>
@@ -250,7 +250,7 @@ const RegisterForm = () => {
 											message: "Please input your Personal mail!",
 										},
 									]}>
-									<Input />
+									<Input disabled={true} />
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={12}>
@@ -288,7 +288,7 @@ const RegisterForm = () => {
 											required: false,
 										},
 									]}>
-									<Input placeholder="None" />
+									<Input placeholder="None" disabled={true} />
 								</Form.Item>
 							</Col>
 
@@ -311,7 +311,7 @@ const RegisterForm = () => {
 											message: "Please enter a PIN Code.",
 										},
 									]}>
-									<Input />
+									<Input disabled={true} />
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={16}>
@@ -329,7 +329,7 @@ const RegisterForm = () => {
 											message: "Please input your Hostel Address!",
 										},
 									]}>
-									<Input />
+									<Input disabled={true} />
 								</Form.Item>
 							</Col>
 						</Row>
@@ -343,13 +343,18 @@ const RegisterForm = () => {
 											required: true,
 										},
 									]}>
-									<Select placeholder="None" options={preferredLocations} />
+									<Select
+										disabled={true}
+										placeholder="None"
+										options={preferredLocations}
+									/>
 								</Form.Item>
 							</Col>
 						</Row>
 						<Row>
 							<Col>
 								<Checkbox
+									disabled={true}
 									onChange={() => {
 										setIsTNCAccepted(!isTNCAccepted);
 									}}>
