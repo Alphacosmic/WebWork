@@ -137,31 +137,38 @@ const AllProfiles = (props) => {
 				{student?.resumeURL?.length < 3 || !student?.resumeURL?.length
 					? "or Upload a new resume from the sidebar"
 					: ""}
-				<Button
-					disabled={!selectedResume}
-					key={1}
-					block
-					style={{ marginTop: "1em" }}
-					type="primary"
-					loading={isApplying}
-					onClick={handleApply}>
-					Apply
-				</Button>
+				<Tooltip
+					visible={true}
+					key={2}
+					mouseEnterDelay={0}
+					mouseLeaveDelay={0}
+					title="The application window has been closed">
+					<Button
+						disabled={true}
+						key={1}
+						block
+						style={{ marginTop: "1em" }}
+						type="primary"
+						loading={isApplying}
+						onClick={handleApply}>
+						Apply
+					</Button>
+				</Tooltip>
 			</Modal>
-			{/* {!paymentDone && !isFetching && (
+			{!paymentDone && !isFetching && (
 				<div style={{ textAlign: "center" }}>
 					<WarningOutlined style={{ fontSize: "3rem", marginBottom: "1rem" }} />
-					<Title level={3} type="secondary" style={{ marginBottom: 0 }}>
+					<Typography.Title level={3} type="secondary" style={{ marginBottom: 0 }}>
 						The payments for the InternFair 2022 have been closed
-					</Title>
-					<Title level={5} type="secondary" style={{ marginTop: 0 }}>
+					</Typography.Title>
+					<Typography.Title level={5} type="secondary" style={{ marginTop: 0 }}>
 						You have not made the payment for E-Cell Internfair.
-					</Title>
+					</Typography.Title>
 				</div>
-			)} */}
-			{!paymentDone && !isFetching && student !== null && (
-				<PaymentPrompt props={{ updatePaymentInfo, student }} />
 			)}
+			{/* {!paymentDone && !isFetching && student !== null && (
+				<PaymentPrompt props={{ updatePaymentInfo, student }} />
+			)} */}
 			<List
 				size="large"
 				itemLayout="horizontal"
@@ -201,16 +208,22 @@ const AllProfiles = (props) => {
 									icon={<LinkOutlined />}>
 									View Job Description
 								</Button>,
-								<Tooltip
-									visible={!paymentDone && toolTipVisible === profile?._id}
+								// <Tooltip
+								// 	// visible={!paymentDone && toolTipVisible === profile?._id}
+								// 	visible={toolTipVisible}
+								// 	key={2}
+								// 	mouseEnterDelay={0}
+								// 	mouseLeaveDelay={0}
+								// 	// title="You have not made the payment for E-Cell Internfair."
+								// 	title="The application window has been closed">
+								<Popover
 									key={2}
-									mouseEnterDelay={0}
-									mouseLeaveDelay={0}
-									title="You have not made the payment for E-Cell Internfair.">
+									content={<div>The application window has been closed</div>}>
 									<Button
 										type="link"
 										block
-										disabled={!paymentDone}
+										// disabled={!paymentDone}
+										disabled={true}
 										onMouseEnter={() => setToolTipVisible(profile._id)}
 										onMouseLeave={() => setToolTipVisible("")}
 										onClick={() => {
@@ -221,7 +234,8 @@ const AllProfiles = (props) => {
 										}}>
 										Apply
 									</Button>
-								</Tooltip>,
+								</Popover>,
+								// </Tooltip>,
 							]}
 							bodyStyle={{
 								height: screen.xl ? "250px" : screen.lg ? "280px" : "300px",
