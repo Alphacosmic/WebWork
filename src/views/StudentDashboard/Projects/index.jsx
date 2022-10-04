@@ -216,6 +216,7 @@ const AllProfiles = (props) => {
 								// 	mouseLeaveDelay={0}
 								// 	// title="You have not made the payment for E-Cell Internfair."
 								// 	title="The application window has been closed">
+								// Added for application close
 								<Popover
 									key={2}
 									content={<div>The application window has been closed</div>}>
