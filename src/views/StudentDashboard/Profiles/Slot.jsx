@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Button, Popover } from "antd";
 import axios from "../../../utils/_axios";
-import { VACANT } from "../../../utils/constants";
+import { BOOKED, VACANT } from "../../../utils/constants";
 import cleanTimeSlot from "../../../utils/cleanTimeSlot";
 
 function Slot(props) {
-	const { slot, selectedSlot, setSelectedSlot } = props.props;
+	const { slot, selectedSlot, setSelectedSlot, editMode, student } = props.props;
 	const [applicantDetails, setApplicantDetails] = useState(null);
-
-	// useEffect(() => {
-	// 	console.log(slot);
-	// }, [slot]);
 
 	useEffect(() => {
 		try {
@@ -42,18 +38,31 @@ function Slot(props) {
 
 	return (
 		<div style={{ marginRight: "10px" }}>
-			<Popover content={occupantContact}>
+			<Popover
+				content={
+					applicantDetails &&
+					student.email === applicantDetails.email &&
+					slot.status === BOOKED ? (
+						<div>Your current slot</div>
+					) : (
+						occupantContact
+					)
+				}>
 				<Button
 					style={{
 						borderRadius: "30px",
 						color:
-							slot.status === "BOOKED"
+							applicantDetails &&
+							student.email === applicantDetails.email &&
+							slot.status === BOOKED
+								? "#5192ed"
+								: slot.status === BOOKED
 								? "#a83240"
 								: slot._id === selectedSlot
 								? "gold"
 								: "#018711",
 					}}
-					disabled={slot.status === "BOOKED"}
+					disabled={slot.status === BOOKED}
 					onClick={(e) => {
 						e.preventDefault();
 						setSelectedSlot(slot._id);

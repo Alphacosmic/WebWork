@@ -9,6 +9,7 @@ function InterviewModal(props) {
 	const [isBookee, setIsBookee] = useState(false);
 	const [chosenSlot, setChosenSlot] = useState(null);
 	const [chosenDate, setChosenDate] = useState(null);
+	const [editMode, setEditMode] = useState(false);
 
 	useEffect(() => {
 		axios
@@ -33,7 +34,7 @@ function InterviewModal(props) {
 	}, []);
 	return (
 		<div>
-			{isBookee && interview ? (
+			{isBookee && interview && !editMode ? (
 				<InterviewPreview
 					props={{
 						isModalOpen,
@@ -42,11 +43,22 @@ function InterviewModal(props) {
 						interview,
 						chosenSlot,
 						chosenDate,
+						setEditMode,
+						setChosenDate,
 					}}
 				/>
-			) : chosenDate ? (
+			) : chosenDate || (editMode && chosenSlot) ? (
 				<InterviewScheduler
-					props={{ isModalOpen, handleOk, handleCancel, interview, chosenDate }}
+					props={{
+						isModalOpen,
+						handleOk,
+						handleCancel,
+						interview,
+						chosenDate,
+						editMode,
+						student,
+						chosenSlot,
+					}}
 				/>
 			) : (
 				<div></div>

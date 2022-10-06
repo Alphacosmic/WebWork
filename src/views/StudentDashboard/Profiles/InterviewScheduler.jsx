@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal, Calendar, Form } from "antd";
 import AvailableSlots from "./AvailableSlots";
 import moment from "moment";
@@ -6,9 +6,18 @@ import axios from "../../../utils/_axios";
 
 function InterviewScheduler(props) {
 	const [form] = Form.useForm();
-	const { isModalOpen, handleOk, handleCancel, interview, chosenDate } = props.props;
+	const {
+		isModalOpen,
+		handleOk,
+		handleCancel,
+		interview,
+		chosenDate,
+		editMode,
+		student,
+		chosenSlot,
+	} = props.props;
 	const [selectedDate, setSelectedDate] = useState(chosenDate);
-	const [selectedSlot, setSelectedSlot] = useState(null);
+	const [selectedSlot, setSelectedSlot] = useState(editMode ? chosenSlot : null);
 
 	const onPanelChange = (value, mode) => {
 		console.log(value.format("YYYY-MM-DD"), mode);
@@ -19,12 +28,12 @@ function InterviewScheduler(props) {
 	};
 
 	const handleSubmit = async () => {
-		console.log(selectedDate, selectedSlot, interview.id);
 		try {
 			await axios.post("/interview", {
 				interviewID: interview._id,
 				date: selectedDate,
 				slotID: selectedSlot,
+				editMode,
 			});
 		} catch (error) {
 			console.error(error);
@@ -36,7 +45,7 @@ function InterviewScheduler(props) {
 			{interview === null || (
 				<Modal
 					title="Schedule your interview"
-					visible={isModalOpen}
+					visible={isModalOpen || editMode}
 					onOk={(e) => {
 						e.preventDefault();
 						handleSubmit();
@@ -68,6 +77,8 @@ function InterviewScheduler(props) {
 									})[0].timeSlots,
 									setSelectedSlot,
 									selectedSlot,
+									editMode,
+									student,
 								}}
 							/>
 						)}

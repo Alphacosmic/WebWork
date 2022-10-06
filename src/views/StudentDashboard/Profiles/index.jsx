@@ -1,9 +1,8 @@
 import React, { Suspense, useEffect, useState } from "react";
-import { Grid, Row, Col, Button, Popconfirm } from "antd";
+import { Grid, Row, Col } from "antd";
 import { CalendarOutlined } from "@ant-design/icons";
 import axios from "../../../utils/_axios";
 import PaymentPrompt from "../PaymentPrompt";
-import InterviewScheduler from "./InterviewScheduler";
 const AppliedProfileCard = React.lazy(() => import("./AppliedProfileCard"));
 const AppliedProfileTable = React.lazy(() => import("./AppliedProfileTable"));
 import openNotification from "../../../utils/openAntdNotification";
