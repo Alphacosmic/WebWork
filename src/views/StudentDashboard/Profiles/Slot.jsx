@@ -8,16 +8,21 @@ function Slot(props) {
 	const { slot, selectedSlot, setSelectedSlot } = props.props;
 	const [applicantDetails, setApplicantDetails] = useState(null);
 
-	useEffect(async () => {
+	// useEffect(() => {
+	// 	console.log(slot);
+	// }, [slot]);
+
+	useEffect(() => {
 		try {
 			if (slot.status === VACANT) return;
-			const { data: applicant } = await axios.get(`/studentByID?id=${slot.applicant}`);
-			console.log(applicant);
-			setApplicantDetails({ email: applicant.email, phoneNumber: applicant.phone });
+			axios.get(`/studentByID?id=${slot.applicant}`).then((res) => {
+				const applicant = res.data;
+				setApplicantDetails({ email: applicant.email, phoneNumber: applicant.phone });
+			});
 		} catch (error) {
 			console.error(error);
 		}
-	}, []);
+	}, [slot]);
 
 	const occupantContact =
 		slot.status === "BOOKED" && applicantDetails ? (
