@@ -5,13 +5,14 @@ import { VACANT } from "../../../utils/constants";
 import cleanTimeSlot from "../../../utils/cleanTimeSlot";
 
 function Slot(props) {
-	const { slot, setSelectedSlot } = props.props;
+	const { slot, selectedSlot, setSelectedSlot } = props.props;
 	const [applicantDetails, setApplicantDetails] = useState(null);
 
 	useEffect(async () => {
 		try {
 			if (slot.status === VACANT) return;
 			const { data: applicant } = await axios.get(`/studentByID?id=${slot.applicant}`);
+			console.log(applicant);
 			setApplicantDetails({ email: applicant.email, phoneNumber: applicant.phone });
 		} catch (error) {
 			console.error(error);
@@ -40,7 +41,12 @@ function Slot(props) {
 				<Button
 					style={{
 						borderRadius: "30px",
-						color: slot.status === "BOOKED" ? "#a83240" : "#018711",
+						color:
+							slot.status === "BOOKED"
+								? "#a83240"
+								: slot._id === selectedSlot
+								? "gold"
+								: "#018711",
 					}}
 					disabled={slot.status === "BOOKED"}
 					onClick={(e) => {

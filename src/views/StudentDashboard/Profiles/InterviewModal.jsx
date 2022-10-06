@@ -16,6 +16,7 @@ function InterviewModal(props) {
 			.then((res) => {
 				const interview = res.data;
 				interview.interviewSlots.forEach((interview) => {
+					setChosenDate((a) => a || interview.date);
 					interview.timeSlots.forEach((slot) => {
 						if (slot.applicant === student._id) {
 							setIsBookee(true);
@@ -43,8 +44,12 @@ function InterviewModal(props) {
 						chosenDate,
 					}}
 				/>
+			) : chosenDate ? (
+				<InterviewScheduler
+					props={{ isModalOpen, handleOk, handleCancel, interview, chosenDate }}
+				/>
 			) : (
-				<InterviewScheduler props={{ isModalOpen, handleOk, handleCancel, interview }} />
+				<div></div>
 			)}
 		</div>
 	);

@@ -6,10 +6,9 @@ import axios from "../../../utils/_axios";
 
 function InterviewScheduler(props) {
 	const [form] = Form.useForm();
-	const { isModalOpen, handleOk, handleCancel, interview } = props.props;
-	const [selectedDate, setSelectedDate] = useState(null);
+	const { isModalOpen, handleOk, handleCancel, interview, chosenDate } = props.props;
+	const [selectedDate, setSelectedDate] = useState(chosenDate);
 	const [selectedSlot, setSelectedSlot] = useState(null);
-	const [formValues, setFormValues] = useState({});
 
 	const onPanelChange = (value, mode) => {
 		console.log(value.format("YYYY-MM-DD"), mode);
@@ -30,7 +29,6 @@ function InterviewScheduler(props) {
 		} catch (error) {
 			console.error(error);
 		}
-		console.log(formValues);
 	};
 
 	return (
@@ -44,11 +42,12 @@ function InterviewScheduler(props) {
 						handleSubmit();
 						handleOk();
 					}}
-					onCancel={handleCancel}>
+					onCancel={handleCancel}
+					okButtonProps={{ disabled: !selectedSlot }}>
 					<Form
 						form={form}
 						id="schedulingForm"
-						initialValues={{ selectedDate: moment("13102022", "DDMMYYYY") }}>
+						initialValues={{ selectedDate: moment(chosenDate, "DDMMYYYY") }}>
 						<Form.Item name="selectedDate">
 							<Calendar
 								fullscreen={false}
@@ -68,6 +67,7 @@ function InterviewScheduler(props) {
 										return slot.date.slice(0, 2) === selectedDate.slice(0, 2);
 									})[0].timeSlots,
 									setSelectedSlot,
+									selectedSlot,
 								}}
 							/>
 						)}

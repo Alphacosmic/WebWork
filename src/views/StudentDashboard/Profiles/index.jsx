@@ -208,7 +208,13 @@ const AppliedProfilesTable = (props) => {
 			</Suspense>
 			{interviewID !== null && (
 				<InterviewModal
-					props={{ isModalOpen, handleOk, handleCancel, interviewID, student }}
+					props={{
+						isModalOpen,
+						handleOk,
+						handleCancel,
+						interviewID,
+						student,
+					}}
 				/>
 			)}
 		</div>
