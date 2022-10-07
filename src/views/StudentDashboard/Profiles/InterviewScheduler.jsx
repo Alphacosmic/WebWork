@@ -3,6 +3,7 @@ import { Modal, Calendar, Form } from "antd";
 import AvailableSlots from "./AvailableSlots";
 import moment from "moment";
 import axios from "../../../utils/_axios";
+import openNotification from "../../../utils/openAntdNotification";
 
 function InterviewScheduler(props) {
 	const [form] = Form.useForm();
@@ -35,8 +36,14 @@ function InterviewScheduler(props) {
 				slotID: selectedSlot,
 				editMode,
 			});
+			openNotification("success", "Successfully booked your interview");
 		} catch (error) {
 			console.error(error);
+			openNotification(
+				"error",
+				"There was an error in booking your interview",
+				error.message
+			);
 		}
 	};
 
