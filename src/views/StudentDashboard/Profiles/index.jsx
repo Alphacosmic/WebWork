@@ -1,13 +1,13 @@
 import React, { Suspense, useEffect, useState } from "react";
-import { Grid, Row, Col, Button, Popconfirm } from "antd";
+import { Grid, Row, Col } from "antd";
 import { CalendarOutlined } from "@ant-design/icons";
 import axios from "../../../utils/_axios";
 import PaymentPrompt from "../PaymentPrompt";
-import InterviewScheduler from "./InterviewScheduler";
 const AppliedProfileCard = React.lazy(() => import("./AppliedProfileCard"));
 const AppliedProfileTable = React.lazy(() => import("./AppliedProfileTable"));
 import openNotification from "../../../utils/openAntdNotification";
 import numberWithCommas from "../../../utils/numberWithCommas";
+import InterviewModal from "./InterviewModal";
 const { useBreakpoint } = Grid;
 
 const ROUNDS = ["RESUME", "TEST", "GROUP_DISCUSSION", "INTERVIEW", "OFFER"];
@@ -20,13 +20,13 @@ const AppliedProfilesTable = (props) => {
 	const [paymentDone, setPaymentDone] = useState(true);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [interviewID, setInterviewID] = useState(null);
+	// const [calendarColor, setCalendarColor] = useState("#1890FF");
 
 	useEffect(() => {
 		axios
 			.get("/getAppliedProfiles")
 			.then((res) => {
-				console.log(res);
-				const formattedData = res.data.appliedProfiles.map((item) => ({
+				let formattedData = res.data.appliedProfiles.map((item) => ({
 					...item.profile,
 					studentCurrentRound: item.round,
 					...ROUNDS.reduce(
@@ -49,6 +49,18 @@ const AppliedProfilesTable = (props) => {
 						{}
 					),
 				}));
+				formattedData = formattedData.map((profile) => {
+					if (profile.currentRound === "INTERVIEW") {
+						let status = profile.INTERVIEW;
+						delete profile.INTERVIEW;
+						profile.INTERVIEW = {
+							status,
+							profileID: profile._id,
+						};
+					}
+					return profile;
+				});
+
 				setProfiles(formattedData);
 			})
 			.catch((err) => {
@@ -155,17 +167,19 @@ const AppliedProfilesTable = (props) => {
 		{
 			title: "Interview SL",
 			dataIndex: "INTERVIEW",
-			render: (tag) => (
+			render: (interview) => (
 				<div style={{ display: "flex", justifyContent: "space-between" }}>
-					<span style={{ color: "#1890FF" }}>{tag}</span>
-					{/* <CalendarOutlined
-						style={{ fontSize: "15px", color: "#1890FF" }}
-						onClick={(e) => {
-							e.preventDefault();
-							setInterviewID("1");
-							openSchedulingModal();
-						}}
-					/> */}
+					<span style={{ color: "#1890FF" }}>{interview.status || "-"}</span>
+					{interview.status === "-" && (
+						<CalendarOutlined
+							style={{ fontSize: "15px", color: "#1890FF" }}
+							onClick={(e) => {
+								e.preventDefault();
+								setInterviewID(interview.profileID);
+								openSchedulingModal();
+							}}
+						/>
+					)}
 				</div>
 			),
 		},
@@ -191,7 +205,17 @@ const AppliedProfilesTable = (props) => {
 					<AppliedProfileTable columns={columns} profiles={profiles} />
 				)}
 			</Suspense>
-			<InterviewScheduler props={{ isModalOpen, handleOk, handleCancel, interviewID }} />
+			{interviewID !== null && (
+				<InterviewModal
+					props={{
+						isModalOpen,
+						handleOk,
+						handleCancel,
+						interviewID,
+						student,
+					}}
+				/>
+			)}
 		</div>
 	);
 };

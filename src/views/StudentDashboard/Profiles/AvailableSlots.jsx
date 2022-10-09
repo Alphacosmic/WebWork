@@ -3,7 +3,7 @@ import Slot from "./Slot";
 import { Typography } from "antd";
 
 function AvailableSlots(props) {
-	const { slots, setSelectedSlot } = props.props;
+	const { slots, selectedSlot, setSelectedSlot, editMode, student } = props.props;
 
 	return (
 		<div>
@@ -20,7 +20,9 @@ function AvailableSlots(props) {
 							style={{
 								marginTop: "10px",
 							}}>
-							<Slot props={{ slot, setSelectedSlot }} />
+							<Slot
+								props={{ slot, setSelectedSlot, selectedSlot, editMode, student }}
+							/>
 						</div>
 					))}
 				</div>

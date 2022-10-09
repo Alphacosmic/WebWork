@@ -1,17 +1,5 @@
 import React, { useState } from "react";
-import {
-	Form,
-	Row,
-	Col,
-	Input,
-	Button,
-	Typography,
-	Layout,
-	Card,
-	Select,
-	Alert,
-	Checkbox,
-} from "antd";
+import { Form, Row, Col, Input, Button, Typography, Layout, Card, Select, Checkbox } from "antd";
 import {
 	NumberOutlined,
 	PhoneOutlined,
@@ -29,7 +17,6 @@ import { Link, useLocation } from "wouter";
 import logo from "../../assets/startup-internfair_logo.png";
 
 import axios from "../../utils/_axios";
-import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 
 const { Option } = Select;
 const { Content } = Layout;
@@ -63,7 +50,6 @@ const preferredLocations = [
 
 const RegisterForm = () => {
 	const [form] = Form.useForm();
-	const screen = useBreakpoint();
 	const [loading, setLoading] = useState(false);
 	const [isTNCAccepted, setIsTNCAccepted] = useState(false);
 

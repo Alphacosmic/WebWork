@@ -236,7 +236,6 @@ const AllProfiles = (props) => {
 										Apply
 									</Button>
 								</Popover>,
-								// </Tooltip>,
 							]}
 							bodyStyle={{
 								height: screen.xl ? "250px" : screen.lg ? "280px" : "300px",

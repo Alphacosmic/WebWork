@@ -1,37 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal, Calendar, Form } from "antd";
 import AvailableSlots from "./AvailableSlots";
 import moment from "moment";
-import interviews from "../../../data/db.json";
 import axios from "../../../utils/_axios";
+import openNotification from "../../../utils/openAntdNotification";
 
 function InterviewScheduler(props) {
 	const [form] = Form.useForm();
-	const { isModalOpen, handleOk, handleCancel, interviewID } = props.props;
-	const [interview, setInterview] = useState(null);
-	const [selectedDate, setSelectedDate] = useState(null);
-	const [selectedSlot, setSelectedSlot] = useState(null);
-	const [formValues, setFormValues] = useState({});
-
-	useEffect(() => {
-		axios
-			.get("/interview")
-			.then((res) => {
-				console.log(res.json());
-				console.log("Reaching");
-			})
-			.catch((err) => {
-				console.error(err);
-			})
-			.finally(() => {
-				console.log("Fetch finished");
-			});
-		setInterview(interviews[0]);
-	}, []);
-
-	useEffect(() => {
-		console.log(formValues);
-	}, [formValues]);
+	const {
+		isModalOpen,
+		handleOk,
+		handleCancel,
+		interview,
+		chosenDate,
+		editMode,
+		student,
+		chosenSlot,
+	} = props.props;
+	const [selectedDate, setSelectedDate] = useState(chosenDate);
+	const [selectedSlot, setSelectedSlot] = useState(editMode ? chosenSlot : null);
 
 	const onPanelChange = (value, mode) => {
 		console.log(value.format("YYYY-MM-DD"), mode);
@@ -41,13 +28,23 @@ function InterviewScheduler(props) {
 		setSelectedDate(date.format("DDMMYYYY"));
 	};
 
-	const handleSubmit = () => {
-		console.log(selectedDate, selectedSlot, interview.id);
-		setFormValues((f) => {
-			let temp = { ...f, ...form.getFieldsValue(), selectedSlot };
-			return temp;
-		});
-		console.log(formValues);
+	const handleSubmit = async () => {
+		try {
+			await axios.post("/interview", {
+				interviewID: interview._id,
+				date: selectedDate,
+				slotID: selectedSlot,
+				editMode,
+			});
+			openNotification("success", "Successfully booked your interview");
+		} catch (error) {
+			console.error(error);
+			openNotification(
+				"error",
+				"There was an error in booking your interview",
+				error.message
+			);
+		}
 	};
 
 	return (
@@ -55,17 +52,18 @@ function InterviewScheduler(props) {
 			{interview === null || (
 				<Modal
 					title="Schedule your interview"
-					visible={isModalOpen && interviewID === interview.id}
+					visible={isModalOpen || editMode}
 					onOk={(e) => {
 						e.preventDefault();
 						handleSubmit();
 						handleOk();
 					}}
-					onCancel={handleCancel}>
+					onCancel={handleCancel}
+					okButtonProps={{ disabled: !selectedSlot }}>
 					<Form
 						form={form}
 						id="schedulingForm"
-						initialValues={{ selectedDate: moment("20221103", "YYYYMMDD") }}>
+						initialValues={{ selectedDate: moment(chosenDate, "DDMMYYYY") }}>
 						<Form.Item name="selectedDate">
 							<Calendar
 								fullscreen={false}
@@ -85,6 +83,9 @@ function InterviewScheduler(props) {
 										return slot.date.slice(0, 2) === selectedDate.slice(0, 2);
 									})[0].timeSlots,
 									setSelectedSlot,
+									selectedSlot,
+									editMode,
+									student,
 								}}
 							/>
 						)}

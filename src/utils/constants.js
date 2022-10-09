@@ -22,3 +22,5 @@ export const STIPEND = "STIPEND";
 export const ASCENDING = "ASCENDING";
 export const DESCENDING = "DESCENDING";
 export const NUMBER_OF_APPLICANTS = "NUMBER_OF_APPLICANTS";
+export const VACANT = "VACANT";
+export const BOOKED = "BOOKED";
