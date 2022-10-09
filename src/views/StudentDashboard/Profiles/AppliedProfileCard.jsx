@@ -43,7 +43,7 @@ function AppliedProfileCard({ profile, deregister }) {
 						<strong>{roundMap[profile.studentCurrentRound]}</strong>
 					</Text>
 				</Col>
-				<Col
+				{/* <Col
 					span={12}
 					style={{
 						display: "flex",
@@ -58,7 +58,7 @@ function AppliedProfileCard({ profile, deregister }) {
 						cancelText="No">
 						<Button>Deregister</Button>
 					</Popconfirm>
-				</Col>
+				</Col> */}
 			</Row>
 		</Card>
 	);

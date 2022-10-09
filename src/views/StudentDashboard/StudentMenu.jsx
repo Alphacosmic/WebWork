@@ -75,7 +75,7 @@ export const upload = async (file) => {
 	return URL;
 };
 
-const ordinals = ["st", "nd", "rd"];
+const ordinals = ["st", "nd", "rd", "th"];
 const transformYear = (year) => `${year}${ordinals[year - 1]} year`;
 
 const StudentMenu = ({ student, updateResume }) => {

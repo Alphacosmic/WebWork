@@ -72,7 +72,7 @@ const AppliedProfilesTable = (props) => {
 	}, []);
 
 	if (!paymentDone) {
-		return <PaymentPrompt updatePaymentInfo={updatePaymentInfo} />;
+		return <PaymentPrompt props={{ updatePaymentInfo, student }} />;
 	}
 
 	const deregister = (id) => {

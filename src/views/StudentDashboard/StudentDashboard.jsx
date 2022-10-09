@@ -1,7 +1,18 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import "./StudentDashboard.css";
 import StudentMenu from "./StudentMenu";
-import { Layout, Typography, Drawer, Tabs, Button, Space, Divider, Popover, Radio } from "antd";
+import {
+	Layout,
+	Typography,
+	Drawer,
+	Tabs,
+	Button,
+	Space,
+	Divider,
+	Popover,
+	Radio,
+	Alert,
+} from "antd";
 import { InfoCircleOutlined, ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import Header from "./Header";
@@ -84,23 +95,23 @@ const StudentDashboard = () => {
 
 	const Settings = (
 		<Space direction={{ xs: "vertical", md: "horizontal" }} align="center">
-			{/* <Alert
+			<Alert
 				type="warning"
 				banner
 				message={
 					!screen.xs ? (
 						<span>
 							The last date to apply to a profile is{" "}
-							<strong>3rd March 9:00 AM</strong>
+							<strong>4th October 8:00 AM</strong>
 						</span>
 					) : (
 						<span>
 							Last date to apply:
-							<br /> <strong>3rd March 9:00 AM</strong>
+							<br /> <strong>4th October 8:00 AM</strong>
 						</span>
 					)
 				}
-			/> */}
+			/>
 
 			<Divider type="vertical" />
 			<Button
@@ -225,7 +236,9 @@ const StudentDashboard = () => {
 						<Tabs.TabPane
 							tab={<Typography.Title level={3}>Applied</Typography.Title>}
 							key={2}>
-							<AppliedProfilesTable props={{ updatePaymentInfo, student }} />
+							{student === null || (
+								<AppliedProfilesTable props={{ updatePaymentInfo, student }} />
+							)}
 						</Tabs.TabPane>
 					</Tabs>
 					<Drawer
