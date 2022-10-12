@@ -79,9 +79,12 @@ function InterviewScheduler(props) {
 						{selectedDate && (
 							<AvailableSlots
 								props={{
-									slots: interview.interviewSlots.filter((slot) => {
-										return slot.date.slice(0, 2) === selectedDate.slice(0, 2);
-									})[0].timeSlots,
+									slots:
+										interview.interviewSlots.filter((slot) => {
+											return (
+												slot.date.slice(0, 2) === selectedDate.slice(0, 2)
+											);
+										})[0]?.timeSlots || [],
 									setSelectedSlot,
 									selectedSlot,
 									editMode,
