@@ -26,6 +26,8 @@ const BLACKLISTED_COMPANIES = [
 	"The Impactional Games",
 	"Kabra Global Products Pvt Ltd",
 	"Pacify Medical Technologies Private Limited",
+	"Spoonshot",
+	"BIOWAVE TECHNOLOGY",
 ];
 
 const AppliedProfilesTable = (props) => {
