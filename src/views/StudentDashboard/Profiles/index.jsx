@@ -12,6 +12,22 @@ const { useBreakpoint } = Grid;
 
 const ROUNDS = ["RESUME", "TEST", "GROUP_DISCUSSION", "INTERVIEW", "OFFER"];
 
+const BLACKLISTED_COMPANIES = [
+	"Rackbank Datacenters",
+	"ZECH INNOVATION",
+	"SalaryBox",
+	"Periwinkle Technologies Pvt Ltd",
+	"SEASHORE TECHNOLOGIES PTE. LTD.",
+	"Automaxis",
+	"Avaz Inc",
+	"mewt account private limited",
+	"Institute of Diabetes Endocrinology And Adiposity Private Limited",
+	"Lokaci",
+	"The Impactional Games",
+	"Kabra Global Products Pvt Ltd",
+	"Pacify Medical Technologies Private Limited",
+];
+
 const AppliedProfilesTable = (props) => {
 	const { updatePaymentInfo, student } = props.props;
 	const screen = useBreakpoint();
@@ -41,7 +57,8 @@ const AppliedProfilesTable = (props) => {
 											item.profile.rounds.indexOf(item.round)
 									? "Yes"
 									: item.profile.rounds.indexOf(item.profile.currentRound) >
-									  item.profile.rounds.indexOf(item.round)
+											item.profile.rounds.indexOf(item.round) ||
+									  BLACKLISTED_COMPANIES.includes(item.profile.company.name)
 									? "No"
 									: "-"
 								: "N/A",
