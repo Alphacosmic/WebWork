@@ -77,8 +77,21 @@ const AppliedProfilesTable = (props) => {
 							profileID: profile._id,
 						};
 					}
+					if (profile.currentRound === "OFFER") {
+						let status = profile.OFFER;
+						delete profile.OFFER;
+						let [applicant] = profile.applicants.filter((applicant) => {
+							return applicant.applicant === student._id;
+						});
+						console.log(applicant);
+						profile.OFFER = {
+							status,
+							offerLetter: applicant.offerLetter,
+						};
+					}
 					return profile;
 				});
+				console.log(formattedData);
 
 				setProfiles(formattedData);
 			})
@@ -205,7 +218,17 @@ const AppliedProfilesTable = (props) => {
 		{
 			title: "Offer SL",
 			dataIndex: "OFFER",
-			render: (tag) => <span style={{ color: "#1890FF" }}>{tag}</span>,
+			render: (offer) => (
+				<span style={{ color: "#1890FF" }}>
+					{offer === "-" && <span style={{ color: "#1890FF" }}>-</span>}
+					{offer.status === "No" && <span style={{ color: "#1890FF" }}>No</span>}
+					{offer.status === "Yes" && (
+						<a href={offer.offerLetter} target="_blank" rel="noreferrer">
+							Offer Letter
+						</a>
+					)}
+				</span>
+			),
 		},
 	];
 
