@@ -142,7 +142,7 @@ const AllProfiles = (props) => {
 					key={2}
 					mouseEnterDelay={0}
 					mouseLeaveDelay={0}
-					title="The application window has been closed">
+					title="The application window has not been opened">
 					<Button
 						disabled={true}
 						key={1}
@@ -219,7 +219,7 @@ const AllProfiles = (props) => {
 								// Added for application close
 								<Popover
 									key={2}
-									content={<div>The application window has been closed</div>}>
+									content={<div>The application window has not been opened</div>}>
 									<Button
 										type="link"
 										block
