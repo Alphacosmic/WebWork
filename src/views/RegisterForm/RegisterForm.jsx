@@ -44,6 +44,7 @@ const idddList = [
 	"Data Science",
 	"Electric Vehicles",
 	"Energy Systems",
+	"Quantitative Finance",
 	"Quantum Science & Technology",
 	"Robotics",
 	"Tech MBA",
