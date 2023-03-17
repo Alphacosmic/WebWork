@@ -95,7 +95,7 @@ const StudentDashboard = () => {
 
 	const Settings = (
 		<Space direction={{ xs: "vertical", md: "horizontal" }} align="center">
-			<Alert
+			{/* <Alert
 				type="warning"
 				banner
 				message={
@@ -111,7 +111,7 @@ const StudentDashboard = () => {
 						</span>
 					)
 				}
-			/>
+			/> */}
 
 			<Divider type="vertical" />
 			<Button
