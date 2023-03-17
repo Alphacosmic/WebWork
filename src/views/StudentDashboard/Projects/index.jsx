@@ -166,9 +166,9 @@ const AllProfiles = (props) => {
 					</Typography.Title>
 				</div>
 			)}
-			{/* {!paymentDone && !isFetching && student !== null && (
+			{!paymentDone && !isFetching && student !== null && (
 				<PaymentPrompt props={{ updatePaymentInfo, student }} />
-			)} */}
+			)}
 			<List
 				size="large"
 				itemLayout="horizontal"
@@ -208,15 +208,16 @@ const AllProfiles = (props) => {
 									icon={<LinkOutlined />}>
 									View Job Description
 								</Button>,
-								// <Tooltip
-								// 	// visible={!paymentDone && toolTipVisible === profile?._id}
-								// 	visible={toolTipVisible}
-								// 	key={2}
-								// 	mouseEnterDelay={0}
-								// 	mouseLeaveDelay={0}
-								// 	// title="You have not made the payment for E-Cell Internfair."
-								// 	title="The application window has been closed">
-								// Added for application close
+								<Tooltip
+									visible={!paymentDone && toolTipVisible === profile?._id}
+									// visible={toolTipVisible}
+									key={2}
+									mouseEnterDelay={0}
+									mouseLeaveDelay={0}
+									title="You have not made the payment for E-Cell Internfair."
+									// title="The application window has been closed"
+								/>,
+
 								<Popover
 									key={2}
 									content={<div>The application window has not been opened</div>}>
