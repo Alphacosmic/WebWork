@@ -155,7 +155,7 @@ const AllProfiles = (props) => {
 					</Button>
 				</Tooltip>
 			</Modal>
-			{!paymentDone && !isFetching && (
+			{/* {!paymentDone && !isFetching && (
 				<div style={{ textAlign: "center" }}>
 					<WarningOutlined style={{ fontSize: "3rem", marginBottom: "1rem" }} />
 					<Typography.Title level={3} type="secondary" style={{ marginBottom: 0 }}>
@@ -165,7 +165,7 @@ const AllProfiles = (props) => {
 						You have not made the payment for E-Cell Internfair.
 					</Typography.Title>
 				</div>
-			)}
+			)} */}
 			{!paymentDone && !isFetching && student !== null && (
 				<PaymentPrompt props={{ updatePaymentInfo, student }} />
 			)}
