@@ -8,21 +8,22 @@ const { Footer } = Layout;
 const ECellFooter = ({ developers }) => {
 	const screen = useBreakpoint();
 
-	const developerDetails = (
-		<div>
-			{developers.map((developer) => (
-				<div key={developer.whatsappNum}>
-					<Typography.Link href={developer.profileURL} target="blank">
-						{developer.name}
-					</Typography.Link>{" "}
-					<WhatsAppOutlined /> :{" "}
-					<Typography.Text copyable={{ tooltips: false }}>
-						{developer.whatsappNum}
-					</Typography.Text>
-				</div>
-			))}
-		</div>
-	);
+	// const developerDetails = (
+	// 	<div>
+	// 		{developers.map((developer) => (
+	// 			<div key={developer.whatsappNum}>
+	// 				<Typography.Link href={developer.profileURL} target="blank">
+	// 					{developer.name}
+	// 				</Typography.Link>{" "}
+	// 				<WhatsAppOutlined /> :{" "}
+	// 				<Typography.Text copyable={{ tooltips: false }}>
+	// 					{developer.whatsappNum}
+	// 				</Typography.Text>
+	// 			</div>
+	// 		))}
+	// 		<Typography.Link>Address</Typography.Link>: E-Cell, IIT Madras, Chennai - 600036
+	// 	</div>
+	// );
 	return (
 		<Footer
 			style={{
@@ -33,7 +34,7 @@ const ECellFooter = ({ developers }) => {
 			<Row>
 				<Col
 					xs={24}
-					md={6}
+					md={8}
 					offset={(screen?.md || screen?.lg) && 3}
 					style={!(screen?.lg || screen?.md) && { textAlign: "center" }}>
 					<div>
@@ -42,31 +43,16 @@ const ECellFooter = ({ developers }) => {
 						<br />
 						All Rights Reserved.
 					</div>
-				</Col>
-
-				{!(screen?.lg || screen?.md) && <Divider />}
-
-				<Col
-					xs={24}
-					md={6}
-					offset={(screen?.md || screen?.lg) && 6}
-					style={!(screen?.lg || screen?.md) && { textAlign: "center" }}>
-					<div>
-						<span>For issues related to the website, </span>
-						<Popover content={developerDetails}>
-							<Typography.Link>contact us.</Typography.Link>
-						</Popover>
-					</div>
 					<Row style={{ fontSize: "0.9rem" }}>
-						<Col span={10}>
+						<Col span={9}>
 							<a
 								href="https://ecell.iitm.ac.in/internfair-terms-and-conditions"
 								target={"_blank"}
 								rel="noreferrer">
-								Terms and Conditions
+								Terms & Conditions
 							</a>
 						</Col>{" "}
-						<Col span={10}>
+						<Col span={6}>
 							<a
 								href="https://ecell.iitm.ac.in/internfair-privacy-policy"
 								target={"_blank"}
@@ -74,7 +60,47 @@ const ECellFooter = ({ developers }) => {
 								Privacy Policy
 							</a>
 						</Col>
+						<Col span={9}>
+							<a
+								href="https://ecell.iitm.ac.in/internfair-terms-and-conditions#refund-policy"
+								target={"_blank"}
+								rel="noreferrer">
+								Refund/Cancellation Policy
+							</a>
+						</Col>
 					</Row>
+				</Col>
+
+				{!(screen?.lg || screen?.md) && <Divider />}
+
+				<Col
+					xs={24}
+					md={7}
+					offset={(screen?.md || screen?.lg) && 6}
+					style={!(screen?.lg || screen?.md) && { textAlign: "center" }}>
+					<div>
+						<span>For issues related to the website, </span>
+						{/* <Popover content={developerDetails}>
+							<Typography.Link>contact us.</Typography.Link>
+						</Popover> */}
+						<div>
+							{developers.map((developer) => (
+								<div key={developer.whatsappNum}>
+									<Typography.Link href={developer.profileURL} target="blank">
+										{developer.name}
+									</Typography.Link>{" "}
+									<WhatsAppOutlined /> :{" "}
+									<Typography.Text copyable={{ tooltips: false }}>
+										{developer.whatsappNum}
+									</Typography.Text>
+								</div>
+							))}
+							<Typography.Link>Address</Typography.Link>: E-Cell, IIT Madras, Chennai
+							- 600036
+							<br />
+							<Typography.Link>Email</Typography.Link>: ss_ecell@smail.iitm.ac.in
+						</div>
+					</div>
 				</Col>
 			</Row>
 		</Footer>
