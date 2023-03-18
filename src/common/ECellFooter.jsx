@@ -98,7 +98,8 @@ const ECellFooter = ({ developers }) => {
 							<Typography.Link>Address</Typography.Link>: E-Cell, IIT Madras, Chennai
 							- 600036
 							<br />
-							<Typography.Link>Email</Typography.Link>: ss_ecell@smail.iitm.ac.in
+							<Typography.Link>Email</Typography.Link>:
+							services_ecell@smail.iitm.ac.in
 						</div>
 					</div>
 				</Col>
