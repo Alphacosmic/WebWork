@@ -59,6 +59,10 @@ const preferredLocations = [
 		label: "In person",
 		value: "IN_PERSON",
 	},
+	{
+		label: "Both",
+		value: "BOTH",
+	},
 ];
 
 const RegisterForm = () => {

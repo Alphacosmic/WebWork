@@ -107,9 +107,9 @@ const Login = () => {
 
 						<Row justify="space-between" align="bottom">
 							<Col span={16}>
-								{/* <Typography.Title level={5}>
+								<Typography.Title level={5}>
 									New here? <Link to="/register">Register</Link>
-								</Typography.Title> */}
+								</Typography.Title>
 							</Col>
 							<Col span={8} style={{ textAlign: "right" }}>
 								<Form.Item style={{ marginBottom: "0px" }}>
