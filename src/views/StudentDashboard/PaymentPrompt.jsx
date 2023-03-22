@@ -97,11 +97,9 @@ const PaymentPrompt = (props) => {
 						</span>
 						<br />
 						<br />
-						<strong>B.Tech.: 2020, 2021</strong>
+						<strong>B.Tech.: 2021, 2022</strong>
 						<br />
-						<strong>Dual Degree/IDDD: 2019, 2020, 2021</strong>
-						<br />
-						<strong>Humanities: 2019, 2020, 2021</strong>
+						<strong>Humanities: 2021, 2022</strong>
 					</>
 				}
 				onConfirm={handlePayment}>
