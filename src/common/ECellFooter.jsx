@@ -44,7 +44,7 @@ const ECellFooter = ({ developers }) => {
 						All Rights Reserved.
 					</div>
 					<Row style={{ fontSize: "0.9rem" }}>
-						<Col span={9}>
+						<Col xs={12} md={7}>
 							<a
 								href="https://ecell.iitm.ac.in/internfair-terms-and-conditions"
 								target={"_blank"}
@@ -52,7 +52,7 @@ const ECellFooter = ({ developers }) => {
 								Terms & Conditions
 							</a>
 						</Col>{" "}
-						<Col span={6}>
+						<Col xs={12} md={6}>
 							<a
 								href="https://ecell.iitm.ac.in/internfair-privacy-policy"
 								target={"_blank"}
@@ -60,12 +60,20 @@ const ECellFooter = ({ developers }) => {
 								Privacy Policy
 							</a>
 						</Col>
-						<Col span={9}>
+						<Col xs={12} md={8}>
 							<a
 								href="https://ecell.iitm.ac.in/internfair-terms-and-conditions#refund-policy"
 								target={"_blank"}
 								rel="noreferrer">
 								Refund/Cancellation Policy
+							</a>
+						</Col>
+						<Col xs={12} md={3}>
+							<a
+								href="https://ecell.iitm.ac.in/internfair"
+								target={"_blank"}
+								rel="noreferrer">
+								About Us
 							</a>
 						</Col>
 					</Row>
