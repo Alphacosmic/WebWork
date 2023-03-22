@@ -200,12 +200,13 @@ const RegisterForm = () => {
 											<BookOutlined /> CGPA
 										</span>
 									}
-									rules={[
-										{
-											required: true,
-											message: "Please input your CGPA!",
-										},
-									]}>
+									// rules={[
+									// 	{
+									// 		required: true,
+									// 		message: "Please input your CGPA!",
+									// 	},
+									// ]}
+								>
 									<Input disabled={false} />
 								</Form.Item>
 							</Col>
