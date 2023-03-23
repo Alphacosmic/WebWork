@@ -137,23 +137,24 @@ const AllProfiles = (props) => {
 				{student?.resumeURL?.length < 3 || !student?.resumeURL?.length
 					? "or Upload a new resume from the sidebar"
 					: ""}
-				<Tooltip
+				{/* <Tooltip
 					visible={true}
 					key={2}
 					mouseEnterDelay={0}
 					mouseLeaveDelay={0}
-					title="The application window has not been opened">
-					<Button
-						disabled={true}
-						key={1}
-						block
-						style={{ marginTop: "1em" }}
-						type="primary"
-						loading={isApplying}
-						onClick={handleApply}>
-						Apply
-					</Button>
-				</Tooltip>
+					// title="The application window has not been opened"
+				> */}
+				<Button
+					disabled={false}
+					key={2}
+					block
+					style={{ marginTop: "1em" }}
+					type="primary"
+					loading={isApplying}
+					onClick={handleApply}>
+					Apply
+				</Button>
+				{/* </Tooltip> */}
 			</Modal>
 			{/* {!paymentDone && !isFetching && (
 				<div style={{ textAlign: "center" }}>
@@ -208,35 +209,36 @@ const AllProfiles = (props) => {
 									icon={<LinkOutlined />}>
 									View Job Description
 								</Button>,
-								<Tooltip
-									visible={!paymentDone && toolTipVisible === profile?._id}
-									// visible={toolTipVisible}
-									key={2}
-									mouseEnterDelay={0}
-									mouseLeaveDelay={0}
-									title="You have not made the payment for E-Cell Internfair."
-									// title="The application window has been closed"
-								/>,
+								// <Tooltip
+								// 	visible={!paymentDone && toolTipVisible === profile?._id}
+								// 	// visible={toolTipVisible}
+								// 	key={2}
+								// 	mouseEnterDelay={0}
+								// 	mouseLeaveDelay={0}
+								// 	title="You have not made the payment for E-Cell Internfair."
+								// 	// title="The application window has been closed"
+								// />,
 
-								<Popover
-									key={2}
-									content={<div>The application window has not been opened</div>}>
-									<Button
-										type="link"
-										block
-										// disabled={!paymentDone}
-										disabled={true}
-										onMouseEnter={() => setToolTipVisible(profile._id)}
-										onMouseLeave={() => setToolTipVisible("")}
-										onClick={() => {
-											if (paymentDone) {
-												setSelectedProfile(profile);
-												setIsModalVisible(true);
-											}
-										}}>
-										Apply
-									</Button>
-								</Popover>,
+								// <Popover
+								// 	key={2}
+								// 	content={<div>The application window has not been opened</div>}>
+								<Button
+									key={3}
+									type="link"
+									block
+									// disabled={!paymentDone}
+									disabled={false}
+									onMouseEnter={() => setToolTipVisible(profile._id)}
+									onMouseLeave={() => setToolTipVisible("")}
+									onClick={() => {
+										if (paymentDone) {
+											setSelectedProfile(profile);
+											setIsModalVisible(true);
+										}
+									}}>
+									Apply
+								</Button>,
+								// </Popover>,
 							]}
 							bodyStyle={{
 								height: screen.xl ? "250px" : screen.lg ? "280px" : "300px",
