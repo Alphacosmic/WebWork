@@ -85,8 +85,8 @@ const PaymentPrompt = (props) => {
 			</Title>
 			<Title level={4} type="secondary" style={{ marginTop: 0, opacity: "50%" }}>
 				{/* Payments have stopped for this session of InternFair */}
-				{/* Please do so to access companies. */}
-				Payments starting soon.
+				Please do so to access companies.
+				{/* Payments starting soon. */}
 			</Title>
 			<Popconfirm
 				title={
