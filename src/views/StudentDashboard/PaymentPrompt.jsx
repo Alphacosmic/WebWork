@@ -97,7 +97,7 @@ const PaymentPrompt = (props) => {
 						</span>
 						<br />
 						<br />
-						<strong>B.Tech.: 2021, 2022</strong>
+						<strong>B.Tech.: 2020, 2021, 2022</strong>
 						<br />
 						<strong>Dual Degree: 2019, 2020</strong>
 						<br />
