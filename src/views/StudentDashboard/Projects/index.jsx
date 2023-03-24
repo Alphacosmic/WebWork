@@ -145,7 +145,7 @@ const AllProfiles = (props) => {
 					// title="The application window has not been opened"
 				> */}
 				<Button
-					disabled={false}
+					disabled={!paymentDone || !selectedResume}
 					key={2}
 					block
 					style={{ marginTop: "1em" }}
@@ -226,8 +226,8 @@ const AllProfiles = (props) => {
 									key={3}
 									type="link"
 									block
-									// disabled={!paymentDone}
-									disabled={false}
+									disabled={!paymentDone}
+									// disabled={false}
 									onMouseEnter={() => setToolTipVisible(profile._id)}
 									onMouseLeave={() => setToolTipVisible("")}
 									onClick={() => {
