@@ -32,7 +32,7 @@ import { dataSourceGenerator } from "../../../utils/dataSourceGenerator";
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
 
-const isApplicationClosed = true;
+const isApplicationClosed = false;
 
 const AllProfiles = (props) => {
 	const { student, updatePaymentInfo, statusFilter, statusSort, statusSortOrder } = props.props;
@@ -145,18 +145,18 @@ const AllProfiles = (props) => {
 					mouseEnterDelay={0}
 					mouseLeaveDelay={0}
 					title="The application window has been closed"> */}
-				<Popover content={<div>The application window has been closed</div>}>
-					<Button
-						disabled={!paymentDone || !selectedResume || isApplicationClosed}
-						key={2}
-						block
-						style={{ marginTop: "1em" }}
-						type="primary"
-						loading={isApplying}
-						onClick={handleApply}>
-						Apply
-					</Button>
-				</Popover>
+				{/* <Popover content={<div>The application window has been closed</div>}> */}
+				<Button
+					disabled={!paymentDone || !selectedResume || isApplicationClosed}
+					key={2}
+					block
+					style={{ marginTop: "1em" }}
+					type="primary"
+					loading={isApplying}
+					onClick={handleApply}>
+					Apply
+				</Button>
+				{/* </Popover> */}
 				{/* </Tooltip> */}
 			</Modal>
 			{/* {!paymentDone && !isFetching && (
@@ -219,24 +219,25 @@ const AllProfiles = (props) => {
 								// 	mouseEnterDelay={0}
 								// 	mouseLeaveDelay={0}
 								// 	title="The application window has been closed">
-								<Popover
+								// <Popover
+								// 	key={2}
+								// 	content={<div>The application window has been closed</div>}>
+								<Button
 									key={2}
-									content={<div>The application window has been closed</div>}>
-									<Button
-										type="link"
-										block
-										disabled={!paymentDone || isApplicationClosed}
-										onMouseEnter={() => setToolTipVisible(profile._id)}
-										onMouseLeave={() => setToolTipVisible("")}
-										onClick={() => {
-											if (paymentDone) {
-												setSelectedProfile(profile);
-												setIsModalVisible(true);
-											}
-										}}>
-										Apply
-									</Button>
-								</Popover>,
+									type="link"
+									block
+									disabled={!paymentDone || isApplicationClosed}
+									onMouseEnter={() => setToolTipVisible(profile._id)}
+									onMouseLeave={() => setToolTipVisible("")}
+									onClick={() => {
+										if (paymentDone) {
+											setSelectedProfile(profile);
+											setIsModalVisible(true);
+										}
+									}}>
+									Apply
+								</Button>,
+								// </Popover>
 								// </Tooltip>,
 							]}
 							bodyStyle={{
