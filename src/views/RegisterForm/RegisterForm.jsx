@@ -65,6 +65,8 @@ const preferredLocations = [
 	},
 ];
 
+const isRegistrationClosed = true;
+
 const RegisterForm = () => {
 	const [form] = Form.useForm();
 	const [loading, setLoading] = useState(false);
@@ -138,6 +140,7 @@ const RegisterForm = () => {
 					}>
 					<Form
 						form={form}
+						disabled={isRegistrationClosed}
 						name="register"
 						size="large"
 						layout="vertical"
@@ -164,7 +167,7 @@ const RegisterForm = () => {
 											transform: (val) => (!val ? "" : val.trim()),
 										},
 									]}>
-									<Input disabled={false} />
+									<Input disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
 
@@ -187,7 +190,7 @@ const RegisterForm = () => {
 											<KeyOutlined /> LDAP Password
 										</span>
 									}>
-									<Input.Password disabled={false} />
+									<Input.Password disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={8}>
@@ -207,7 +210,7 @@ const RegisterForm = () => {
 									// 	},
 									// ]}
 								>
-									<Input disabled={false} />
+									<Input disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
 							<Col style={{ marginBottom: "0.5em" }}>
@@ -235,7 +238,7 @@ const RegisterForm = () => {
 											message: "Please enter a valid phone number.",
 										},
 									]}>
-									<Input prefix="+91" disabled={false} />
+									<Input prefix="+91" disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={16}>
@@ -254,7 +257,7 @@ const RegisterForm = () => {
 											message: "Please input your Personal mail!",
 										},
 									]}>
-									<Input disabled={false} />
+									<Input disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={12}>
@@ -270,7 +273,10 @@ const RegisterForm = () => {
 											required: false,
 										},
 									]}>
-									<Select placeholder="None" allowClear>
+									<Select
+										placeholder="None"
+										allowClear
+										disabled={isRegistrationClosed}>
 										{idddList.map((value, i) => (
 											<Option key={i} value={value}>
 												{value}
@@ -292,7 +298,7 @@ const RegisterForm = () => {
 											required: false,
 										},
 									]}>
-									<Input placeholder="None" disabled={false} />
+									<Input placeholder="None" disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
 
@@ -315,7 +321,7 @@ const RegisterForm = () => {
 											message: "Please enter a PIN Code.",
 										},
 									]}>
-									<Input disabled={false} />
+									<Input disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={16}>
@@ -333,7 +339,7 @@ const RegisterForm = () => {
 											message: "Please input your Hostel Address!",
 										},
 									]}>
-									<Input disabled={false} />
+									<Input disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
 						</Row>
@@ -348,7 +354,7 @@ const RegisterForm = () => {
 										},
 									]}>
 									<Select
-										disabled={false}
+										disabled={isRegistrationClosed}
 										placeholder="None"
 										options={preferredLocations}
 									/>
@@ -358,7 +364,7 @@ const RegisterForm = () => {
 						<Row>
 							<Col>
 								<Checkbox
-									disabled={false}
+									disabled={isRegistrationClosed}
 									onChange={() => {
 										setIsTNCAccepted(!isTNCAccepted);
 									}}>
