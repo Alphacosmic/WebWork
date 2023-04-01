@@ -70,8 +70,8 @@ function InterviewScheduler(props) {
 								onPanelChange={onPanelChange}
 								onSelect={onSelect}
 								validRange={[
-									moment(interview.dateRange[0], "DDMMYYYY"),
-									moment(interview.dateRange[1], "DDMMYYYY"),
+									moment(interview.dateRange[0].length === 8 ? interview.dateRange[0] : "0" + interview.dateRange[0], "DDMMYYYY"),
+									moment(interview.dateRange[1].length === 8 ? interview.dateRange[1] : "0" + interview.dateRange[1], "DDMMYYYY"),
 								]}
 								headerRender={() => null}
 							/>
