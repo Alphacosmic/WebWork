@@ -93,9 +93,12 @@ function InterviewScheduler(props) {
 								props={{
 									slots:
 										interview.interviewSlots.filter((slot) => {
-											return slot.date.length === 8
-												? slot.date.slice(0, 2)
-												: "0" + slot.date[0] === selectedDate.slice(0, 2);
+											return (
+												(slot.date.length === 8
+													? slot.date.slice(0, 2)
+													: "0" + slot.date[0]) ===
+												selectedDate.slice(0, 2)
+											);
 										})[0]?.timeSlots || [],
 									setSelectedSlot,
 									selectedSlot,
