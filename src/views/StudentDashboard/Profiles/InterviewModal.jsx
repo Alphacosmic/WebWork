@@ -17,16 +17,12 @@ function InterviewModal(props) {
 			.then((res) => {
 				const interview = res.data;
 				interview.interviewSlots.forEach((interview) => {
-					setChosenDate((a) =>
-						a || interview.date.length === 8 ? interview.date : "0" + interview.date
-					);
+					setChosenDate((a) => a || interview.date);
 					interview.timeSlots.forEach((slot) => {
 						if (slot.applicant === student._id) {
 							setIsBookee(true);
 							setChosenSlot(slot);
-							setChosenDate(
-								interview.date.length === 8 ? interview.date : "0" + interview.date
-							);
+							setChosenDate(interview.date);
 						}
 					});
 				});
@@ -51,7 +47,7 @@ function InterviewModal(props) {
 						setChosenDate,
 					}}
 				/>
-			) : (chosenDate || (editMode && chosenSlot)) && interview ? (
+			) : chosenDate || (editMode && chosenSlot) ? (
 				<InterviewScheduler
 					props={{
 						isModalOpen,

@@ -4,7 +4,6 @@ import AvailableSlots from "./AvailableSlots";
 import moment from "moment";
 import axios from "../../../utils/_axios";
 import openNotification from "../../../utils/openAntdNotification";
-import createValidRange from "../../../utils/createValidRange";
 
 function InterviewScheduler(props) {
 	const [form] = Form.useForm();
@@ -19,7 +18,6 @@ function InterviewScheduler(props) {
 		chosenSlot,
 	} = props.props;
 	const [selectedDate, setSelectedDate] = useState(chosenDate);
-
 	const [selectedSlot, setSelectedSlot] = useState(editMode ? chosenSlot : null);
 
 	const onPanelChange = (value, mode) => {
@@ -72,18 +70,8 @@ function InterviewScheduler(props) {
 								onPanelChange={onPanelChange}
 								onSelect={onSelect}
 								validRange={[
-									moment(
-										interview.dateRange[0].length === 8
-											? interview.dateRange[0]
-											: "0" + interview.dateRange[0],
-										"DDMMYYYY"
-									),
-									moment(
-										interview.dateRange[1].length === 8
-											? interview.dateRange[1]
-											: "0" + interview.dateRange[1],
-										"DDMMYYYY"
-									),
+									moment(interview.dateRange[0], "DDMMYYYY"),
+									moment(interview.dateRange[1], "DDMMYYYY"),
 								]}
 								headerRender={() => null}
 							/>
@@ -94,10 +82,7 @@ function InterviewScheduler(props) {
 									slots:
 										interview.interviewSlots.filter((slot) => {
 											return (
-												(slot.date.length === 8
-													? slot.date.slice(0, 2)
-													: "0" + slot.date[0]) ===
-												selectedDate.slice(0, 2)
+												slot.date.slice(0, 2) === selectedDate.slice(0, 2)
 											);
 										})[0]?.timeSlots || [],
 									setSelectedSlot,
