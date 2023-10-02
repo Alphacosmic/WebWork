@@ -5,7 +5,7 @@ export default defineConfig({
 	plugins: [react()],
 	base: "/internfair/student/",
 	server: {
-		port: 3030,
+		port: 3000,
 		host: true,
 	},
 });
