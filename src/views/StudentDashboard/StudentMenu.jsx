@@ -213,12 +213,16 @@ const StudentMenu = ({ student, updateResume, updateSkillTags }) => {
 				</Col>
 				<Col span={24}>
 					<Text strong>Skills </Text>
-					<Button
-						style={{ width: "max-content", margin: "none" }}
-						onClick={toggleSkillUpdate}
-						disabled={isApplicationClosed}
-						icon={<EditOutlined />}
-						type="link"></Button>
+					{viewSkillUpdate ? (
+						<></>
+					) : (
+						<Button
+							style={{ width: "max-content", margin: "none" }}
+							onClick={toggleSkillUpdate}
+							disabled={isApplicationClosed}
+							icon={<EditOutlined />}
+							type="link"></Button>
+					)}
 					<br />
 					{viewSkillUpdate ? (
 						<Form form={form} onFinish={onFinish}>
