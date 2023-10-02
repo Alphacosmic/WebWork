@@ -123,9 +123,9 @@ const StudentMenu = ({ student, updateResume, updateSkillTags }) => {
 		try {
 			setLoading(true);
 			const values = await form.validateFields();
-			const skillTagsNew = values.skillTags;
-			await axios.put(`/skilltags`, { skillTagsNew });
-			updateSkillTags(skillTagsNew);
+			const newSkillTags = values.skillTags;
+			await axios.put(`/skill-tags`, { newSkillTags });
+			updateSkillTags(newSkillTags);
 			setLoading(false);
 			toggleSkillUpdate();
 			openNotification("success", "Successfully Updated Skills");
