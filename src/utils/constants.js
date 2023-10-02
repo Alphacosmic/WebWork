@@ -24,3 +24,21 @@ export const DESCENDING = "DESCENDING";
 export const NUMBER_OF_APPLICANTS = "NUMBER_OF_APPLICANTS";
 export const VACANT = "VACANT";
 export const BOOKED = "BOOKED";
+export const maxSkillTags = 3;
+export const skillTags = [
+	"App development",
+	"UI / UX",
+	"Frontend development",
+	"Backend development",
+	"Full stack development",
+	"Marketing",
+	"Content creation",
+	"Product management",
+	"Graphic designing",
+	"Game development",
+	"AI / ML",
+	"Sales",
+	"Growth",
+	"Core",
+	"Research and Development",
+];

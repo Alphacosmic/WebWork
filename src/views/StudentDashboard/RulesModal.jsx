@@ -23,7 +23,7 @@ const RulesModal = ({ isVisible, closeModal }) => {
 				<Typography.Title level={4}>Student Policies</Typography.Title>
 				<ul>
 					<li>
-						Students can apply to a maximum of <b>ten</b> profiles. If you apply for
+						Students can apply to a maximum of <b>seven</b> profiles. If you apply for
 						more profiles, your account will be permanently blocked. The registration
 						fee will not be refunded in such a case.
 					</li>
