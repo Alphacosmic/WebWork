@@ -224,6 +224,9 @@ const RegisterForm = () => {
 								<Typography.Text type="secondary">
 									We do not store your LDAP password. We only check if you&apos;re
 									an IITM student by authenticating you against institute records.
+									<br />
+									1st year students who do not have a CGPA should enter 0 as their
+									CGPA.
 								</Typography.Text>
 							</Col>
 							<Col xs={24} md={8}>

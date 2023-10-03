@@ -197,7 +197,7 @@ const StudentMenu = ({ student, updateResume, updateSkillTags }) => {
 				<Col span={12}>
 					<Text strong>CGPA</Text>
 					<br />
-					<Text>{student.cgpa}</Text>
+					<Text>{student.cgpa ? student.cgpa : "N/A"}</Text>
 				</Col>
 
 				<Col span={12} style={{ textAlign: "right" }}>
