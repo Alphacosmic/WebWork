@@ -89,6 +89,7 @@ const PaymentPrompt = (props) => {
 				{/* Payments starting soon. */}
 			</Title>
 			<Popconfirm
+				disabled={true}
 				title={
 					<>
 						<span>
