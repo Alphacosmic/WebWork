@@ -29,6 +29,7 @@ import { Link, useLocation } from "wouter";
 import logo from "../../assets/startup-internfair_logo.png";
 
 import axios from "../../utils/_axios";
+import { skillTags, maxSkillTags } from "../../utils/constants";
 
 const { Option } = Select;
 const { Content } = Layout;
@@ -65,7 +66,7 @@ const preferredLocations = [
 	},
 ];
 
-const isRegistrationClosed = false;
+const isRegistrationClosed = true;
 
 const RegisterForm = () => {
 	const [form] = Form.useForm();
@@ -89,6 +90,12 @@ const RegisterForm = () => {
 		} catch (error) {
 			openNotification("error", "Error occured in posting form data.", error.response.data);
 			setLoading(false);
+		}
+	};
+
+	const handleSkillTagChange = (skillValues) => {
+		if (skillValues.length > maxSkillTags) {
+			skillValues.pop();
 		}
 	};
 
@@ -342,15 +349,15 @@ const RegisterForm = () => {
 									<Input disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
-						</Row>
-						<Row>
-							<Col span={24}>
+
+							<Col xs={24} md={12}>
 								<Form.Item
 									name="preferredLocation"
 									label={<span>Preferred location</span>}
 									rules={[
 										{
 											required: true,
+											message: "Please select your preferred location",
 										},
 									]}>
 									<Select
@@ -358,6 +365,22 @@ const RegisterForm = () => {
 										placeholder="None"
 										options={preferredLocations}
 									/>
+								</Form.Item>
+							</Col>
+							<Col xs={24} md={12}>
+								<Form.Item name="skillTags" label={<span>Skills</span>}>
+									<Select
+										disabled={isRegistrationClosed}
+										mode="multiple"
+										allowClear
+										placeholder={`Maximum ${maxSkillTags} skills`}
+										onChange={handleSkillTagChange}>
+										{skillTags.map((value, i) => (
+											<Option key={i} value={value}>
+												{value}
+											</Option>
+										))}
+									</Select>
 								</Form.Item>
 							</Col>
 						</Row>
@@ -370,7 +393,7 @@ const RegisterForm = () => {
 									}}>
 									I agree to the{" "}
 									<a
-										href="https://drive.google.com/file/d/1q5WXJrOBQkWPkHpVWXQ5f5UHRyCNnnxu/view"
+										href="https://drive.google.com/file/d/1AqdWvG_RwYLbWkky4GYHnj0XrjIkHbUG/view"
 										target="_blank"
 										rel="noreferrer">
 										terms and conditions

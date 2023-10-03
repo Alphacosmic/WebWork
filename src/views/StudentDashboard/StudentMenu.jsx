@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Button, Typography, Row, Col, Divider, Upload } from "antd";
-import { UploadOutlined, FilePdfOutlined, LinkOutlined } from "@ant-design/icons";
+import { Button, Typography, Row, Col, Divider, Upload, Select, Form } from "antd";
+import { UploadOutlined, FilePdfOutlined, LinkOutlined, EditOutlined } from "@ant-design/icons";
 import openNotification from "../../utils/openAntdNotification";
 import axios from "../../utils/_axios";
-
+import { skillTags, maxSkillTags } from "../../utils/constants";
+import { isApplicationClosed } from "./Projects";
+const { Option } = Select;
 const { Title, Text } = Typography;
 
 const branches = {
@@ -78,8 +80,11 @@ export const upload = async (file) => {
 const ordinals = ["st", "nd", "rd", "th"];
 const transformYear = (year) => `${year}${ordinals[year - 1]} year`;
 
-const StudentMenu = ({ student, updateResume }) => {
+const StudentMenu = ({ student, updateResume, updateSkillTags }) => {
+	const [form] = Form.useForm();
+	const [loading, setLoading] = useState(false);
 	const [fileList, setFileList] = useState();
+	const [viewSkillUpdate, setViewSkillUpdate] = useState(false);
 	const [resumeUploading, setResumeUploading] = useState(false);
 	const handleUpload = async () => {
 		setResumeUploading(true);
@@ -102,6 +107,34 @@ const StudentMenu = ({ student, updateResume }) => {
 			setResumeUploading(false);
 		}
 	};
+
+	const toggleSkillUpdate = () => {
+		viewSkillUpdate ? setViewSkillUpdate(false) : setViewSkillUpdate(true);
+		form.resetFields();
+	};
+
+	const handleSkillTagChange = (skillValues) => {
+		if (skillValues.length > maxSkillTags) {
+			skillValues.pop();
+		}
+	};
+
+	const onFinish = async () => {
+		try {
+			setLoading(true);
+			const values = await form.validateFields();
+			const newSkillTags = values.skillTags;
+			await axios.put(`/skill-tags`, { newSkillTags });
+			updateSkillTags(newSkillTags);
+			setLoading(false);
+			toggleSkillUpdate();
+			openNotification("success", "Successfully Updated Skills");
+		} catch (error) {
+			openNotification("error", "Error occured in posting form data.", error.response.data);
+			setLoading(false);
+		}
+	};
+
 	const uploadProps = {
 		fileList,
 		accept: "application/pdf",
@@ -178,6 +211,47 @@ const StudentMenu = ({ student, updateResume }) => {
 					<br />
 					<Text>{student.minor || "None"}</Text>
 				</Col>
+				<Col span={24}>
+					<Text strong>Skills </Text>
+					{viewSkillUpdate ? (
+						<></>
+					) : (
+						<Button
+							style={{ width: "max-content", margin: "none" }}
+							onClick={toggleSkillUpdate}
+							disabled={isApplicationClosed}
+							icon={<EditOutlined />}
+							type="link"></Button>
+					)}
+					<br />
+					{viewSkillUpdate ? (
+						<Form form={form} onFinish={onFinish}>
+							<Form.Item name="skillTags" style={{ marginBottom: "5px" }}>
+								<Select
+									disabled={isApplicationClosed}
+									mode="multiple"
+									allowClear
+									placeholder={`Maximum ${maxSkillTags} skills`}
+									onChange={handleSkillTagChange}>
+									{skillTags.map((value, i) => (
+										<Option key={i} value={value}>
+											{value}
+										</Option>
+									))}
+								</Select>
+							</Form.Item>
+							<Button type="primary" htmlType="submit" loading={loading}>
+								Done
+							</Button>
+							<Button onClick={toggleSkillUpdate}>Cancel</Button>
+						</Form>
+					) : (
+						<Text>
+							{student.skillTags ? student.skillTags.join(", ") : "Not Selected"}
+						</Text>
+					)}
+				</Col>
+
 				<Col span={!student.iddd || student.iddd === "None" ? 12 : 24}>
 					<Text strong>IDDD</Text>
 					<br />

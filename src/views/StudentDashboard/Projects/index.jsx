@@ -23,16 +23,18 @@ import {
 	LinkOutlined,
 	UsergroupAddOutlined,
 	StarFilled,
+	ExportOutlined,
 } from "@ant-design/icons";
 import openNotification from "../../../utils/openAntdNotification";
 import PaymentPrompt from "../PaymentPrompt";
 import axios from "../../../utils/_axios";
 import { dataSourceGenerator } from "../../../utils/dataSourceGenerator";
+import blurredText from "../../../assets/blur_text.png";
 
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
 
-const isApplicationClosed = true;
+export const isApplicationClosed = false;
 
 const AllProfiles = (props) => {
 	const { student, updatePaymentInfo, statusFilter, statusSort, statusSortOrder } = props.props;
@@ -145,18 +147,18 @@ const AllProfiles = (props) => {
 					mouseEnterDelay={0}
 					mouseLeaveDelay={0}
 					title="The application window has been closed"> */}
-				<Popover content={<div>The application window has been closed</div>}>
-					<Button
-						disabled={!paymentDone || !selectedResume || isApplicationClosed}
-						key={2}
-						block
-						style={{ marginTop: "1em" }}
-						type="primary"
-						loading={isApplying}
-						onClick={handleApply}>
-						Apply
-					</Button>
-				</Popover>
+				{/* <Popover content={<div>The application window has been closed</div>}> */}
+				<Button
+					disabled={!paymentDone || !selectedResume || isApplicationClosed}
+					key={2}
+					block
+					style={{ marginTop: "1em" }}
+					type="primary"
+					loading={isApplying}
+					onClick={handleApply}>
+					Apply
+				</Button>
+				{/* </Popover> */}
 				{/* </Tooltip> */}
 			</Modal>
 			{/* {!paymentDone && !isFetching && (
@@ -219,25 +221,25 @@ const AllProfiles = (props) => {
 								// 	mouseEnterDelay={0}
 								// 	mouseLeaveDelay={0}
 								// 	title="The application window has been closed">
-								<Popover
+								// <Popover
+								// 	key={2}
+								// 	content={<div>The application window has been closed</div>}>
+								<Button
 									key={2}
-									content={<div>The application window has been closed</div>}>
-									<Button
-										key={2}
-										type="link"
-										block
-										disabled={!paymentDone || isApplicationClosed}
-										onMouseEnter={() => setToolTipVisible(profile._id)}
-										onMouseLeave={() => setToolTipVisible("")}
-										onClick={() => {
-											if (paymentDone) {
-												setSelectedProfile(profile);
-												setIsModalVisible(true);
-											}
-										}}>
-										Apply
-									</Button>
-								</Popover>,
+									type="link"
+									block
+									disabled={!paymentDone || isApplicationClosed}
+									onMouseEnter={() => setToolTipVisible(profile._id)}
+									onMouseLeave={() => setToolTipVisible("")}
+									onClick={() => {
+										if (paymentDone) {
+											setSelectedProfile(profile);
+											setIsModalVisible(true);
+										}
+									}}>
+									Apply
+								</Button>,
+								// </Popover>,
 								// </Tooltip>,
 							]}
 							bodyStyle={{
@@ -247,11 +249,20 @@ const AllProfiles = (props) => {
 								<Col span={12} style={{ marginBottom: "1rem" }}>
 									<UserOutlined />
 									<Text strong type="secondary">
-										Company
+										Company{" "}
 									</Text>
+
 									<br />
 									<Typography.Text key={1}>
-										{profile.company.name}
+										{profile.company.name}{" "}
+										<a
+											href={profile.company.websiteURL}
+											target="_blank"
+											rel="noreferrer">
+											<Popover content={<div>Company Website</div>}>
+												<ExportOutlined />
+											</Popover>
+										</a>
 									</Typography.Text>
 								</Col>
 								<Col span={12} style={{ marginBottom: "1rem" }}>
@@ -261,7 +272,25 @@ const AllProfiles = (props) => {
 									</Text>
 									<br />
 									<Typography.Text key={2}>
-										{profile.applicants.length}
+										{paymentDone ? (
+											profile.applicants.length
+										) : (
+											<Popover
+												placement="top"
+												content={
+													<div>
+														Make the payment to view number of
+														applicants
+													</div>
+												}>
+												<img
+													src={blurredText}
+													alt="Locked"
+													width="50rem"
+													height="30rem"
+												/>
+											</Popover>
+										)}
 									</Typography.Text>
 								</Col>
 								<Col span={24}>

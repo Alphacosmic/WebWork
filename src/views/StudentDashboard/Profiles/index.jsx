@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useState } from "react";
-import { Grid, Row, Col } from "antd";
-import { CalendarOutlined } from "@ant-design/icons";
+import { Grid, Row, Col, Popover } from "antd";
+import { CalendarOutlined, WhatsAppOutlined } from "@ant-design/icons";
 import axios from "../../../utils/_axios";
 import PaymentPrompt from "../PaymentPrompt";
 const AppliedProfileCard = React.lazy(() => import("./AppliedProfileCard"));
@@ -83,7 +83,7 @@ const AppliedProfilesTable = (props) => {
 						let [applicant] = profile.applicants.filter((applicant) => {
 							return applicant.applicant === student._id;
 						});
-						console.log(applicant);
+						//console.log(applicant);
 						profile.OFFER = {
 							status,
 							offerLetter: applicant.offerLetter,
@@ -91,7 +91,7 @@ const AppliedProfilesTable = (props) => {
 					}
 					return profile;
 				});
-				console.log(formattedData);
+				//console.log(formattedData);
 
 				setProfiles(formattedData);
 			})
@@ -108,11 +108,11 @@ const AppliedProfilesTable = (props) => {
 	}
 
 	const deregister = (id) => {
-		console.log(id);
+		//console.log(id);
 		axios
 			.put("/deregister", { profileId: id })
 			.then((res) => {
-				console.log(res.data);
+				//console.log(res.data);
 				setProfiles((old) => old.filter((item) => item._id !== res.data.profile._id));
 				openNotification(
 					"success",
@@ -183,8 +183,33 @@ const AppliedProfilesTable = (props) => {
 		},
 		{
 			title: "Resume SL",
-			dataIndex: "RESUME",
-			render: (tag) => <span style={{ color: "#1890FF" }}>{tag}</span>,
+			dataIndex: ["RESUME"],
+			render: (tag, profile) => (
+				<>
+					<span style={{ color: "#1890FF" }}>{tag}</span>
+					<br />
+					{tag === "Yes" || tag === "N/A" ? (
+						profile.whatsappLink === "" ? (
+							<></>
+						) : (
+							<Popover
+								content={
+									<div>Join the WhatsApp group for further communication.</div>
+								}>
+								<span
+									onClick={() =>
+										window.open(profile.whatsappLink, "_blank").focus()
+									}
+									style={{ cursor: "pointer", color: "#1890FF" }}>
+									<WhatsAppOutlined /> Join
+								</span>
+							</Popover>
+						)
+					) : (
+						<div></div>
+					)}
+				</>
+			),
 		},
 		{
 			title: "Test SL",

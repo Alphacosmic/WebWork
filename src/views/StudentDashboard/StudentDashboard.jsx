@@ -93,6 +93,15 @@ const StudentDashboard = () => {
 		});
 	};
 
+	const updateSkillTags = (skillvalues) => {
+		setStudent((prevState) => {
+			return {
+				...prevState,
+				skillTags: skillvalues,
+			};
+		});
+	};
+
 	const Settings = (
 		<Space direction={{ xs: "vertical", md: "horizontal" }} align="center">
 			{/* <Alert
@@ -251,6 +260,7 @@ const StudentDashboard = () => {
 						{student === null || (
 							<StudentMenu
 								student={student}
+								updateSkillTags={updateSkillTags}
 								paymentDone={student?.paymentDetails?.captured}
 								updateResume={updateResume}
 							/>
