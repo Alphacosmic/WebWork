@@ -66,7 +66,7 @@ const preferredLocations = [
 	},
 ];
 
-const isRegistrationClosed = false;
+const isRegistrationClosed = true;
 
 const RegisterForm = () => {
 	const [form] = Form.useForm();
