@@ -117,7 +117,8 @@ const Login = () => {
 										type="primary"
 										size="large"
 										htmlType="submit"
-										loading={isSubmitting}>
+										loading={isSubmitting}
+										disabled={true}>
 										Log In
 									</Button>
 								</Form.Item>

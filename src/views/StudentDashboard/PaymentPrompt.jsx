@@ -107,12 +107,12 @@ const PaymentPrompt = (props) => {
 				onConfirm={handlePayment}>
 				<Button
 					// disabled={!(studentData.roll.toLowerCase() === "rp22t222")}
-					disabled={
-						student.roll.slice(2, 4) === "19" &&
-						!/^be|bs|ed|ph/i.test(student.roll) &&
-						student.iddd === "None"
-					}
-					// disabled={true}
+					// disabled={
+					// 	student.roll.slice(2, 4) === "19" &&
+					// 	!/^be|bs|ed|ph/i.test(student.roll) &&
+					// 	student.iddd === "None"
+					// }
+					disabled={true}
 					size="large"
 					type="primary">
 					Pay ₹399/-
