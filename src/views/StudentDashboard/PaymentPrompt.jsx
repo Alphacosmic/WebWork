@@ -101,7 +101,7 @@ const PaymentPrompt = (props) => {
 						<br />
 						<strong>Dual Degree: All</strong>
 						<br />
-						<strong>Integrated HS: upto 2022</strong>
+						<strong>Integrated HS: All</strong>
 					</>
 				}
 				onConfirm={handlePayment}>

@@ -178,7 +178,11 @@ const StudentDashboard = () => {
 											</Space>
 										</Radio.Group>
 									)}
-									<Radio value={NUMBER_OF_APPLICANTS}>Number of applicants</Radio>
+									<Radio
+										disabled={!student?.paymentDetails?.captured}
+										value={NUMBER_OF_APPLICANTS}>
+										Number of applicants
+									</Radio>
 									{statusSort === NUMBER_OF_APPLICANTS && (
 										<Radio.Group
 											value={statusSortOrder}
