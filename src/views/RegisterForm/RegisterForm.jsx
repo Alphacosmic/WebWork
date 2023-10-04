@@ -416,7 +416,7 @@ const RegisterForm = () => {
 										type="primary"
 										size="large"
 										htmlType="submit"
-										// disabled={!isTNCAccepted}
+										disabled={!isTNCAccepted}
 										loading={loading}>
 										Register
 									</Button>
