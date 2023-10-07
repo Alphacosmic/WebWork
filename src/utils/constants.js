@@ -41,5 +41,5 @@ export const skillTags = [
 	"Growth",
 	"Core",
 	"Research and Development",
-	"Data Analytics/Science"
+	"Data Analytics/Science",
 ];
