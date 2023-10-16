@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Button, Modal, Result, Popconfirm } from "antd";
+import { Typography, Button, Modal, Result, Popconfirm, Popover } from "antd";
 import { WarningOutlined, SmileOutlined } from "@ant-design/icons";
 import loadScript from "../../utils/loadScript";
 import openNotification from "../../utils/openAntdNotification";
@@ -104,6 +104,7 @@ const PaymentPrompt = (props) => {
 						<strong>Integrated HS: All</strong>
 					</>
 				}
+				disabled={true}
 				onConfirm={handlePayment}>
 				<Button
 					// disabled={!(studentData.roll.toLowerCase() === "rp22t222")}
@@ -112,7 +113,7 @@ const PaymentPrompt = (props) => {
 					// 	!/^be|bs|ed|ph/i.test(student.roll) &&
 					// 	student.iddd === "None"
 					// }
-					disabled={false}
+					disabled={true}
 					size="large"
 					type="primary">
 					Pay ₹399/-
