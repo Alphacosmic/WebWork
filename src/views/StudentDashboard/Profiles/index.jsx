@@ -224,19 +224,22 @@ const AppliedProfilesTable = (props) => {
 		{
 			title: "Interview SL",
 			dataIndex: "INTERVIEW",
-			render: (interview) => (
+			render: (interview, profile) => (
 				<div style={{ display: "flex", justifyContent: "space-between" }}>
 					<span style={{ color: "#1890FF" }}>{interview.status || "-"}</span>
-					{interview.status === "-" && (
-						<CalendarOutlined
-							style={{ fontSize: "15px", color: "#1890FF" }}
-							onClick={(e) => {
-								e.preventDefault();
-								setInterviewID(interview.profileID);
-								openSchedulingModal();
-							}}
-						/>
-					)}
+					{interview.status === "-" &&
+						(profile.interview ? (
+							<CalendarOutlined
+								style={{ fontSize: "15px", color: "#1890FF" }}
+								onClick={(e) => {
+									e.preventDefault();
+									setInterviewID(interview.profileID);
+									openSchedulingModal();
+								}}
+							/>
+						) : (
+							<></>
+						))}
 				</div>
 			),
 		},
