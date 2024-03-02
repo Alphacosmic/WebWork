@@ -104,7 +104,7 @@ const PaymentPrompt = (props) => {
 						<strong>Integrated HS: All</strong>
 					</>
 				}
-				disabled={true}
+				disabled={false}
 				onConfirm={handlePayment}>
 				<Button
 					// disabled={!(studentData.roll.toLowerCase() === "rp22t222")}
@@ -113,7 +113,7 @@ const PaymentPrompt = (props) => {
 					// 	!/^be|bs|ed|ph/i.test(student.roll) &&
 					// 	student.iddd === "None"
 					// }
-					disabled={true}
+					disabled={false}
 					size="large"
 					type="primary">
 					Pay ₹399/-
