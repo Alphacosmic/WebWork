@@ -34,7 +34,7 @@ import blurredText from "../../../assets/blur_text.png";
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
 
-export const isApplicationClosed = true;
+export const isApplicationClosed = false;
 
 const AllProfiles = (props) => {
 	const { student, updatePaymentInfo, statusFilter, statusSort, statusSortOrder } = props.props;
@@ -105,7 +105,8 @@ const AllProfiles = (props) => {
 				visible={isModalVisible}
 				onCancel={() => {
 					setIsModalVisible(false);
-				}}>
+				}}
+			>
 				{student?.resumeURL?.length > 0 ? (
 					<p>
 						<strong>Select</strong> the previously uploaded resume that you want to send
@@ -122,7 +123,8 @@ const AllProfiles = (props) => {
 							onChange={(e) => {
 								setSelectedResume(e.target.value);
 							}}
-							value={selectedResume}>
+							value={selectedResume}
+						>
 							{student?.resumeURL?.map((url, i) => (
 								<div key={i}>
 									<Radio value={url}>
@@ -155,7 +157,8 @@ const AllProfiles = (props) => {
 					style={{ marginTop: "1em" }}
 					type="primary"
 					loading={isApplying}
-					onClick={handleApply}>
+					onClick={handleApply}
+				>
 					Apply
 				</Button>
 				{/* </Popover> */}
@@ -190,7 +193,8 @@ const AllProfiles = (props) => {
 				)}
 				renderItem={(profile) => (
 					<List.Item
-						style={{ paddingTop: "8px", paddingBottom: "8px", paddingLeft: "0px" }}>
+						style={{ paddingTop: "8px", paddingBottom: "8px", paddingLeft: "0px" }}
+					>
 						<Card
 							title={
 								<div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -211,7 +215,8 @@ const AllProfiles = (props) => {
 									onClick={() =>
 										window.open(profile?.jobDescriptionURL, "_blank").focus()
 									}
-									icon={<LinkOutlined />}>
+									icon={<LinkOutlined />}
+								>
 									View Job Description
 								</Button>,
 								// <Tooltip
@@ -236,7 +241,8 @@ const AllProfiles = (props) => {
 											setSelectedProfile(profile);
 											setIsModalVisible(true);
 										}
-									}}>
+									}}
+								>
 									Apply
 								</Button>,
 								// </Popover>,
@@ -244,7 +250,8 @@ const AllProfiles = (props) => {
 							]}
 							bodyStyle={{
 								height: screen.xl ? "250px" : screen.lg ? "280px" : "300px",
-							}}>
+							}}
+						>
 							<Row justify="space-between">
 								<Col span={12} style={{ marginBottom: "1rem" }}>
 									<UserOutlined />
@@ -258,7 +265,8 @@ const AllProfiles = (props) => {
 										<a
 											href={profile.company.websiteURL}
 											target="_blank"
-											rel="noreferrer">
+											rel="noreferrer"
+										>
 											<Popover content={<div>Company Website</div>}>
 												<ExportOutlined />
 											</Popover>
@@ -282,7 +290,8 @@ const AllProfiles = (props) => {
 														Make the payment to view number of
 														applicants
 													</div>
-												}>
+												}
+											>
 												<img
 													src={blurredText}
 													alt="Locked"
@@ -306,7 +315,8 @@ const AllProfiles = (props) => {
 										<Col
 											flex="auto"
 											md={12}
-											style={!screen.md && { marginBottom: "1rem" }}>
+											style={!screen.md && { marginBottom: "1rem" }}
+										>
 											<SolutionOutlined />
 											<Typography.Text strong type="secondary">
 												{" "}

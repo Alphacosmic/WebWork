@@ -82,9 +82,12 @@ const transformYear = (year) => `${year}${ordinals[year - 1]} year`;
 
 const StudentMenu = ({ student, updateResume, updateSkillTags }) => {
 	const [form] = Form.useForm();
+	const [numform] = Form.useForm();
 	const [loading, setLoading] = useState(false);
 	const [fileList, setFileList] = useState();
 	const [viewSkillUpdate, setViewSkillUpdate] = useState(false);
+	const [viewNumberUpdate, setviewNumberUpdate] = useState(false);
+	const [numb, setnumb] = useState(student.phone);
 	const [resumeUploading, setResumeUploading] = useState(false);
 	const handleUpload = async () => {
 		setResumeUploading(true);
@@ -105,6 +108,25 @@ const StudentMenu = ({ student, updateResume, updateSkillTags }) => {
 			openNotification("error", "Error in uploading CV", errorMsg);
 		} finally {
 			setResumeUploading(false);
+		}
+	};
+	const toggleNumberUpdate = () => {
+		viewNumberUpdate ? setviewNumberUpdate(false) : setviewNumberUpdate(true);
+	};
+	const HandleNumUpdate = async () => {
+		try {
+			setLoading(true);
+			const values = await numform.validateFields();
+			const newnum = values.Numfield;
+			// console.log(newnum);
+			await axios.put("/update-number", { newnum });
+			setnumb(newnum);
+			setLoading(false);
+			toggleNumberUpdate();
+			openNotification("success", "Successfully updated Phone number");
+		} catch (error) {
+			openNotification("Error Occurred", "error occurred while uploading:" + error);
+			toggleNumberUpdate();
 		}
 	};
 
@@ -202,8 +224,41 @@ const StudentMenu = ({ student, updateResume, updateSkillTags }) => {
 
 				<Col span={12} style={{ textAlign: "right" }}>
 					<Text strong>Contact no.</Text>
+					{viewNumberUpdate ? (
+						<></>
+					) : (
+						<Button
+							style={{ width: "max-content", margin: "none" }}
+							onClick={toggleNumberUpdate}
+							disabled={isApplicationClosed}
+							icon={<EditOutlined />}
+							type="link"
+						></Button>
+					)}
 					<br />
-					<Text>{student.phone}</Text>
+					{viewNumberUpdate ? (
+						<Form form={numform} onFinish={HandleNumUpdate}>
+							<Form.Item
+								rules={[
+									{ required: true, message: "please enter your mobile number" },
+									{
+										pattern: /^[0-9]{10}$/,
+										message: "please enter a valid phone number",
+									},
+								]}
+								name="Numfield"
+								style={{ marginBottom: "5px" }}
+							>
+								<input type="text" placeholder={student.phone} />
+							</Form.Item>
+							<Button type="primary" htmlType="submit" loading={loading}>
+								Done
+							</Button>
+							<Button onClick={toggleNumberUpdate}>Cancel</Button>
+						</Form>
+					) : (
+						<Text>{numb}</Text>
+					)}
 				</Col>
 
 				<Col span={student.minor ? 12 : 24}>
@@ -221,7 +276,8 @@ const StudentMenu = ({ student, updateResume, updateSkillTags }) => {
 							onClick={toggleSkillUpdate}
 							disabled={isApplicationClosed}
 							icon={<EditOutlined />}
-							type="link"></Button>
+							type="link"
+						></Button>
 					)}
 					<br />
 					{viewSkillUpdate ? (
@@ -232,7 +288,8 @@ const StudentMenu = ({ student, updateResume, updateSkillTags }) => {
 									mode="multiple"
 									allowClear
 									placeholder={`Maximum ${maxSkillTags} skills`}
-									onChange={handleSkillTagChange}>
+									onChange={handleSkillTagChange}
+								>
 									{skillTags.map((value, i) => (
 										<Option key={i} value={value}>
 											{value}
