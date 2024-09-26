@@ -34,7 +34,7 @@ import blurredText from "../../../assets/blur_text.png";
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
 
-export const isApplicationClosed = true;
+export const isApplicationClosed = false;
 
 const AllProfiles = (props) => {
 	const { student, updatePaymentInfo, statusFilter, statusSort, statusSortOrder } = props.props;
