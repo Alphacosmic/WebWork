@@ -172,9 +172,9 @@ const AllProfiles = (props) => {
 					</Typography.Title>
 				</div>
 			)} */}
-			{!paymentDone && !isFetching && student !== null && (
+{/* 			{!paymentDone && !isFetching && student !== null && (
 				<PaymentPrompt props={{ updatePaymentInfo, student }} />
-			)}
+			)} */}
 			<List
 				size="large"
 				itemLayout="horizontal"
