@@ -103,9 +103,9 @@ const AppliedProfilesTable = (props) => {
 			});
 	}, []);
 
-	// if (!paymentDone) {
-	// 	return <PaymentPrompt props={{ updatePaymentInfo, student }} />;
-	// }
+	if (!paymentDone) {
+		return <PaymentPrompt props={{ updatePaymentInfo, student }} />;
+	}
 
 	const deregister = (id) => {
 		//console.log(id);
