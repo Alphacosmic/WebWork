@@ -55,6 +55,7 @@ function App() {
 					</Layout>
 				</Router>
 
+
 				<ECellFooter
 					developers={[
 						{
@@ -66,6 +67,7 @@ function App() {
 				/>
 			</Layout>
 		</ThemeProvider>
+
 	);
 }
 

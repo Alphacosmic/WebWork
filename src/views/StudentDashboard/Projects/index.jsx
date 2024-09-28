@@ -33,9 +33,12 @@ import blurredText from "../../../assets/blur_text.png";
 import "./index.css";
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
-import { LightTextStyle, PrimaryText } from "../../../utils/constants";
-import { Light } from "@mui/icons-material";
+
+import { LightTextStyle, PrimaryText } from "../../../utils/constants"
 import { ThemeContext } from "../../../utils/styles";
+
+
+
 export const isApplicationClosed = false;
 
 const AllProfiles = (props) => {
