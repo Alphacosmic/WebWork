@@ -1,7 +1,16 @@
-import { Button, Card, Col, Row, Typography, Popconfirm } from "antd";
-import React from "react";
+import { Button, Card, Col, Row, Typography } from "antd";
+import React, { useContext } from "react";
+import { useState } from "react";
 const { Text } = Typography;
-import { FieldTimeOutlined, BankOutlined, LinkOutlined, EditOutlined } from "@ant-design/icons";
+import InterviewModal from "./InterviewModal";
+import {
+	FieldTimeOutlined,
+	BankOutlined,
+	LinkOutlined,
+	EditOutlined,
+	CalendarOutlined,
+} from "@ant-design/icons";
+import { ThemeContext } from "../../../utils/styles";
 
 const roundMap = {
 	RESUME: "Resume Shortlisting",
@@ -11,56 +20,80 @@ const roundMap = {
 	OFFER: "Offer Received",
 };
 
-function AppliedProfileCard({ profile, deregister }) {
+function AppliedProfileCard({ profile, student }) {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [interviewID, setInterviewID] = useState(null);
+	const darkCardStyle = {
+		color: "#f5f5f7",
+		border: "1px solid #444",
+		borderRadius: "1.5rem",
+		backgroundColor: "#3a3a3c",
+	};
+	const lightModeStyle = {
+		border: "1px solid #444",
+		borderRadius: "1.5rem",
+	};
+
+	const textColor = {
+		color: "#f5f5f7",
+	};
+	const secondaryTextColor = {
+		color: "#d1d1d6",
+	};
+
+	const cardWrapperStyle = {
+		marginBottom: "20px",
+	};
+	const { darkMode } = useContext(ThemeContext);
+
 	return (
-		<Card title={<b style={{ color: "#444" }}>{profile.title}</b>}>
-			<Row justify="space-between">
-				<Col span={12} style={{ marginBottom: "1rem" }}>
-					<BankOutlined />{" "}
-					<Text strong type="secondary">
-						Company{" "}
-					</Text>{" "}
-					<br />
-					<Text>{profile.company.name}</Text>
-				</Col>
-				<Col span={12}>
-					<EditOutlined />{" "}
-					<Text strong type="secondary">
-						Job Description{" "}
-					</Text>{" "}
-					<br />
-					<Typography.Link href={profile.jobDescriptionURL}>
-						Tap here <LinkOutlined />
-					</Typography.Link>
-				</Col>
-				<Col span={12} style={{ marginBottom: "1rem" }}>
-					<FieldTimeOutlined />{" "}
-					<Text strong type="secondary">
-						Your Current Round{" "}
-					</Text>
-					<br />
-					<Text>
-						<strong>{roundMap[profile.studentCurrentRound]}</strong>
-					</Text>
-				</Col>
-				{/* <Col
-					span={12}
-					style={{
-						display: "flex",
-						marginBottom: "1rem",
-						alignItems: "center",
-						justifyContent: "center",
-					}}>
-					<Popconfirm
-						title="Are you sure you want to deregister ?"
-						onConfirm={() => deregister(profile._id)}
-						okText="Yes"
-						cancelText="No">
-						<Button>Deregister</Button>
-					</Popconfirm>
-				</Col> */}
-			</Row>
-		</Card>
+		<>
+			<div style={cardWrapperStyle}>
+				<Card
+					title={<b style={darkMode ? textColor : {}}>{profile.title}</b>}
+					style={darkMode ? darkCardStyle : lightModeStyle}
+				>
+					<Row justify="space-between">
+						<Col span={12} style={{ marginBottom: "1.5rem" }}>
+							<BankOutlined
+								style={darkMode ? { color: "#d1d1d6" } : { color: "black" }}
+							/>{" "}
+							<Text strong style={darkMode ? secondaryTextColor : ""}>
+								Company{" "}
+							</Text>{" "}
+							<br />
+							<Text style={darkMode ? textColor : ""}>{profile.company.name}</Text>
+						</Col>
+						<Col span={12} style={{ marginBottom: "1.5rem" }}>
+							<EditOutlined
+								style={darkMode ? { color: "#d1d1d6" } : { color: "black" }}
+							/>{" "}
+							<Text strong style={darkMode ? secondaryTextColor : ""}>
+								Job Description{" "}
+							</Text>{" "}
+							<br />
+							<Typography.Link href={profile.jobDescriptionURL}>
+								Tap here <LinkOutlined />
+							</Typography.Link>
+						</Col>
+						<Col span={12} style={{ marginBottom: "1.5rem" }}>
+							<FieldTimeOutlined />{" "}
+							<Text
+								strong
+								style={darkMode ? { color: "#d1d1d6" } : { color: "black" }}
+							>
+								Your Current Round{" "}
+							</Text>
+							<br />
+							<Text style={darkMode ? { color: "#f5f5f7" } : { color: "black" }}>
+								<strong>{roundMap[profile.studentCurrentRound]}</strong>
+							</Text>
+							{/* Button for opening interview modal */}
+						</Col>
+					</Row>
+				</Card>
+			</div>
+		</>
 	);
 }
 

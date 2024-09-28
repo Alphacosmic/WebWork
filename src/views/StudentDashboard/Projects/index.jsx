@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
 	Grid,
 	List,
@@ -30,14 +30,17 @@ import PaymentPrompt from "../PaymentPrompt";
 import axios from "../../../utils/_axios";
 import { dataSourceGenerator } from "../../../utils/dataSourceGenerator";
 import blurredText from "../../../assets/blur_text.png";
-
+import "./index.css";
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
-
+import { LightTextStyle, PrimaryText } from "../../../utils/constants";
+import { Light } from "@mui/icons-material";
+import { ThemeContext } from "../../../utils/styles";
 export const isApplicationClosed = false;
 
 const AllProfiles = (props) => {
-	const { student, updatePaymentInfo, statusFilter, statusSort, statusSortOrder } = props.props;
+	const { student, updatePaymentInfo, statusFilter, statusSort, statusSortOrder, FieldFilter } =
+		props.props;
 	const paymentDone = student?.paymentDetails?.captured;
 
 	const screen = useBreakpoint();
@@ -65,7 +68,6 @@ const AllProfiles = (props) => {
 				setIsFetching(false);
 			});
 	}, []);
-
 	const handleApply = async () => {
 		try {
 			setIsApplying(true);
@@ -84,7 +86,6 @@ const AllProfiles = (props) => {
 			setIsApplying(false);
 		}
 	};
-
 	const EmptyList = () => (
 		<div style={{ textAlign: "center", marginTop: "3rem" }}>
 			<SmileOutlined style={{ fontSize: "3rem" }} />
@@ -96,24 +97,42 @@ const AllProfiles = (props) => {
 			<Text type="secondary">Please wait.</Text>
 		</div>
 	);
+	const filteredProjects1 = projects.filter((profile) => {
+		let matchesField =
+			FieldFilter.length === 0 || FieldFilter.includes(profile.type.toLowerCase());
+
+		return matchesField;
+	});
+	const filteredProjects2 = filteredProjects1.filter((profile) => {
+		if (statusFilter === "WFH") {
+			return profile.location === "WFH";
+		} else {
+			return true;
+		}
+	});
+	const { darkMode } = useContext(ThemeContext);
 
 	return (
 		<>
 			<Modal
 				footer={null}
-				title={selectedProfile.title}
-				visible={isModalVisible}
+				title={
+					<strong style={darkMode ? { color: "#f5f5f7" } : {}}>
+						{selectedProfile.title}
+					</strong>
+				}
+				open={isModalVisible}
 				onCancel={() => {
 					setIsModalVisible(false);
 				}}
 			>
 				{student?.resumeURL?.length > 0 ? (
-					<p>
+					<p style={LightTextStyle}>
 						<strong>Select</strong> the previously uploaded resume that you want to send
 						to the company
 					</p>
 				) : (
-					<p>
+					<p style={LightTextStyle}>
 						<strong>Upload</strong> a resume that you want to send to the company
 					</p>
 				)}
@@ -127,7 +146,7 @@ const AllProfiles = (props) => {
 						>
 							{student?.resumeURL?.map((url, i) => (
 								<div key={i}>
-									<Radio value={url}>
+									<Radio value={url} style={LightTextStyle}>
 										Resume {i + 1}
 										<Button type="link" href={url} target="_blank">
 											<u>View</u> <LinkOutlined />
@@ -140,9 +159,13 @@ const AllProfiles = (props) => {
 						""
 					)}
 				</Col>
-				{student?.resumeURL?.length < 3 || !student?.resumeURL?.length
-					? "or Upload a new resume from the sidebar"
-					: ""}
+				{student?.resumeURL?.length < 3 || !student?.resumeURL?.length ? (
+					<span style={darkMode ? { color: "#d1d1d6" } : {}}>
+						or Upload a new resume from the sidebar
+					</span>
+				) : (
+					""
+				)}
 				{/* <Tooltip
 					visible={isApplicationClosed}
 					key={2}
@@ -176,7 +199,18 @@ const AllProfiles = (props) => {
 				</div>
 			)} */}
 			{!paymentDone && !isFetching && student !== null && (
-				<PaymentPrompt props={{ updatePaymentInfo, student }} />
+				<div
+					style={{
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						height: "100%",
+						marginTop: "1em",
+						marginLeft: "-3rem",
+					}}
+				>
+					<PaymentPrompt props={{ updatePaymentInfo, student }} />
+				</div>
 			)}
 			<List
 				size="large"
@@ -185,82 +219,83 @@ const AllProfiles = (props) => {
 				locale={{ emptyText: <EmptyList /> }}
 				loading={isFetching}
 				grid={{ column: screen.xs ? 1 : 2 }}
-				dataSource={dataSourceGenerator(
-					projects,
-					statusFilter,
-					statusSort,
-					statusSortOrder
-				)}
+				dataSource={dataSourceGenerator(filteredProjects2)}
 				renderItem={(profile) => (
 					<List.Item
-						style={{ paddingTop: "8px", paddingBottom: "8px", paddingLeft: "0px" }}
+						style={{
+							paddingTop: "8px",
+							paddingBottom: "8px",
+							paddingLeft: "0px",
+							marginBottom: "0px",
+							marginTop: "0px	",
+						}}
 					>
 						<Card
+							className="ProfileCard"
+							style={
+								darkMode
+									? {
+											minHeight: "400px",
+											background: "#2c2c2e",
+											borderColor: "#3a3a3c",
+									  }
+									: {
+											minHeight: "400px",
+											borderColor: "#E1E1E1",
+									  }
+							}
 							title={
-								<div style={{ display: "flex", justifyContent: "space-between" }}>
-									<b style={{ color: "#444" }}>{profile.title}</b>
+								<div
+									style={{
+										display: "flex",
+										justifyContent: "space-between",
+										alignItems: "center",
+									}}
+								>
+									<b
+										style={
+											darkMode
+												? {
+														marginBottom: "0",
+														color: "#ececec",
+														fontSize: "1.5rem",
+												  }
+												: { marginBottom: "0", fontSize: "1.5rem" }
+										}
+									>
+										{profile.title}
+									</b>
 									{(profile.company.isFromIITMResearchPark ||
 										/nirmaan/i.test(profile.company.incubatorName)) && (
 										<Popover content={<div>Institute based startup</div>}>
-											<StarFilled style={{ color: "gold" }} />
+											<StarFilled
+												style={
+													darkMode
+														? { color: "#cac9e7" }
+														: { color: "#FFD700" }
+												}
+											/>
 										</Popover>
 									)}
 								</div>
 							}
-							actions={[
-								<Button
-									key={1}
-									block
-									type="link"
-									onClick={() =>
-										window.open(profile?.jobDescriptionURL, "_blank").focus()
-									}
-									icon={<LinkOutlined />}
-								>
-									View Job Description
-								</Button>,
-								// <Tooltip
-								// 	// visible={!paymentDone && toolTipVisible === profile?._id}
-								// 	visible={true}
-								// 	key={2}
-								// 	mouseEnterDelay={0}
-								// 	mouseLeaveDelay={0}
-								// 	title="The application window has been closed">
-								// <Popover
-								// 	key={2}
-								// 	content={<div>The application window has been closed</div>}>
-								<Button
-									key={2}
-									type="link"
-									block
-									disabled={!paymentDone || isApplicationClosed}
-									onMouseEnter={() => setToolTipVisible(profile._id)}
-									onMouseLeave={() => setToolTipVisible("")}
-									onClick={() => {
-										if (paymentDone) {
-											setSelectedProfile(profile);
-											setIsModalVisible(true);
-										}
-									}}
-								>
-									Apply
-								</Button>,
-								// </Popover>,
-								// </Tooltip>,
-							]}
-							bodyStyle={{
-								height: screen.xl ? "250px" : screen.lg ? "280px" : "300px",
-							}}
 						>
 							<Row justify="space-between">
 								<Col span={12} style={{ marginBottom: "1rem" }}>
-									<UserOutlined />
-									<Text strong type="secondary">
+									<UserOutlined style={darkMode ? { color: "#d1d1d6" } : {}} />
+									<Text
+										strong
+										type="secondary"
+										style={darkMode ? { color: "#d1d1d6" } : {}}
+									>
 										Company{" "}
 									</Text>
 
 									<br />
-									<Typography.Text key={1}>
+									<Typography.Text
+										key={1}
+										style={darkMode ? { color: "#f5f5f7" } : {}}
+									>
 										{profile.company.name}{" "}
 										<a
 											href={profile.company.websiteURL}
@@ -274,19 +309,30 @@ const AllProfiles = (props) => {
 									</Typography.Text>
 								</Col>
 								<Col span={12} style={{ marginBottom: "1rem" }}>
-									<UsergroupAddOutlined />
-									<Text strong type="secondary">
+									<UsergroupAddOutlined
+										style={darkMode ? { color: "#d1d1d6" } : {}}
+									/>
+									<Text
+										strong
+										type="secondary"
+										style={darkMode ? { color: "#d1d1d6" } : {}}
+									>
 										Number of Applicants
 									</Text>
 									<br />
-									<Typography.Text key={2}>
+									<Typography.Text
+										key={2}
+										style={darkMode ? { color: "#f5f5f7" } : {}}
+									>
 										{paymentDone ? (
 											profile.applicants.length
 										) : (
 											<Popover
 												placement="top"
 												content={
-													<div>
+													<div
+														style={darkMode ? { color: "#d1d1d6" } : {}}
+													>
 														Make the payment to view number of
 														applicants
 													</div>
@@ -305,37 +351,58 @@ const AllProfiles = (props) => {
 								<Col span={24}>
 									<Row>
 										<Col flex="auto" md={12} style={{ marginBottom: "1rem" }}>
-											<TeamOutlined />
-											<Text strong type="secondary">
+											<TeamOutlined
+												style={darkMode ? { color: "#d1d1d6" } : {}}
+											/>
+											<Text
+												strong
+												type="secondary"
+												style={darkMode ? { color: "#d1d1d6" } : {}}
+											>
 												Sector
 											</Text>
 											<br />
-											<Text>{profile.company.sector}</Text>
+											<Text style={darkMode ? { color: "#f5f5f7" } : {}}>
+												{profile.company.sector}
+											</Text>
 										</Col>
 										<Col
 											flex="auto"
 											md={12}
 											style={!screen.md && { marginBottom: "1rem" }}
 										>
-											<SolutionOutlined />
-											<Typography.Text strong type="secondary">
+											<SolutionOutlined
+												style={darkMode ? { color: "#d1d1d6" } : {}}
+											/>
+											<Typography.Text
+												strong
+												type="secondary"
+												style={darkMode ? { color: "#d1d1d6" } : {}}
+											>
 												{" "}
 												Field
 											</Typography.Text>
 											<br />
-
-											{profile.type}
+											<Text style={darkMode ? { color: "#f5f5f7" } : {}}>
+												{profile.type}
+											</Text>
 										</Col>
 									</Row>
 									<Row>
 										<Col flex="auto" md={12} style={{ marginBottom: "1rem" }}>
-											<DollarOutlined />
-											<Text strong type="secondary">
+											<DollarOutlined
+												style={darkMode ? { color: "#d1d1d6" } : {}}
+											/>
+											<Text
+												strong
+												type="secondary"
+												style={darkMode ? { color: "#d1d1d6" } : {}}
+											>
 												{" "}
 												Stipend
 											</Text>
 											<br />
-											<Text>
+											<Text style={darkMode ? { color: "#f5f5f7" } : {}}>
 												<span>{profile.stipend?.currency}</span>{" "}
 												{profile.stipend?.range?.length === 2 ? (
 													<span>
@@ -363,17 +430,67 @@ const AllProfiles = (props) => {
 												)}
 											</Text>
 										</Col>
-										<Col flex="auto" md={12} style={{ marginBottom: "1rem" }}>
-											<CompassOutlined />
-											<Text strong type="secondary">
+										<Col flex="auto" md={12} style={{ marginBottom: "2rem" }}>
+											<CompassOutlined
+												style={darkMode ? { color: "#d1d1d6" } : {}}
+											/>
+											<Text
+												strong
+												type="secondary"
+												style={darkMode ? { color: "#d1d1d6" } : {}}
+											>
 												{" "}
 												Work Location
 											</Text>
 											<br />
-											<Text>{profile.location}</Text>
+											<Text style={darkMode ? { color: "#f5f5f7" } : {}}>
+												{profile.location}
+											</Text>
 										</Col>
 									</Row>
 								</Col>
+								<div
+									className="button-group"
+									style={{
+										position: "absolute",
+										bottom: "10px",
+										right: "10px",
+										display: "flex",
+										gap: "10px",
+									}}
+								>
+									<Button
+										style={{
+											borderRadius: "05rem",
+											backgroundColor: "#007aff",
+										}}
+										type="primary"
+										size="large"
+										onClick={() =>
+											window
+												.open(profile?.jobDescriptionURL, "_blank")
+												.focus()
+										}
+										icon={<LinkOutlined />}
+									>
+										Company Link
+									</Button>
+									<Button
+										size="large"
+										type="primary"
+										shape="round"
+										style={{ backgroundColor: "#007aff" }}
+										disabled={!paymentDone || isApplicationClosed}
+										onClick={() => {
+											if (paymentDone) {
+												setSelectedProfile(profile);
+												setIsModalVisible(true);
+											}
+										}}
+									>
+										Apply Now
+									</Button>
+								</div>
 							</Row>
 						</Card>
 					</List.Item>

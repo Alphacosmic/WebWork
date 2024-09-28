@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import { Modal, Calendar, Form } from "antd";
+import React, { useContext, useState } from "react";
+import { Modal, Calendar, Form, ConfigProvider } from "antd";
 import AvailableSlots from "./AvailableSlots";
 import moment from "moment";
 import axios from "../../../utils/_axios";
 import openNotification from "../../../utils/openAntdNotification";
+import { ThemeContext } from "../../../utils/styles";
+import "./InterviewScheduler.css";
 
 function InterviewScheduler(props) {
 	const [form] = Form.useForm();
@@ -51,19 +53,28 @@ function InterviewScheduler(props) {
 		<div>
 			{interview === null || (
 				<Modal
-					title="Schedule your interview"
-					visible={isModalOpen || editMode}
+					closable={false}
+					title={<span>Schedule your interview</span>}
+					open={isModalOpen || editMode}
 					onOk={(e) => {
 						e.preventDefault();
 						handleSubmit();
 						handleOk();
 					}}
+					cancelButtonProps={{ size: "large", shape: "round" }}
 					onCancel={handleCancel}
-					okButtonProps={{ disabled: !selectedSlot }}>
+					okButtonProps={{
+						disabled: !selectedSlot,
+						type: "primary",
+						size: "large",
+						shape: "round",
+					}}
+				>
 					<Form
 						form={form}
 						id="schedulingForm"
-						initialValues={{ selectedDate: moment(chosenDate, "DDMMYYYY") }}>
+						initialValues={{ selectedDate: moment(chosenDate, "DDMMYYYY") }}
+					>
 						<Form.Item name="selectedDate">
 							<Calendar
 								fullscreen={false}
@@ -74,6 +85,12 @@ function InterviewScheduler(props) {
 									moment(interview.dateRange[1], "DDMMYYYY"),
 								]}
 								headerRender={() => null}
+								style={{
+									// Outer calendar container
+									borderRadius: "12px", // Rounded corners for both modes
+									overflow: "hidden", // Ensure content respects rounded corners
+									boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)", // Shadow for better visual effect
+								}}
 							/>
 						</Form.Item>
 						{selectedDate && (

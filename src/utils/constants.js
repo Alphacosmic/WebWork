@@ -43,3 +43,26 @@ export const skillTags = [
 	"Research and Development",
 	"Data Analytics/Science",
 ];
+
+export const FILTEROPTIONS = [
+	{ value: "it", label: "IT" },
+	{ value: "core", label: "Core" },
+	{ value: "business developement", label: "Business Developement" },
+	{ value: "marketing", label: "Marketing" },
+	{ value: "market research", label: "Market Research" },
+	{ value: "graphic design", label: "Graphic Design" },
+	{ value: "content creation", label: "Content Creation" },
+	{ value: "writing", label: "Writing" },
+	{ value: "robotics/iot", label: "Robotics/IoT" },
+	{ value: "product", label: "Product" },
+	{ value: "ai/datascience", label: "AI/DataScience" },
+	{ value: "other", label: "Other" },
+];
+export const LightTextStyle = {
+	color: "#d1d1d6",
+	fontWeight: "lighter",
+};
+export const PrimaryText = {
+	color: "#f5f5f7",
+	fontWeight: "bolder",
+};

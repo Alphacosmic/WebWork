@@ -151,7 +151,8 @@ const AppliedProfilesTable = (props) => {
 			render: (tag) => (
 				<span
 					onClick={() => window.open(tag, "_blank").focus()}
-					style={{ cursor: "pointer", color: "#1890FF" }}>
+					style={{ cursor: "pointer", color: "#1890FF" }}
+				>
 					Open
 				</span>
 			),
@@ -195,12 +196,14 @@ const AppliedProfilesTable = (props) => {
 							<Popover
 								content={
 									<div>Join the WhatsApp group for further communication.</div>
-								}>
+								}
+							>
 								<span
 									onClick={() =>
 										window.open(profile.whatsappLink, "_blank").focus()
 									}
-									style={{ cursor: "pointer", color: "#1890FF" }}>
+									style={{ cursor: "pointer", color: "#1890FF" }}
+								>
 									<WhatsAppOutlined /> Join
 								</span>
 							</Popover>
@@ -267,7 +270,7 @@ const AppliedProfilesTable = (props) => {
 					<Row justify="center">
 						{profiles.map((profile, index) => (
 							<Col key={index} xs={24}>
-								<AppliedProfileCard deregister={deregister} profile={profile} />
+								<AppliedProfileCard student={student} profile={profile} />
 							</Col>
 						))}
 					</Row>
