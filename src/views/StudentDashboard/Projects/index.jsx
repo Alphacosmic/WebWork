@@ -476,7 +476,7 @@ const AllProfiles = (props) => {
 										}
 										icon={<LinkOutlined />}
 									>
-										Company Link
+										Job Description
 									</Button>
 									<Button
 										size="large"
