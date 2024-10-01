@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
 	Form,
 	Alert,
@@ -29,7 +29,8 @@ import { Link, useLocation } from "wouter";
 import logo from "../../assets/startup-internfair_logo.png";
 
 import axios from "../../utils/_axios";
-import { skillTags, maxSkillTags } from "../../utils/constants";
+import { skillTags, maxSkillTags, PrimaryText, LightTextStyle } from "../../utils/constants";
+import { ThemeContext } from "../../utils/styles";
 
 const { Option } = Select;
 const { Content } = Layout;
@@ -98,20 +99,38 @@ const RegisterForm = () => {
 			skillValues.pop();
 		}
 	};
+	const { darkMode } = useContext(ThemeContext);
+	const textStyle = darkMode
+		? {
+				color: "#f5f5f7",
+		  }
+		: {};
 
 	return (
-		<>
+		<div style={darkMode ? { width: "100%", background: "#2c2c2e" } : { width: "100%" }}>
 			<AuthHeader />
-			<Content className="register-form-container">
+			<Content className="register-form-container" style={{ margin: "auto" }}>
 				<img
 					src={logo}
 					alt="TeamUp Logo"
-					style={{
-						maxWidth: 150,
-						alignSelf: "center",
-						margin: "0 0 0.5em 0",
-						padding: "0.5rem",
-					}}
+					style={
+						darkMode
+							? {
+									maxWidth: 150,
+									alignSelf: "center",
+									margin: "3rem",
+									padding: "0.5rem",
+									marginTop: "7rem",
+									filter: "invert(1)",
+							  }
+							: {
+									maxWidth: 150,
+									alignSelf: "center",
+									margin: "3rem",
+									padding: "0.5rem",
+									marginTop: "7rem",
+							  }
+					}
 				/>
 				{screen.xs && (
 					<Alert
@@ -128,7 +147,22 @@ const RegisterForm = () => {
 				)}
 				<Card
 					className="loginCard"
-					title={<strong>Register</strong>}
+					title={
+						<strong
+							style={
+								darkMode
+									? { color: "#f5f5f7", fontWeight: "bolder", fontSize: "1.5rem" }
+									: { fontWeight: "bolder", fontSize: "1.5rem" }
+							}
+						>
+							Register
+						</strong>
+					}
+					style={
+						darkMode
+							? { borderRadius: "1rem", marginBottom: "5rem", background: "#3a3a3c" }
+							: { borderRadius: "1rem", marginBottom: "5rem", background: "#fff" }
+					}
 					extra={
 						screen.lg && (
 							<Alert
@@ -141,10 +175,10 @@ const RegisterForm = () => {
 										<strong> payments </strong>.
 									</span>
 								}
-								style={{ borderRadius: "1rem" }}
 							/>
 						)
-					}>
+					}
+				>
 					<Form
 						form={form}
 						disabled={isRegistrationClosed}
@@ -152,14 +186,15 @@ const RegisterForm = () => {
 						size="large"
 						layout="vertical"
 						validateTrigger="onSubmit"
-						onFinish={onFinish}>
+						onFinish={onFinish}
+					>
 						<Row gutter={12}>
 							<Col xs={12} md={8}>
 								<Form.Item
 									style={{ marginBottom: 0 }}
 									name="roll"
 									label={
-										<span>
+										<span style={textStyle}>
 											<NumberOutlined /> LDAP Roll No.
 										</span>
 									}
@@ -173,7 +208,8 @@ const RegisterForm = () => {
 											message: "Invalid roll",
 											transform: (val) => (!val ? "" : val.trim()),
 										},
-									]}>
+									]}
+								>
 									<Input disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
@@ -193,10 +229,19 @@ const RegisterForm = () => {
 										},
 									]}
 									label={
-										<span>
+										<span
+											style={
+												darkMode
+													? {
+															color: "#f5f5f7",
+													  }
+													: {}
+											}
+										>
 											<KeyOutlined /> LDAP Password
 										</span>
-									}>
+									}
+								>
 									<Input.Password disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
@@ -206,7 +251,7 @@ const RegisterForm = () => {
 									name="cgpa"
 									validateFirst={true}
 									label={
-										<span>
+										<span style={textStyle}>
 											<BookOutlined /> CGPA
 										</span>
 									}
@@ -221,7 +266,16 @@ const RegisterForm = () => {
 								</Form.Item>
 							</Col>
 							<Col style={{ marginBottom: "0.5em" }}>
-								<Typography.Text type="secondary">
+								<Typography.Text
+									type="secondary"
+									style={
+										darkMode
+											? {
+													color: "#d2d2d6",
+											  }
+											: {}
+									}
+								>
 									We do not store your LDAP password. We only check if you&apos;re
 									an IITM student by authenticating you against institute records.
 									<br />
@@ -234,7 +288,7 @@ const RegisterForm = () => {
 									name="phone"
 									validateFirst={true}
 									label={
-										<span>
+										<span style={textStyle}>
 											<PhoneOutlined /> Phone number
 										</span>
 									}
@@ -247,7 +301,8 @@ const RegisterForm = () => {
 											pattern: /^[0-9]{10}$/,
 											message: "Please enter a valid phone number.",
 										},
-									]}>
+									]}
+								>
 									<Input prefix="+91" disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
@@ -256,7 +311,7 @@ const RegisterForm = () => {
 									name="personalEmail"
 									validateFirst={true}
 									label={
-										<span>
+										<span style={PrimaryText}>
 											<MailOutlined /> Personal Mail
 										</span>
 									}
@@ -266,7 +321,8 @@ const RegisterForm = () => {
 											type: "email",
 											message: "Please input your Personal mail!",
 										},
-									]}>
+									]}
+								>
 									<Input disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
@@ -274,7 +330,7 @@ const RegisterForm = () => {
 								<Form.Item
 									name="iddd"
 									label={
-										<span>
+										<span style={textStyle}>
 											<AuditOutlined /> IDDD
 										</span>
 									}
@@ -282,11 +338,13 @@ const RegisterForm = () => {
 										{
 											required: false,
 										},
-									]}>
+									]}
+								>
 									<Select
 										placeholder="None"
 										allowClear
-										disabled={isRegistrationClosed}>
+										disabled={isRegistrationClosed}
+									>
 										{idddList.map((value, i) => (
 											<Option key={i} value={value}>
 												{value}
@@ -299,7 +357,7 @@ const RegisterForm = () => {
 								<Form.Item
 									name="minor"
 									label={
-										<span>
+										<span style={textStyle}>
 											<AuditOutlined /> Minor
 										</span>
 									}
@@ -307,7 +365,8 @@ const RegisterForm = () => {
 										{
 											required: false,
 										},
-									]}>
+									]}
+								>
 									<Input placeholder="None" disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
@@ -317,7 +376,7 @@ const RegisterForm = () => {
 									name="pinCode"
 									validateFirst={true}
 									label={
-										<span>
+										<span style={textStyle}>
 											<CompassOutlined /> Residential Pincode
 										</span>
 									}
@@ -330,7 +389,8 @@ const RegisterForm = () => {
 											pattern: /^[0-9]{6}$/,
 											message: "Please enter a PIN Code.",
 										},
-									]}>
+									]}
+								>
 									<Input disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
@@ -339,7 +399,7 @@ const RegisterForm = () => {
 									name="address"
 									validateFirst={true}
 									label={
-										<span>
+										<span style={textStyle}>
 											<CompassOutlined /> Hostel Address
 										</span>
 									}
@@ -348,7 +408,8 @@ const RegisterForm = () => {
 											required: true,
 											message: "Please input your Hostel Address!",
 										},
-									]}>
+									]}
+								>
 									<Input disabled={isRegistrationClosed} />
 								</Form.Item>
 							</Col>
@@ -356,13 +417,14 @@ const RegisterForm = () => {
 							<Col xs={24} md={12}>
 								<Form.Item
 									name="preferredLocation"
-									label={<span>Preferred location</span>}
+									label={<span style={textStyle}>Preferred location</span>}
 									rules={[
 										{
 											required: true,
 											message: "Please select your preferred location",
 										},
-									]}>
+									]}
+								>
 									<Select
 										disabled={isRegistrationClosed}
 										placeholder="None"
@@ -371,13 +433,17 @@ const RegisterForm = () => {
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={12}>
-								<Form.Item name="skillTags" label={<span>Skills</span>}>
+								<Form.Item
+									name="skillTags"
+									label={<span style={textStyle}>Skills</span>}
+								>
 									<Select
 										disabled={isRegistrationClosed}
 										mode="multiple"
 										allowClear
 										placeholder={`Maximum ${maxSkillTags} skills`}
-										onChange={handleSkillTagChange}>
+										onChange={handleSkillTagChange}
+									>
 										{skillTags.map((value, i) => (
 											<Option key={i} value={value}>
 												{value}
@@ -393,12 +459,15 @@ const RegisterForm = () => {
 									disabled={isRegistrationClosed}
 									onChange={() => {
 										setIsTNCAccepted(!isTNCAccepted);
-									}}>
+									}}
+									style={textStyle}
+								>
 									I agree to the{" "}
 									<a
 										href="https://drive.google.com/file/d/1AqdWvG_RwYLbWkky4GYHnj0XrjIkHbUG/view"
 										target="_blank"
-										rel="noreferrer">
+										rel="noreferrer"
+									>
 										terms and conditions
 									</a>
 								</Checkbox>
@@ -406,7 +475,7 @@ const RegisterForm = () => {
 						</Row>
 						<Row align="bottom">
 							<Col span={16}>
-								<Typography.Title level={5} style={{ margin: "0px" }}>
+								<Typography.Title level={5} style={textStyle}>
 									Already have an account? <Link to="/login">Log In</Link>
 								</Typography.Title>
 							</Col>
@@ -415,9 +484,11 @@ const RegisterForm = () => {
 									<Button
 										type="primary"
 										size="large"
+										shape="round"
 										htmlType="submit"
 										disabled={!isTNCAccepted}
-										loading={loading}>
+										loading={loading}
+									>
 										Register
 									</Button>
 								</Form.Item>
@@ -426,7 +497,7 @@ const RegisterForm = () => {
 					</Form>
 				</Card>
 			</Content>
-		</>
+		</div>
 	);
 };
 

@@ -3,7 +3,7 @@ import { Button, Popover } from "antd";
 import axios from "../../../utils/_axios";
 import { BOOKED, VACANT } from "../../../utils/constants";
 import cleanTimeSlot from "../../../utils/cleanTimeSlot";
-
+import { ThemeContext } from "../../../utils/styles";
 function Slot(props) {
 	const { slot, selectedSlot, setSelectedSlot, editMode, student } = props.props;
 	const [applicantDetails, setApplicantDetails] = useState(null);
@@ -47,7 +47,8 @@ function Slot(props) {
 					) : (
 						occupantContact
 					)
-				}>
+				}
+			>
 				<Button
 					style={{
 						borderRadius: "30px",
@@ -66,7 +67,8 @@ function Slot(props) {
 					onClick={(e) => {
 						e.preventDefault();
 						setSelectedSlot(slot._id);
-					}}>
+					}}
+				>
 					{cleanTimeSlot(slot)}
 				</Button>
 			</Popover>

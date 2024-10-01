@@ -1,13 +1,16 @@
-import React, { useState } from "react";
-import { Button, Typography, Row, Col, Divider, Upload, Select, Form } from "antd";
+import React, { useState, useContext } from "react";
+import { Button, Typography, Row, Col, Divider, Upload, Select, Form, Input } from "antd";
 import { UploadOutlined, FilePdfOutlined, LinkOutlined, EditOutlined } from "@ant-design/icons";
 import openNotification from "../../utils/openAntdNotification";
 import axios from "../../utils/_axios";
-import { skillTags, maxSkillTags } from "../../utils/constants";
+import { skillTags, maxSkillTags, LightTextStyle } from "../../utils/constants";
+import "./StudentMenu.css";
 import { isApplicationClosed } from "./Projects";
 const { Option } = Select;
 const { Title, Text } = Typography;
-
+import { ThemeContext } from "../../utils/styles";
+import { ThemeProvider } from "@emotion/react";
+import { InfoOutlined } from "@mui/icons-material";
 const branches = {
 	ae: "Aerospace Engineering",
 	am: "Engineering Mechanics",
@@ -82,10 +85,13 @@ const transformYear = (year) => `${year}${ordinals[year - 1]} year`;
 
 const StudentMenu = ({ student, updateResume, updateSkillTags }) => {
 	const [form] = Form.useForm();
+	const [numform] = Form.useForm();
 	const [loading, setLoading] = useState(false);
 	const [fileList, setFileList] = useState();
 	const [viewSkillUpdate, setViewSkillUpdate] = useState(false);
+	const [viewNumUpdate, setviewNumUpdate] = useState(false);
 	const [resumeUploading, setResumeUploading] = useState(false);
+	const [numb, setNumb] = useState(student.phone);
 	const handleUpload = async () => {
 		setResumeUploading(true);
 		const file = fileList[0].originFileObj;
@@ -107,7 +113,10 @@ const StudentMenu = ({ student, updateResume, updateSkillTags }) => {
 			setResumeUploading(false);
 		}
 	};
-
+	const toggleNumUpdate = () => {
+		viewNumUpdate ? setviewNumUpdate(false) : setviewNumUpdate(true);
+		numform.resetFields();
+	};
 	const toggleSkillUpdate = () => {
 		viewSkillUpdate ? setViewSkillUpdate(false) : setViewSkillUpdate(true);
 		form.resetFields();
@@ -129,6 +138,21 @@ const StudentMenu = ({ student, updateResume, updateSkillTags }) => {
 			setLoading(false);
 			toggleSkillUpdate();
 			openNotification("success", "Successfully Updated Skills");
+		} catch (error) {
+			openNotification("error", "Error occured in posting form data.", error.response.data);
+			setLoading(false);
+		}
+	};
+	const HandleNumChange = async () => {
+		try {
+			setLoading(true);
+			const values = await numform.validateFields();
+			const newnum = values.newnum;
+			await axios.put(`/update-number`, { newnum });
+			setNumb(newnum);
+			setLoading(false);
+			toggleNumUpdate();
+			openNotification("success", "Successfully Updated Number");
 		} catch (error) {
 			openNotification("error", "Error occured in posting form data.", error.response.data);
 			setLoading(false);
@@ -172,149 +196,266 @@ const StudentMenu = ({ student, updateResume, updateSkillTags }) => {
 		multiple: false,
 	};
 
+	const { darkMode } = useContext(ThemeContext);
 	return (
-		<Row justify="center">
-			<Col span={24} style={{ paddingTop: "2em", textAlign: "center" }}>
-				<Title level={3} style={{ marginBottom: "0.25rem", width: "100%" }}>
-					{student.name}
-				</Title>
-			</Col>
-			<Col span={24} style={{ textAlign: "center" }}>
-				<Title level={5} type="secondary" style={{ marginTop: "0", marginBottom: 0 }}>
-					{student.roll?.toUpperCase()}
-				</Title>
-			</Col>
-			<Col span={24} style={{ textAlign: "center", marginBottom: "1em" }}>
-				<Text level={6} type="secondary" style={{ marginTop: "0" }}>
-					{degrees[student.degree] +
-						" " +
-						transformYear(student.yearOfStudy) +
-						", " +
-						branches[student.department]}
-				</Text>
-			</Col>
-			<Row gutter={[0, 24]} justify="space-between" style={{ width: "100%" }}>
-				<Col span={12}>
-					<Text strong>CGPA</Text>
-					<br />
-					<Text>{student.cgpa ? student.cgpa : "N/A"}</Text>
+		<div
+			style={
+				darkMode
+					? {
+							width: "100%",
+							maxWidth: "100%",
+							height: "100%",
+							padding: "0",
+							background: "#333333",
+					  }
+					: {}
+			}
+		>
+			<Row justify="center" style={{ margin: "2rem", marginTop: "0.5rem" }}>
+				<Col span={24} style={{ textAlign: "center" }}>
+					<Title
+						level={3}
+						style={
+							darkMode
+								? { marginBottom: "0.25rem", width: "100%", color: "#f5f5f7" }
+								: { marginBottom: "0.25rem", width: "100%" }
+						}
+					>
+						{student.name}
+					</Title>
 				</Col>
 
-				<Col span={12} style={{ textAlign: "right" }}>
-					<Text strong>Contact no.</Text>
-					<br />
-					<Text>{student.phone}</Text>
+				<Col span={24} style={{ textAlign: "center" }}>
+					<Title
+						level={5}
+						type="secondary"
+						style={darkMode ? { width: "100%", color: "#f5f5f7" } : { width: "100%" }}
+					>
+						{student.roll?.toUpperCase()}
+					</Title>
 				</Col>
-
-				<Col span={student.minor ? 12 : 24}>
-					<Text strong>Minor</Text>
-					<br />
-					<Text>{student.minor || "None"}</Text>
+				<Col span={24} style={{ textAlign: "center", marginBottom: "1em" }}>
+					<Text
+						level={6}
+						type="secondary"
+						style={darkMode ? { marginTop: "0", color: "#d1d1d6" } : { marginTop: "0" }}
+					>
+						{degrees[student.degree] +
+							" " +
+							transformYear(student.yearOfStudy) +
+							", " +
+							branches[student.department]}
+					</Text>
 				</Col>
-				<Col span={24}>
-					<Text strong>Skills </Text>
-					{viewSkillUpdate ? (
-						<></>
-					) : (
-						<Button
-							style={{ width: "max-content", margin: "none" }}
-							onClick={toggleSkillUpdate}
-							disabled={isApplicationClosed}
-							icon={<EditOutlined />}
-							type="link"></Button>
-					)}
-					<br />
-					{viewSkillUpdate ? (
-						<Form form={form} onFinish={onFinish}>
-							<Form.Item name="skillTags" style={{ marginBottom: "5px" }}>
-								<Select
-									disabled={isApplicationClosed}
-									mode="multiple"
-									allowClear
-									placeholder={`Maximum ${maxSkillTags} skills`}
-									onChange={handleSkillTagChange}>
-									{skillTags.map((value, i) => (
-										<Option key={i} value={value}>
-											{value}
-										</Option>
-									))}
-								</Select>
-							</Form.Item>
-							<Button type="primary" htmlType="submit" loading={loading}>
-								Done
-							</Button>
-							<Button onClick={toggleSkillUpdate}>Cancel</Button>
-						</Form>
-					) : (
-						<Text>
-							{student.skillTags ? student.skillTags.join(", ") : "Not Selected"}
+				<Row gutter={[0, 24]} justify="space-between" style={{ width: "100%" }}>
+					<Col span={12}>
+						<Text strong style={darkMode ? { color: "#f5f5f7" } : ""}>
+							CGPA
 						</Text>
-					)}
-				</Col>
+						<br />
+						<Text style={darkMode ? { color: "#d1d1d6" } : ""}>
+							{student.cgpa ? student.cgpa : "N/A"}
+						</Text>
+					</Col>
 
-				<Col span={!student.iddd || student.iddd === "None" ? 12 : 24}>
-					<Text strong>IDDD</Text>
-					<br />
-					<Text>{student.iddd || "None"}</Text>
-				</Col>
-				<Col>
-					<Text strong>For issues, contact </Text>
-					<br />
-					<Text>{student.allottedSSManager.name}: </Text>
-					<Text style={{ color: "#1890ff" }}>{student.allottedSSManager.phone}</Text>
-				</Col>
-				<Divider style={{ marginTop: 0, marginBottom: 0 }} />
-				<Col span={24}>
-					<div style={{ textAlign: "center" }}>
-						<Title level={3} style={{ margin: 0 }}>
-							Your Resumes
-						</Title>
-						{student?.resumeURL?.length > 0 ? (
-							student?.resumeURL?.map((url, i) => (
-								<div key={i} style={{ marginBottom: "1em" }}>
-									Resume {i + 1}
-									<Button type="link" href={url} target="_blank">
-										<u>View</u> <LinkOutlined />
-									</Button>
-								</div>
-							))
+					<Col span={12} style={{ textAlign: "right" }}>
+						<Text strong style={darkMode ? { color: "#f5f5f7" } : ""}>
+							Contact no.
+						</Text>
+						{viewNumUpdate ? (
+							<></>
 						) : (
-							<div style={{ paddingBottom: "1em" }}>
-								<Text type="secondary">
-									{student?.paymentDetails?.captured
-										? "You have not uploaded any resumes."
-										: "Proceed with the payment to upload resumes"}
-								</Text>
-							</div>
+							<Button
+								style={{ width: "max-content", margin: "none" }}
+								onClick={toggleNumUpdate}
+								disabled={isApplicationClosed}
+								icon={<EditOutlined />}
+								type="link"
+							></Button>
 						)}
-						{student?.paymentDetails?.captured && student?.resumeURL?.length < 3 && (
-							<>
-								<Upload {...uploadProps}>
-									<Button>
-										<span>
-											<FilePdfOutlined /> Select Resume to Upload
-										</span>
+						<br />
+						{viewNumUpdate ? (
+							<Form form={numform} onFinish={HandleNumChange}>
+								<Form.Item
+									name="newnum"
+									style={{ marginBottom: "5px" }}
+									rules={[
+										{
+											required: true,
+											message: "Please enter your phone number!",
+										},
+										{
+											pattern: /^[0-9]+$/,
+											message: "Please enter a valid phone number!",
+										},
+									]}
+								>
+									<Input placeholder={student.phone} />
+								</Form.Item>
+								<div style={{ display: "flex", gap: "10px" }}>
+									<Button type="primary" htmlType="submit" loading={loading}>
+										Done
 									</Button>
-									<div style={{ textAlign: "center" }}>
-										<Typography.Text type="secondary">
-											PDF file less than 8MB. You can upload upto 3 resumes.
-										</Typography.Text>
+									<Button onClick={toggleNumUpdate}>Cancel</Button>
+								</div>
+							</Form>
+						) : (
+							<Text style={darkMode ? { color: "#d1d1d6" } : ""}>{numb}</Text>
+						)}
+					</Col>
+
+					<Col span={student.minor ? 12 : 24}>
+						<Text strong style={darkMode ? { color: "#f5f5f7" } : ""}>
+							Minor
+						</Text>
+						<br />
+						<Text style={darkMode ? { color: "#d1d1d6" } : ""}>
+							{student.minor || "None"}
+						</Text>
+					</Col>
+					<Col span={24}>
+						<Text strong style={darkMode ? { color: "#f5f5f7" } : ""}>
+							Skills{" "}
+						</Text>
+						{viewSkillUpdate ? (
+							<></>
+						) : (
+							<Button
+								style={{ width: "max-content", margin: "none" }}
+								onClick={toggleSkillUpdate}
+								disabled={isApplicationClosed}
+								icon={<EditOutlined />}
+								type="link"
+							></Button>
+						)}
+						<br />
+						{viewSkillUpdate ? (
+							<Form form={form} onFinish={onFinish}>
+								<Form.Item name="skillTags" style={{ marginBottom: "5px" }}>
+									<Select
+										disabled={isApplicationClosed}
+										mode="multiple"
+										allowClear
+										placeholder={`Maximum ${maxSkillTags} skills`}
+										onChange={handleSkillTagChange}
+									>
+										{skillTags.map((value, i) => (
+											<Option key={i} value={value}>
+												{value}
+											</Option>
+										))}
+									</Select>
+								</Form.Item>
+								<Button type="primary" htmlType="submit" loading={loading}>
+									Done
+								</Button>
+								<Button onClick={toggleSkillUpdate}>Cancel</Button>
+							</Form>
+						) : (
+							<Text style={darkMode ? { color: "#d1d1d6" } : ""}>
+								{student.skillTags ? student.skillTags.join(", ") : "Not Selected"}
+							</Text>
+						)}
+					</Col>
+
+					<Col span={!student.iddd || student.iddd === "None" ? 12 : 24}>
+						<Text strong style={darkMode ? { color: "#f5f5f7" } : ""}>
+							IDDD
+						</Text>
+						<br />
+						<Text style={darkMode ? { color: "#d1d1d6" } : ""}>
+							{student.iddd || "None"}
+						</Text>
+					</Col>
+					<Col>
+						<Text strong style={darkMode ? { color: "#f5f5f7" } : ""}>
+							For issues, contact{" "}
+						</Text>
+						<br />
+						<Text style={darkMode ? { color: "#d1d1d6" } : ""}>
+							{student.allottedSSManager.name}:{" "}
+						</Text>
+						<Text style={darkMode ? { color: "#1890ff" } : ""}>
+							{student.allottedSSManager.phone}
+						</Text>
+					</Col>
+					<Divider style={{ marginTop: 0, marginBottom: 0, backgroundColor: "grey" }} />
+					<Col span={24}>
+						<div style={{ textAlign: "center" }}>
+							<Title
+								level={3}
+								style={
+									darkMode ? { margin: "0", color: "#f5f5f7" } : { margin: "0" }
+								}
+							>
+								Your Resumes
+							</Title>
+							{student?.resumeURL?.length > 0 ? (
+								student?.resumeURL?.map((url, i) => (
+									<div
+										key={i}
+										style={
+											darkMode
+												? { marginBottom: "1rem", color: "#d1d1d6" }
+												: { marginBottom: "1rem" }
+										}
+									>
+										Resume {i + 1}
+										<Button type="link" href={url} target="_blank">
+											<u>View</u> <LinkOutlined />
+										</Button>
 									</div>
-								</Upload>
-								{fileList && fileList.length > 0 && (
-									<Button onClick={handleUpload} loading={resumeUploading}>
-										<span>
-											<UploadOutlined /> Upload the selected file
-										</span>
-									</Button>
-								)}
-							</>
-						)}
-					</div>
-				</Col>
+								))
+							) : (
+								<div style={{ paddingBottom: "1em" }}>
+									<Text
+										type="secondary"
+										style={darkMode ? { color: "#d1d1d6" } : ""}
+									>
+										{student?.paymentDetails?.captured
+											? "You have not uploaded any resumes."
+											: "Proceed with the payment to upload resumes"}
+									</Text>
+								</div>
+							)}
+							{student?.paymentDetails?.captured && student?.resumeURL?.length < 3 && (
+								<>
+									<Upload {...uploadProps}>
+										<Button
+											type="primary"
+											size="large"
+											shape="round"
+											style={{ marginBottom: "0.75rem" }}
+										>
+											<span>
+												<FilePdfOutlined /> Select Resume to Upload
+											</span>
+										</Button>
+										<div style={{ textAlign: "center" }}>
+											<Typography.Text
+												type="secondary"
+												style={darkMode ? { color: "#d2d2d6" } : ""}
+											>
+												PDF file less than 8MB. You can upload upto 3
+												resumes.
+											</Typography.Text>
+										</div>
+									</Upload>
+									{fileList && fileList.length > 0 && (
+										<Button onClick={handleUpload} loading={resumeUploading}>
+											<span style={darkMode ? { color: "#d1d1d6" } : ""}>
+												<UploadOutlined /> Upload the selected file
+											</span>
+										</Button>
+									)}
+								</>
+							)}
+						</div>
+					</Col>
+				</Row>
+				<Divider />
 			</Row>
-			<Divider />
-		</Row>
+		</div>
 	);
 };
 

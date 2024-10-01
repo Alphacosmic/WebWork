@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import Slot from "./Slot";
 import { Typography } from "antd";
+import { ThemeContext } from "../../../utils/styles";
 
 function AvailableSlots(props) {
 	const { slots, selectedSlot, setSelectedSlot, editMode, student } = props.props;
+	const { darkMode } = useContext(ThemeContext);
 
 	return (
 		<div>
 			<div style={{ textAlign: "center" }}>
-				<Typography.Text type="primary" strong>
+				<Typography.Text style={{ color: "#f5f5f7" }} type="primary" strong>
 					Select your slot
 				</Typography.Text>
 			</div>
@@ -19,7 +21,8 @@ function AvailableSlots(props) {
 							key={index}
 							style={{
 								marginTop: "10px",
-							}}>
+							}}
+						>
 							<Slot
 								props={{ slot, setSelectedSlot, selectedSlot, editMode, student }}
 							/>

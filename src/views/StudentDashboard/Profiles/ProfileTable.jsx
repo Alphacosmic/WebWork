@@ -57,7 +57,6 @@ const ProfileTable = ({ filter }) => {
 	const [isFetching, setIsFetching] = useState(true);
 	const { cvUploaded } = JSON.parse(localStorage.studentData || "{}");
 
-
 	useEffect(() => {
 		axios.get("/student/profiles").then((res) => {
 			setProfiles(res.data.profiles);
@@ -138,7 +137,8 @@ const ProfileTable = ({ filter }) => {
 					style={{
 						maxHeight: !screen.md ? window.innerHeight - 200 : 500,
 						overflowY: "auto",
-					}}>
+					}}
+				>
 					<Typography.Title level={5} type="secondary" style={{ margin: 0 }}>
 						The Startup{" "}
 					</Typography.Title>
@@ -182,7 +182,8 @@ const ProfileTable = ({ filter }) => {
 						<Col
 							xs={profile?.duration?.length > 30 ? 24 : 12}
 							md={profile?.duration?.length > 30 ? 24 : 8}
-							style={{ marginBottom: "1rem" }}>
+							style={{ marginBottom: "1rem" }}
+						>
 							<ClockCircleOutlined /> <Text strong>Duration</Text>
 							<br />
 							<Text> {profile.duration} </Text>
@@ -216,7 +217,8 @@ const ProfileTable = ({ filter }) => {
 									type="link"
 									onClick={() => {
 										showPostDescriptionModal(profile);
-									}}>
+									}}
+								>
 									View Details
 								</Button>
 
@@ -235,7 +237,8 @@ const ProfileTable = ({ filter }) => {
 												isSelectedInAny
 													? "You are already selected in a profile"
 													: undefined
-											}>
+											}
+										>
 											<Button
 												disabled={isSelectedInAny}
 												onClick={() =>
@@ -244,7 +247,8 @@ const ProfileTable = ({ filter }) => {
 														profile.title,
 														profile.startupName
 													)
-												}>
+												}
+											>
 												Apply
 											</Button>
 										</Tooltip>

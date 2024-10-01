@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Modal, Row, Col } from "antd";
 import { EditFilled } from "@ant-design/icons";
 import cleanTimeSlot from "../../../utils/cleanTimeSlot";
 import cleanDateDisplay from "../../../utils/cleanDateDisplay";
+import { ThemeContext } from "../../../utils/styles";
 
 function InterviewPreview(props) {
 	const {
@@ -20,19 +21,37 @@ function InterviewPreview(props) {
 		setChosenDate(chosenDate);
 		setEditMode(true);
 	};
+	const { darkMode } = useContext(ThemeContext);
+	const textStyles = darkMode ? { color: "#f5f5f7" } : {};
+	const linkStyles = darkMode ? { color: "#4d90fe" } : { color: "#1890ff" };
 
 	return (
 		<Modal
-			title="Your booking"
-			visible={isModalOpen}
+			title={<strong style={textStyles}>Your booking</strong>}
+			open={isModalOpen}
 			onOk={handleOk}
 			handleCancel={handleCancel}
 			closable={false}
-			cancelButtonProps={{ style: { display: "none" } }}>
+			styles={{
+				content: { backgroundColor: darkMode ? "#2c2c2e" : "" },
+				body: {
+					maxHeight: 600,
+					overflowY: "scroll",
+					backgroundColor: darkMode ? "#2c2c2e" : "#fff",
+					color: darkMode ? "#d1d1d6" : "#000",
+					padding: 0,
+					margin: 0,
+				},
+				header: { background: darkMode ? "#2c2c2e" : "" },
+			}}
+			cancelButtonProps={{ style: { display: "none" } }}
+		>
 			<Row style={{ display: "flex", justifyContent: "space-between" }}>
 				<Col>
-					<b>Meet Link: </b>
-					<a href={interview.meetLink}>Join meet</a>
+					<b style={textStyles}>Meet Link: </b>
+					<a href={interview.meetLink} style={linkStyles}>
+						Join meet
+					</a>
 				</Col>
 				<Col>
 					<EditFilled
@@ -45,11 +64,11 @@ function InterviewPreview(props) {
 				</Col>
 			</Row>
 			<Row>
-				<b>Time: </b>
+				<b style={darkMode ? { color: "#f5f5f7" } : {}}>Time: </b>
 				{cleanTimeSlot(chosenSlot)}
 			</Row>
 			<Row>
-				<b>Date: </b>
+				<b style={darkMode ? { color: "#f5f5f7" } : {}}>Date: </b>
 				{cleanDateDisplay(chosenDate)}
 			</Row>
 		</Modal>

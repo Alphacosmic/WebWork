@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Typography, Button, Modal, Result, Popconfirm, Popover } from "antd";
 import { WarningOutlined, SmileOutlined } from "@ant-design/icons";
 import loadScript from "../../utils/loadScript";
 import openNotification from "../../utils/openAntdNotification";
 import axios from "../../utils/_axios";
+import { LightTextStyle, PrimaryText } from "../../utils/constants";
+import { ThemeContext } from "../../utils/styles";
 const { Title } = Typography;
 
 const PaymentPrompt = (props) => {
 	const { updatePaymentInfo, student } = props.props;
 	const studentData = JSON.parse(localStorage.studentData || "{}");
+	const { darkMode } = useContext(ThemeContext);
 	async function handlePayment() {
 		const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
-
 		if (!res) {
 			openNotification(
 				"error",
@@ -76,14 +78,18 @@ const PaymentPrompt = (props) => {
 			openNotification("error", "An error occurred in generating your order.");
 		}
 	}
+	const warningStyle = darkMode
+		? { fontSize: "3rem", marginBottom: "1rem", color: "#f5f5f7" }
+		: { fontSize: "3rem", marginBottom: "1rem" };
+
 	return (
-		<div style={{ textAlign: "center" }}>
-			<WarningOutlined style={{ fontSize: "3rem", marginBottom: "1rem" }} />
-			<Title level={3} type="secondary" style={{ marginBottom: 0 }}>
+		<div style={darkMode ? { textAlign: "center", color: "#f5f5f7" } : { textAlign: "center" }}>
+			<WarningOutlined style={warningStyle} />
+			<Title level={3} type="secondary" style={darkMode ? { color: "#f5f5f7" } : {}}>
 				You have not made the payment for E-Cell Internfair.
 				{/* We have stopped accepting new payments. */}
 			</Title>
-			<Title level={4} type="secondary" style={{ marginTop: 0, opacity: "50%" }}>
+			<Title level={4} type="secondary" style={darkMode ? { color: "#f5f5f7" } : {}}>
 				{/* Payments have stopped for this session of InternFair */}
 				Please do so to access companies.
 				{/* Payments starting soon. */}
@@ -105,7 +111,8 @@ const PaymentPrompt = (props) => {
 					</>
 				}
 				disabled={false}
-				onConfirm={handlePayment}>
+				onConfirm={handlePayment}
+			>
 				<Button
 					// disabled={!(studentData.roll.toLowerCase() === "rp22t222")}
 					// disabled={
@@ -115,7 +122,8 @@ const PaymentPrompt = (props) => {
 					// }
 					disabled={false}
 					size="large"
-					type="primary">
+					type="primary"
+				>
 					Pay ₹399/-
 				</Button>
 			</Popconfirm>
