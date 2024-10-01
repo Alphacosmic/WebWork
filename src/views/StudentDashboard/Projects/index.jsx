@@ -1,17 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-	Grid,
-	List,
-	Card,
-	Button,
-	Typography,
-	Row,
-	Col,
-	Modal,
-	Radio,
-	Tooltip,
-	Popover,
-} from "antd";
+import { ASCENDING, DESCENDING, STIPEND, NUMBER_OF_APPLICANTS } from "../../../utils/constants";
+import { Grid, List, Card, Button, Typography, Row, Col, Modal, Radio, Popover } from "antd";
 import {
 	CompassOutlined,
 	TeamOutlined,
@@ -19,7 +8,6 @@ import {
 	DollarOutlined,
 	SolutionOutlined,
 	SmileOutlined,
-	WarningOutlined,
 	LinkOutlined,
 	UsergroupAddOutlined,
 	StarFilled,
@@ -28,16 +16,14 @@ import {
 import openNotification from "../../../utils/openAntdNotification";
 import PaymentPrompt from "../PaymentPrompt";
 import axios from "../../../utils/_axios";
-import { dataSourceGenerator } from "../../../utils/dataSourceGenerator";
+
 import blurredText from "../../../assets/blur_text.png";
 import "./index.css";
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
 
-import { LightTextStyle, PrimaryText } from "../../../utils/constants"
+import { LightTextStyle } from "../../../utils/constants";
 import { ThemeContext } from "../../../utils/styles";
-
-
 
 export const isApplicationClosed = false;
 
@@ -112,6 +98,29 @@ const AllProfiles = (props) => {
 		} else {
 			return true;
 		}
+	});
+	const sortedProjects = filteredProjects2.sort((a, b) => {
+		if (statusSort === STIPEND) {
+			const stipendA = a.stipend?.range?.[0] || a.stipend?.amount || 0;
+			const stipendB = b.stipend?.range?.[0] || b.stipend?.amount || 0;
+
+			if (statusSortOrder === ASCENDING) {
+				return stipendA - stipendB;
+			} else if (statusSortOrder === DESCENDING) {
+				return stipendB - stipendA;
+			}
+		} else if (statusSort === NUMBER_OF_APPLICANTS) {
+			const applicantsA = a.applicants.length;
+			const applicantsB = b.applicants.length;
+
+			if (statusSortOrder === ASCENDING) {
+				return applicantsA - applicantsB;
+			} else if (statusSortOrder === DESCENDING) {
+				return applicantsB - applicantsA;
+			}
+		}
+
+		return 0;
 	});
 	const { darkMode } = useContext(ThemeContext);
 
@@ -222,7 +231,7 @@ const AllProfiles = (props) => {
 				locale={{ emptyText: <EmptyList /> }}
 				loading={isFetching}
 				grid={{ column: screen.xs ? 1 : 2 }}
-				dataSource={dataSourceGenerator(filteredProjects2)}
+				dataSource={sortedProjects}
 				renderItem={(profile) => (
 					<List.Item
 						style={{
