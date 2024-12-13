@@ -1,73 +1,30 @@
 import React from "react";
-import { Router, Redirect, Route, Switch } from "wouter";
-import { Layout } from "antd";
-import { ThemeProvider } from "./utils/styles";
-import "./App.css";
-import StudentDashboard from "./views/StudentDashboard/StudentDashboard";
-import Login from "./views/Login/Login";
-import RegisterForm from "./views/RegisterForm/RegisterForm";
-import ECellFooter from "./common/ECellFooter";
-import getCookieToken from "./utils/getCookieToken";
-import { ThemeContext } from "@emotion/react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./views/Home";
+import PropertyList from "./views/PropertyList";
+import PropertyDetail from "./views/PropertyDetail";
+import Login from "./views/Login";
+import Register from "./views/Register";
+import Profile from "./views/Profile";
+import Navbar from "./common/Navbar";
+import Footer from "./common/Footer"; // Import Footer
 
 function App() {
 	return (
-		<ThemeProvider>
-			<Layout className="App">
-				<Router base="/internfair/student">
-					<Layout>
-						<Switch>
-							<Route
-								exact
-								path="/login"
-								component={() =>
-									getCookieToken() === "student" ? (
-										<Redirect to="/dashboard" />
-									) : (
-										<Login />
-									)
-								}
-							/>
-							<Route
-								exact
-								path="/register"
-								component={() =>
-									getCookieToken() === "student" ? (
-										<Redirect to="/dashboard" />
-									) : (
-										<RegisterForm />
-									)
-								}
-							/>
-							<Route
-								exact
-								path="/dashboard"
-								component={() =>
-									getCookieToken() === "student" ? (
-										<StudentDashboard />
-									) : (
-										<Redirect to="/login" />
-									)
-								}
-							/>
-							<Route path="/*" component={() => <Redirect to="/" />} />
-						</Switch>
-					</Layout>
-				</Router>
-
-
-				<ECellFooter
-					developers={[
-						{
-							name: "Kanishk sagar",
-							whatsappNum: "+91 9193519773",
-							profileURL: "https://github.com/ActiveMasquerade/",
-						},
-					]}
-				/>
-			</Layout>
-		</ThemeProvider>
-
+		<Router>
+			<Navbar />
+			<div className="app-container">
+				<Switch>
+					<Route exact path="/" component={Home} />
+					<Route exact path="/properties" component={PropertyList} />
+					<Route exact path="/properties/:id" component={PropertyDetail} />
+					<Route exact path="/login" component={Login} />
+					<Route exact path="/register" component={Register} />
+					<Route exact path="/profile" component={Profile} />
+				</Switch>
+			</div>
+			<Footer /> {/* Add Footer to the bottom of the layout */}
+		</Router>
 	);
 }
 

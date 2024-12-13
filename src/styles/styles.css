@@ -1,0 +1,34 @@
+/* Property Detail page specific styles */
+.property-detail h1 {
+	font-size: 2rem;
+	margin-bottom: 20px;
+}
+
+.property-detail ul {
+	list-style-type: disc;
+	margin-left: 20px;
+}
+
+.similar-properties {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 15px;
+}
+
+.similar-property-card {
+	width: 45%;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.contact-button {
+	background-color: #28a745;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	cursor: pointer;
+	margin-top: 15px;
+}
+
+.contact-button:hover {
+	background-color: #218838;
+}

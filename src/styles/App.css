@@ -1,0 +1,132 @@
+/* Reset some default styles */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f8f8f8;
+	color: #333;
+	line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	color: #333;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+.navbar {
+	background-color: #007bff;
+	padding: 10px 20px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.navbar a {
+	color: white;
+	padding: 10px;
+	text-transform: uppercase;
+}
+
+.navbar a:hover {
+	background-color: #0056b3;
+}
+
+/* Basic container for pages */
+.app-container {
+	padding: 20px;
+}
+
+/* Error message styles */
+.error {
+	color: red;
+	font-size: 14px;
+}
+
+/* Styling for forms */
+input,
+textarea,
+button {
+	padding: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+	width: 100%;
+}
+
+button {
+	background-color: #007bff;
+	color: white;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+}
+
+button:hover {
+	background-color: #0056b3;
+}
+
+/* Grid style for Property List */
+.property-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	gap: 20px;
+}
+
+.property-card {
+	border: 1px solid #ddd;
+	padding: 20px;
+	background-color: #fff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.property-card a {
+	color: #007bff;
+}
+
+.property-detail {
+	margin-top: 30px;
+}
+
+.property-images img {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.similar-property-card {
+	border: 1px solid #ddd;
+	padding: 15px;
+	margin-top: 10px;
+	background-color: #f9f9f9;
+}
+
+.footer {
+	background-color: #333;
+	color: white;
+	padding: 20px;
+	text-align: center;
+}
+
+.footer a {
+	color: #fff;
+	text-decoration: none;
+}
+
+.footer a:hover {
+	text-decoration: underline;
+}
